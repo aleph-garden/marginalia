@@ -51,10 +51,18 @@ describe('sections', () => {
   test('a skipped level nests under the nearest lesser depth and is reported', () => {
     const result = graph('# A\n\n#### B\n\nk :: v\n')
     const contained = result.quads.filter((q) => q.predicate.value === `${ns.po}isContainedBy`)
+    // The document is the root, so the tree reaches all the way up.
     expect(contained.map((q) => [q.subject.value, q.object.value])).toEqual([
+      ['urn:doc:doc#A', 'urn:doc:doc'],
       ['urn:doc:doc#B', 'urn:doc:doc#A']
     ])
     expect(result.diagnostics.map((d) => d.code)).toEqual(['heading-level-skipped'])
+  })
+
+  test('the anchor is the one a renderer would give the heading', () => {
+    const result = graph('# A Heading, With Punctuation!\n')
+    const anchor = result.quads.find((q) => q.predicate.value === `${ns.mg}anchor`)
+    expect(anchor?.object.value).toBe('a-heading-with-punctuation')
   })
 
   test('repeated heading text is one section', () => {

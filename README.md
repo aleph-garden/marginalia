@@ -57,15 +57,45 @@ The structural graph is built from terms that already exist:
 
 | Concern | Terms |
 |---|---|
-| addressing a slice | `oa:ResourceSelection`, `oa:hasSource`, `oa:hasSelector`, `oa:FragmentSelector`, `oa:TextQuoteSelector` |
-| document components | `doco:Section`, `doco:Paragraph`, `doco:BlockQuotation`, `schema:SoftwareSourceCode` |
+| addressing a slice | `oa:ResourceSelection`, `oa:hasSource`, `oa:hasSelector`, `oa:FragmentSelector`, `oa:TextQuoteSelector`, `oa:exact` |
+| document components | `doco:Section`, `doco:Paragraph`, `doco:BlockQuotation`, `doco:List` |
 | containment | `po:contains`, `po:isContainedBy` |
-| the document | `schema:DigitalDocument`, `schema:about`, `dct:references` |
+| the document | `schema:DigitalDocument`, `schema:SoftwareSourceCode`, `schema:programmingLanguage`, `dct:references` |
 
-One term is minted here, `marginalia:depth`, because CommonMark's heading depth
-has no equivalent anywhere. Blank nodes are never used: every slice gets a
-derived IRI, so graphs diff cleanly and independently produced files merge
-without collisions.
+Two of those are the ones a consumer has to know to do the usual thing, which
+is to find sections, walk containment and read text: Web Annotation and
+DoCO with the Pattern Ontology it is built on. The rest is detail to look up
+when it comes up.
+
+Two terms are minted here. `marginalia:depth` carries the heading depth, which
+has no equivalent anywhere, and `marginalia:anchor` carries the identifier a
+renderer gives a heading, computed with `github-slugger` so it matches what
+`rehype-slug` will put in the HTML. ITS 2.0 defines `itsrdf:id` for the same
+idea; one term is not worth a dependency on a localisation specification whose
+ontology file carries no definitions, so the correspondence is noted here
+rather than imported.
+
+`schema.org` is the one vocabulary here that is not a standard: it is run by a
+consortium in a W3C Community Group, and CG reports are explicitly not W3C
+standards. It stays because no W3C vocabulary has a class for source code, and
+minting one would be worse. Dublin Core is not a W3C product either, and is
+ISO 15836 and used normatively by DCAT.
+
+Blank nodes are never used: every slice gets a derived IRI, so graphs diff
+cleanly and independently produced files merge without collisions.
+
+### What earns a term
+
+A term belongs in the structural graph only when a consumer can do something
+with it that it could not derive from the terms already there. Applied, that
+test removes more than it admits. `schema:hasPart` went, because `po:contains`
+already says it. `itsrdf:space` and `itsrdf:translate` never arrived, because
+a consumer knows a code block preserves whitespace from its type. `schema:about`
+from a document to its sections went when the document became the root of the
+containment tree, which `po:contains` already covers.
+
+The test matters more than any single cut: without it the vocabulary grows by
+one plausible addition at a time until nobody can implement the format.
 
 ## Sections
 

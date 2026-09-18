@@ -21,7 +21,7 @@ CONSTRUCT {
        schema:sameAs ?focus .
 }
 WHERE {
-  ?doc a schema:DigitalDocument ; schema:about ?top .
+  ?doc a schema:DigitalDocument ; po:contains ?top .
   ?top a doco:Section ; rdfs:label ?name .
   FILTER NOT EXISTS { ?top po:isContainedBy [ a doco:Section ] }
   OPTIONAL { ?top po:contains*/token:commander  ?commander }

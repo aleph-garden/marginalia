@@ -10,16 +10,17 @@
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
 <urn:doc:apollo> a schema:DigitalDocument;
-    token:aliases "Apollo programme";
-    schema:about <urn:doc:apollo#Apollo%2011>.
+    token:aliases "Apollo programme".
 <urn:doc:apollo#Apollo%2011> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:apollo>;
     rdfs:label "Apollo 11";
     marginalia:depth 1;
+    marginalia:anchor "apollo-11";
     oa:hasSelector <urn:doc:apollo#Apollo%2011.sel0>.
 <urn:doc:apollo#Apollo%2011.sel0> a oa:FragmentSelector;
     rdf:value "Apollo 11".
-<urn:doc:apollo#Apollo%2011> schema:hasPart <urn:doc:apollo#Apollo%2011.p1>;
+<urn:doc:apollo> po:contains <urn:doc:apollo#Apollo%2011>.
+<urn:doc:apollo#Apollo%2011> po:isContainedBy <urn:doc:apollo>;
     po:contains <urn:doc:apollo#Apollo%2011.p1>.
 <urn:doc:apollo#Apollo%2011.p1> po:isContainedBy <urn:doc:apollo#Apollo%2011>;
     a oa:ResourceSelection, doco:Paragraph;
@@ -29,7 +30,6 @@
     oa:exact "The first crewed landing on the Moon. This file is both the example and its own\nexplanation: everything below is ordinary CommonMark, and the graph beside it in\n`tree.ttl` is what the format reads out of it.".
 <urn:doc:apollo#Apollo%2011> token:broader <urn:doc:space-missions>;
     token:focus <https://www.wikidata.org/entity/Q43653>;
-    schema:hasPart <urn:doc:apollo#Apollo%2011.p2>;
     po:contains <urn:doc:apollo#Apollo%2011.p2>.
 <urn:doc:apollo#Apollo%2011.p2> po:isContainedBy <urn:doc:apollo#Apollo%2011>;
     a oa:ResourceSelection, doco:Paragraph;
@@ -40,17 +40,16 @@
 <urn:doc:apollo#Apollo%2011> token:commander "Neil Armstrong";
     token:year "1969";
     token:organizer <https://nasa.gov>.
-<urn:doc:apollo> schema:about <urn:doc:apollo#Landing>.
 <urn:doc:apollo#Landing> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:apollo>;
     rdfs:label "Landing";
     marginalia:depth 2;
+    marginalia:anchor "landing";
     oa:hasSelector <urn:doc:apollo#Landing.sel0>.
 <urn:doc:apollo#Landing.sel0> a oa:FragmentSelector;
     rdf:value "Landing".
 <urn:doc:apollo#Apollo%2011> po:contains <urn:doc:apollo#Landing>.
 <urn:doc:apollo#Landing> po:isContainedBy <urn:doc:apollo#Apollo%2011>;
-    schema:hasPart <urn:doc:apollo#Landing.p1>;
     po:contains <urn:doc:apollo#Landing.p1>.
 <urn:doc:apollo#Landing.p1> po:isContainedBy <urn:doc:apollo#Landing>;
     a oa:ResourceSelection, doco:Paragraph;
@@ -60,7 +59,6 @@
     oa:exact "A gloss can also be written inline, which is the same rule with the annotation\nin the sentence instead of at the foot of the file: the module\n[Eagle](<> \"moduleName\") touched down at the\n[Sea of Tranquility](tranquility.md \"site\").".
 <urn:doc:apollo#Landing> token:moduleName "Eagle";
     token:site <urn:doc:tranquility>;
-    schema:hasPart <urn:doc:apollo#Landing.q2>;
     po:contains <urn:doc:apollo#Landing.q2>.
 <urn:doc:apollo#Landing.q2> po:isContainedBy <urn:doc:apollo#Landing>;
     a oa:ResourceSelection, doco:BlockQuotation;
@@ -68,8 +66,7 @@
     oa:hasSelector <urn:doc:apollo#Landing.q2.sel0>.
 <urn:doc:apollo#Landing.q2.sel0> a oa:TextQuoteSelector;
     oa:exact "> That's one small step for a man, one giant leap for mankind.".
-<urn:doc:apollo#Landing> schema:hasPart <urn:doc:apollo#Landing.c3>;
-    po:contains <urn:doc:apollo#Landing.c3>.
+<urn:doc:apollo#Landing> po:contains <urn:doc:apollo#Landing.c3>.
 <urn:doc:apollo#Landing.c3> po:isContainedBy <urn:doc:apollo#Landing>;
     a oa:ResourceSelection, schema:SoftwareSourceCode;
     oa:hasSource <urn:doc:apollo>;

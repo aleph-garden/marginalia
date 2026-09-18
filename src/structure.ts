@@ -1,4 +1,5 @@
 import type { NamedNode, Quad, Quad_Object } from '@rdfjs/types'
+import GithubSlugger from 'github-slugger'
 import type { BlockContent, Heading, List, Paragraph, Root, RootContent } from 'mdast'
 import { toString as mdToString } from 'mdast-util-to-string'
 import { DataFactory } from 'n3'
@@ -50,6 +51,9 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   const mint = options.naming ?? defaultNaming()
   const tree = parse(markdown)
 
+  // github-slugger is what rehype-slug uses, so the anchor here is the anchor
+  // the rendered page will have.
+  const slugger = new GithubSlugger()
   const quads: Quad[] = []
   const diagnostics: Diagnostic[] = []
   const emit = (s: NamedNode, p: NamedNode, o: Quad_Object) => quads.push(quad(s, p, o) as Quad)
@@ -94,25 +98,27 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     subject = section
     partIndex = 0
 
-    emit(document, term.about, section)
     emit(section, term.type, term.Section)
     emit(section, term.type, term.ResourceSelection)
     emit(section, term.hasSource, document)
     emit(section, term.label, literal(label))
     emit(section, term.depth, literal(String(heading.depth), namedNode(`${ns.xsd}integer`)))
+    // The anchor a renderer gives this heading, so a link written against the
+    // rendered page finds the section it names.
+    emit(section, term.anchor, literal(slugger.slug(label)))
     const sel = mint.selector(section, 0)
     emit(section, term.hasSelector, sel)
     emit(sel, term.type, term.FragmentSelector)
     emit(sel, term.value, literal(label))
-    if (parent) {
-      emit(parent.node, term.contains, section)
-      emit(section, term.isContainedBy, parent.node)
-    }
+    // The document is the root of the containment tree, so a top-level section
+    // is one contained by something that is not a section.
+    const container = parent?.node ?? document
+    emit(container, term.contains, section)
+    emit(section, term.isContainedBy, container)
   }
 
   const addPart = (kind: string, node: BlockContent, types: NamedNode[]) => {
     const part = mint.part(subject, kind, ++partIndex)
-    emit(subject, term.hasPart, part)
     emit(subject, term.contains, part)
     emit(part, term.isContainedBy, subject)
     emit(part, term.type, term.ResourceSelection)

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@rdfjs/types": "^2.0.1",
+    "github-slugger": "^2.0.0",
     "mdast-util-to-string": "^4.0.0",
     "n3": "^2.7.12",
     "oxigraph": "^0.5.11",

@@ -9,16 +9,17 @@
 @prefix token: <urn:token:>.
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
-<urn:doc:sections> a schema:DigitalDocument;
-    schema:about <urn:doc:sections#Sections>.
+<urn:doc:sections> a schema:DigitalDocument.
 <urn:doc:sections#Sections> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:sections>;
     rdfs:label "Sections";
     marginalia:depth 1;
+    marginalia:anchor "sections";
     oa:hasSelector <urn:doc:sections#Sections.sel0>.
 <urn:doc:sections#Sections.sel0> a oa:FragmentSelector;
     rdf:value "Sections".
-<urn:doc:sections#Sections> schema:hasPart <urn:doc:sections#Sections.p1>;
+<urn:doc:sections> po:contains <urn:doc:sections#Sections>.
+<urn:doc:sections#Sections> po:isContainedBy <urn:doc:sections>;
     po:contains <urn:doc:sections#Sections.p1>.
 <urn:doc:sections#Sections.p1> po:isContainedBy <urn:doc:sections#Sections>;
     a oa:ResourceSelection, doco:Paragraph;
@@ -27,17 +28,16 @@
 <urn:doc:sections#Sections.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "CommonMark has no sections. Its tree has headings as siblings of the blocks that\nfollow them, so the nesting every reader takes for granted is derived, not\nparsed. This example shows the derivation and what a mapping can do with it.".
 <urn:doc:sections#Sections> token:owner <urn:doc:toph>.
-<urn:doc:sections> schema:about <urn:doc:sections#Rules>.
 <urn:doc:sections#Rules> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:sections>;
     rdfs:label "Rules";
     marginalia:depth 2;
+    marginalia:anchor "rules";
     oa:hasSelector <urn:doc:sections#Rules.sel0>.
 <urn:doc:sections#Rules.sel0> a oa:FragmentSelector;
     rdf:value "Rules".
 <urn:doc:sections#Sections> po:contains <urn:doc:sections#Rules>.
 <urn:doc:sections#Rules> po:isContainedBy <urn:doc:sections#Sections>;
-    schema:hasPart <urn:doc:sections#Rules.p1>;
     po:contains <urn:doc:sections#Rules.p1>.
 <urn:doc:sections#Rules.p1> po:isContainedBy <urn:doc:sections#Rules>;
     a oa:ResourceSelection, doco:Paragraph;
@@ -46,17 +46,16 @@
 <urn:doc:sections#Rules.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "A heading of depth *n* opens a section contained by the nearest open section of\nlesser depth. The same rule is written down in HTML as the document outline, and\nimplemented by `pandoc --section-divs` and `remark-sectionize`.".
 <urn:doc:sections#Rules> token:rule "nearest-lesser-depth".
-<urn:doc:sections> schema:about <urn:doc:sections#Skipping%20a%20level>.
 <urn:doc:sections#Skipping%20a%20level> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:sections>;
     rdfs:label "Skipping a level";
     marginalia:depth 4;
+    marginalia:anchor "skipping-a-level";
     oa:hasSelector <urn:doc:sections#Skipping%20a%20level.sel0>.
 <urn:doc:sections#Skipping%20a%20level.sel0> a oa:FragmentSelector;
     rdf:value "Skipping a level".
 <urn:doc:sections#Rules> po:contains <urn:doc:sections#Skipping%20a%20level>.
 <urn:doc:sections#Skipping%20a%20level> po:isContainedBy <urn:doc:sections#Rules>;
-    schema:hasPart <urn:doc:sections#Skipping%20a%20level.p1>;
     po:contains <urn:doc:sections#Skipping%20a%20level.p1>.
 <urn:doc:sections#Skipping%20a%20level.p1> po:isContainedBy <urn:doc:sections#Skipping%20a%20level>;
     a oa:ResourceSelection, doco:Paragraph;
@@ -65,17 +64,16 @@
 <urn:doc:sections#Skipping%20a%20level.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "The heading above this paragraph is depth 4 under depth 2. HTML calls such a jump non-conforming while still defining\nthe result. This format follows: the section below is reported as a diagnostic\nand nests under the nearest lesser depth anyway.".
 <urn:doc:sections#Skipping%20a%20level> token:note "a producer reports it, a consumer keeps working".
-<urn:doc:sections> schema:about <urn:doc:sections#Depth%20is%20not%20the%20tree>.
 <urn:doc:sections#Depth%20is%20not%20the%20tree> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:sections>;
     rdfs:label "Depth is not the tree";
     marginalia:depth 2;
+    marginalia:anchor "depth-is-not-the-tree";
     oa:hasSelector <urn:doc:sections#Depth%20is%20not%20the%20tree.sel0>.
 <urn:doc:sections#Depth%20is%20not%20the%20tree.sel0> a oa:FragmentSelector;
     rdf:value "Depth is not the tree".
 <urn:doc:sections#Sections> po:contains <urn:doc:sections#Depth%20is%20not%20the%20tree>.
 <urn:doc:sections#Depth%20is%20not%20the%20tree> po:isContainedBy <urn:doc:sections#Sections>;
-    schema:hasPart <urn:doc:sections#Depth%20is%20not%20the%20tree.p1>;
     po:contains <urn:doc:sections#Depth%20is%20not%20the%20tree.p1>.
 <urn:doc:sections#Depth%20is%20not%20the%20tree.p1> po:isContainedBy <urn:doc:sections#Depth%20is%20not%20the%20tree>;
     a oa:ResourceSelection, doco:Paragraph;

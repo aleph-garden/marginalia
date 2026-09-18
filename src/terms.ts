@@ -26,8 +26,6 @@ export const term = {
   label: t('rdfs', 'label'),
 
   Document: t('schema', 'DigitalDocument'),
-  about: t('schema', 'about'),
-  hasPart: t('schema', 'hasPart'),
   SoftwareSourceCode: t('schema', 'SoftwareSourceCode'),
   programmingLanguage: t('schema', 'programmingLanguage'),
 
@@ -48,7 +46,8 @@ export const term = {
   contains: t('po', 'contains'),
   isContainedBy: t('po', 'isContainedBy'),
 
-  depth: t('mg', 'depth')
+  depth: t('mg', 'depth'),
+  anchor: t('mg', 'anchor')
 } as const
 
 /**
