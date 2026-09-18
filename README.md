@@ -368,6 +368,13 @@ Nothing here stops a run. A producer reports, a consumer keeps working.
 | `context-not-read` | `@context` is not a mapping of prefix to namespace |
 | `id-not-absolute` | `@id` is relative, and resolving it needs a base this parser is not given |
 
+
+## Open questions
+
+What is deferred, decided against, or not this project's to decide is in
+[docs/open-questions.md](docs/open-questions.md): extraction on the server as
+well as the client, whether a resource may offer several views, who decides how
+a graph is drawn, and the two markdown parsers that will disagree at the edges.
 ## Licence
 
 MIT.
