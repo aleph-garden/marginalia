@@ -17,7 +17,8 @@
     "test": "bun test",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "biome check --write . && bun run typecheck && bun test"
+    "check": "biome check --write . && bun run typecheck && bun test",
+    "goldens": "bun scripts/goldens.ts"
   },
   "dependencies": {
     "@rdfjs/types": "^2.0.1",

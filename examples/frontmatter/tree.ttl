@@ -1,0 +1,95 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<https://example.org/docs/frontmatter> a schema:DigitalDocument, schema:TechArticle;
+    schema:name "Naming things in frontmatter";
+    schema:inLanguage "en";
+    <https://example.org/reviewed> "false";
+    token:status "draft".
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    rdfs:label "Naming things in frontmatter";
+    marginalia:depth 1;
+    marginalia:anchor "naming-things-in-frontmatter";
+    oa:hasSelector <https://example.org/docs/frontmatter#naming-things-in-frontmatter.sel0>.
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter.sel0> a oa:FragmentSelector;
+    rdf:value "Naming things in frontmatter".
+<https://example.org/docs/frontmatter> po:contains <https://example.org/docs/frontmatter#naming-things-in-frontmatter>.
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter> po:isContainedBy <https://example.org/docs/frontmatter>;
+    po:contains <https://example.org/docs/frontmatter#naming-things-in-frontmatter.p1>.
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter.p1> po:isContainedBy <https://example.org/docs/frontmatter#naming-things-in-frontmatter>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    oa:hasSelector <https://example.org/docs/frontmatter#naming-things-in-frontmatter.p1.sel0>.
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "This directory has no mapping rules, and that is what it shows. Every name in\nthe frontmatter above is already qualified, so it needs nothing decided later:\nthe document is its own graph. Compare `tree.ttl` with the block above and the\ncorrespondence is one to one.".
+<https://example.org/docs/frontmatter#what-each-key-does> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    rdfs:label "What each key does";
+    marginalia:depth 2;
+    marginalia:anchor "what-each-key-does";
+    oa:hasSelector <https://example.org/docs/frontmatter#what-each-key-does.sel0>.
+<https://example.org/docs/frontmatter#what-each-key-does.sel0> a oa:FragmentSelector;
+    rdf:value "What each key does".
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter> po:contains <https://example.org/docs/frontmatter#what-each-key-does>.
+<https://example.org/docs/frontmatter#what-each-key-does> po:isContainedBy <https://example.org/docs/frontmatter#naming-things-in-frontmatter>;
+    po:contains <https://example.org/docs/frontmatter#what-each-key-does.p1>.
+<https://example.org/docs/frontmatter#what-each-key-does.p1> po:isContainedBy <https://example.org/docs/frontmatter#what-each-key-does>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    oa:hasSelector <https://example.org/docs/frontmatter#what-each-key-does.p1.sel0>.
+<https://example.org/docs/frontmatter#what-each-key-does.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "`@context` declares prefixes, in the YAML-LD shape. `@id` gives the document its\nown IRI, so the sections below are fragments of it rather than of a placeholder.\n`@type` says what the document is, and nothing more: which rules read a document\nof that type is a question for whoever holds the rules.".
+<https://example.org/docs/frontmatter#what-each-key-does> po:contains <https://example.org/docs/frontmatter#what-each-key-does.p2>.
+<https://example.org/docs/frontmatter#what-each-key-does.p2> po:isContainedBy <https://example.org/docs/frontmatter#what-each-key-does>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    oa:hasSelector <https://example.org/docs/frontmatter#what-each-key-does.p2.sel0>.
+<https://example.org/docs/frontmatter#what-each-key-does.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "Everything else is a statement about the document. A qualified name is used as\nwritten, and a bare one is deferred, which is why `status` above is the only key\nthat arrives as `urn:token:status`.".
+<https://example.org/docs/frontmatter#the-same-rule-in-the-body> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    rdfs:label "The same rule in the body";
+    marginalia:depth 2;
+    marginalia:anchor "the-same-rule-in-the-body";
+    oa:hasSelector <https://example.org/docs/frontmatter#the-same-rule-in-the-body.sel0>.
+<https://example.org/docs/frontmatter#the-same-rule-in-the-body.sel0> a oa:FragmentSelector;
+    rdf:value "The same rule in the body".
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter> po:contains <https://example.org/docs/frontmatter#the-same-rule-in-the-body>.
+<https://example.org/docs/frontmatter#the-same-rule-in-the-body> po:isContainedBy <https://example.org/docs/frontmatter#naming-things-in-frontmatter>;
+    schema:dateModified "2026-09-18";
+    <https://example.org/section> "naming";
+    token:audience "whoever is weighing this format";
+    po:contains <https://example.org/docs/frontmatter#the-same-rule-in-the-body.p1>.
+<https://example.org/docs/frontmatter#the-same-rule-in-the-body.p1> po:isContainedBy <https://example.org/docs/frontmatter#the-same-rule-in-the-body>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    oa:hasSelector <https://example.org/docs/frontmatter#the-same-rule-in-the-body.p1.sel0>.
+<https://example.org/docs/frontmatter#the-same-rule-in-the-body.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "The first two name their vocabulary and the third does not, so the third is the\nonly one a mapping would still have something to say about.".
+<https://example.org/docs/frontmatter#what-this-document-is-about> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    rdfs:label "What this document is about";
+    marginalia:depth 2;
+    marginalia:anchor "what-this-document-is-about";
+    oa:hasSelector <https://example.org/docs/frontmatter#what-this-document-is-about.sel0>.
+<https://example.org/docs/frontmatter#what-this-document-is-about.sel0> a oa:FragmentSelector;
+    rdf:value "What this document is about".
+<https://example.org/docs/frontmatter#naming-things-in-frontmatter> po:contains <https://example.org/docs/frontmatter#what-this-document-is-about>.
+<https://example.org/docs/frontmatter#what-this-document-is-about> po:isContainedBy <https://example.org/docs/frontmatter#naming-things-in-frontmatter>;
+    schema:about <https://www.w3.org/TR/json-ld11/>;
+    po:contains <https://example.org/docs/frontmatter#what-this-document-is-about.p1>.
+<https://example.org/docs/frontmatter#what-this-document-is-about.p1> po:isContainedBy <https://example.org/docs/frontmatter#what-this-document-is-about>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <https://example.org/docs/frontmatter>;
+    oa:hasSelector <https://example.org/docs/frontmatter#what-this-document-is-about.p1.sel0>.
+<https://example.org/docs/frontmatter#what-this-document-is-about.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "A note about a specification is not that specification, so what a document is\ncalled and what it is about stay two separate things. The first needs `@id`; the\nsecond is an ordinary statement, because RDF has had a word for it for twenty\nyears.".

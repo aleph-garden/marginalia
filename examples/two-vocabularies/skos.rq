@@ -1,0 +1,30 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX po:   <http://www.essepuntato.it/2008/12/pattern#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX tok:  <urn:token:>
+
+# One reading: this is a concept in a scheme. "broader" means what SKOS means
+# by it, the prose under the heading is a scope note, and the alias is another
+# name for the same concept.
+CONSTRUCT {
+  ?c a skos:Concept ;
+     skos:inScheme <https://example.org/scheme> ;
+     skos:prefLabel ?label ;
+     skos:altLabel ?alias ;
+     skos:broader ?broader ;
+     skos:related ?related ;
+     skos:scopeNote ?note .
+}
+WHERE {
+  ?c a doco:Section ; rdfs:label ?label .
+  FILTER NOT EXISTS { ?c po:isContainedBy [ a doco:Section ] }
+  OPTIONAL { ?c tok:alias ?alias }
+  OPTIONAL { ?c tok:broader ?broader }
+  OPTIONAL { ?c tok:related ?related }
+  OPTIONAL {
+    ?c po:contains [ a doco:BlockQuotation ; oa:hasSelector [ oa:exact ?quoted ] ] .
+    BIND(REPLACE(REPLACE(?quoted, "^> ", "", "m"), "\n", " ") AS ?note)
+  }
+}

@@ -218,31 +218,67 @@ bun src/cli.ts structure examples/apollo/README.md --name apollo
 
 # that graph after a mapping has given it meaning
 bun src/cli.ts map examples/apollo/README.md examples/apollo/mapping.rq --name apollo
+
+# the same graph drawn as the tree it already is
+bun src/cli.ts tree examples/apollo/README.md --name apollo
 ```
 
 ```ts
-import { applyMapping, structure, write } from '@aleph-garden/marginalia'
+import { applyMapping, structure, tree, write } from '@aleph-garden/marginalia'
 
 const { quads, diagnostics } = structure(markdown, { name: 'apollo' })
 const meaning = applyMapping(quads, [rule])
 console.log(write(meaning))
+console.log(tree(quads))
 ```
 
 ## Examples
 
-Each directory under `examples/` holds a document that explains itself, the two
-graphs it produces, and the rules that produce the second:
+Each directory under `examples/` holds a document that explains itself and the
+graphs it produces. `bun run goldens` rewrites them all.
 
 ```
-examples/apollo/
-  README.md      the document, which is also the explanation
-  tree.trig      the structural graph, a dataset because a fence makes a graph
-  mapping.rq     the rules
-  meaning.ttl    the graph after the rules
+examples/two-vocabularies/
+  README.md        the document, which is also the explanation
+  tree.txt         the graph drawn as the tree it already is
+  tree.ttl         the same graph, as Turtle
+  skos.rq          one reading
+  skos.ttl         what that reading produces
+  schema-org.rq    another reading of the same document
+  schema-org.ttl   what that one produces
 ```
 
-Tests compare graphs for isomorphism rather than bytes, so a golden file may be
+A structural graph is Turtle until an RDF fence gives it a named graph, and TriG
+after that, because GitHub highlights the first and not the second. Every `.rq`
+has a golden of the same name, so one document can show several vocabularies.
+
+| Example | What it shows |
+|---|---|
+| `apollo` | the three carriers in one document |
+| `frontmatter` | `@context`, `@type`, `@id`, and a document that needs no mapping |
+| `two-vocabularies` | one note read as SKOS and as schema.org, with nothing in it changed |
+| `meeting` | minutes of the kind the work item asked for, mapped by section |
+| `sections` | nesting, a skipped level, and why depth is not the tree |
+| `fences` | RDF blocks as named graphs |
+
+Tests compare graphs for isomorphism rather than bytes, so a golden may be
 reformatted, reordered or commented for a reader without breaking.
+
+The drawing is what a person reads:
+
+```
+urn:doc:meeting  (schema:DigitalDocument, schema:Event)
+│ schema:startDate "2026-09-18T15:00:00Z"
+└─ format-work-item-weekly  (doco:Section)  Format work item, weekly
+   ├─ attending  (doco:Section)  Attending
+   │  │ scribe "Toph"
+   │  │ attendee → urn:doc:people/toph
+   │  └─ attending.p1  (doco:Paragraph)  Notes were taken by [Toph](<> "scribe")…
+   └─ decisions  (doco:Section)  Decisions
+      │ decision "borrow the parser"
+      │ decision "one added production, and only one"
+      └─ decisions.p1  (doco:Paragraph)  The parser stays borrowed rather than…
+```
 
 ## Prior art
 

@@ -1,0 +1,18 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:two-vocabularies#vocabularies> <http://www.w3.org/2004/02/skos/core#scopeNote> "A personal semantic web platform: your data as RDF in a store you own, rendered through Fresnel-style lenses.";
+    <http://www.w3.org/2004/02/skos/core#related> <urn:doc:solid>;
+    <http://www.w3.org/2004/02/skos/core#broader> <urn:doc:semantic-web>;
+    <http://www.w3.org/2004/02/skos/core#altLabel> "Aleph";
+    <http://www.w3.org/2004/02/skos/core#prefLabel> "Vocabularies";
+    <http://www.w3.org/2004/02/skos/core#inScheme> <https://example.org/scheme>;
+    a <http://www.w3.org/2004/02/skos/core#Concept>.

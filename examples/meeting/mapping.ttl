@@ -1,0 +1,26 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:meeting#open.open> schema:description "A resolver has to exist somewhere. The question is whether the format may assume it.";
+    schema:scheduledTime "2026-10-02";
+    schema:agent <urn:doc:people/toph>;
+    schema:text "wiki links, core or profile";
+    a <https://example.org/meeting#OpenQuestion>.
+<urn:doc:meeting#decisions.decision.borrow%20the%20parser> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
+    schema:text "borrow the parser";
+    a <https://example.org/meeting#Decision>.
+<urn:doc:meeting> <https://example.org/meeting#scribe> "Toph";
+    <https://example.org/meeting#apologies> <urn:doc:people/ruben>;
+    schema:attendee <urn:doc:people/jesse>.
+<urn:doc:meeting#decisions.decision.one%20added%20production%2C%20and%20only%20one> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
+    schema:text "one added production, and only one";
+    a <https://example.org/meeting#Decision>.
+<urn:doc:meeting> schema:attendee <urn:doc:people/cristian>, <urn:doc:people/toph>.

@@ -1,0 +1,95 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:two-vocabularies> a schema:DigitalDocument.
+<urn:doc:two-vocabularies#vocabularies> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    rdfs:label "Vocabularies";
+    marginalia:depth 1;
+    marginalia:anchor "vocabularies";
+    oa:hasSelector <urn:doc:two-vocabularies#vocabularies.sel0>.
+<urn:doc:two-vocabularies#vocabularies.sel0> a oa:FragmentSelector;
+    rdf:value "Vocabularies".
+<urn:doc:two-vocabularies> po:contains <urn:doc:two-vocabularies#vocabularies>.
+<urn:doc:two-vocabularies#vocabularies> po:isContainedBy <urn:doc:two-vocabularies>;
+    po:contains <urn:doc:two-vocabularies#vocabularies.p1>.
+<urn:doc:two-vocabularies#vocabularies.p1> po:isContainedBy <urn:doc:two-vocabularies#vocabularies>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    oa:hasSelector <urn:doc:two-vocabularies#vocabularies.p1.sel0>.
+<urn:doc:two-vocabularies#vocabularies.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "The claim this format makes is that one set of notes can serve several target\nvocabularies, because the author writes plain names and a mapping decides what\nthey mean. This directory is that claim, run twice.".
+<urn:doc:two-vocabularies#vocabularies> po:contains <urn:doc:two-vocabularies#vocabularies.p2>.
+<urn:doc:two-vocabularies#vocabularies.p2> po:isContainedBy <urn:doc:two-vocabularies#vocabularies>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    oa:hasSelector <urn:doc:two-vocabularies#vocabularies.p2.sel0>.
+<urn:doc:two-vocabularies#vocabularies.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "Below is a note of the kind anyone keeps. Nothing in it names a vocabulary.\nBeside it are two rule files, `skos.rq` and `schema-org.rq`, and two graphs.\nNeither required a word of the note to change.".
+<urn:doc:two-vocabularies#vocabularies> token:broader <urn:doc:semantic-web>;
+    token:related <urn:doc:solid>;
+    token:alias "Aleph";
+    token:started "2023-04-01";
+    po:contains <urn:doc:two-vocabularies#vocabularies.q3>.
+<urn:doc:two-vocabularies#vocabularies.q3> po:isContainedBy <urn:doc:two-vocabularies#vocabularies>;
+    a oa:ResourceSelection, doco:BlockQuotation;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    oa:hasSelector <urn:doc:two-vocabularies#vocabularies.q3.sel0>.
+<urn:doc:two-vocabularies#vocabularies.q3.sel0> a oa:TextQuoteSelector;
+    oa:exact "> A personal semantic web platform: your data as RDF in a store you own,\n> rendered through Fresnel-style lenses.".
+<urn:doc:two-vocabularies#why-the-names-stay-plain> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    rdfs:label "Why the names stay plain";
+    marginalia:depth 2;
+    marginalia:anchor "why-the-names-stay-plain";
+    oa:hasSelector <urn:doc:two-vocabularies#why-the-names-stay-plain.sel0>.
+<urn:doc:two-vocabularies#why-the-names-stay-plain.sel0> a oa:FragmentSelector;
+    rdf:value "Why the names stay plain".
+<urn:doc:two-vocabularies#vocabularies> po:contains <urn:doc:two-vocabularies#why-the-names-stay-plain>.
+<urn:doc:two-vocabularies#why-the-names-stay-plain> po:isContainedBy <urn:doc:two-vocabularies#vocabularies>;
+    po:contains <urn:doc:two-vocabularies#why-the-names-stay-plain.p1>.
+<urn:doc:two-vocabularies#why-the-names-stay-plain.p1> po:isContainedBy <urn:doc:two-vocabularies#why-the-names-stay-plain>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    oa:hasSelector <urn:doc:two-vocabularies#why-the-names-stay-plain.p1.sel0>.
+<urn:doc:two-vocabularies#why-the-names-stay-plain.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "`broader` is a word, not a term. It carries whatever the author meant by it,\nwhich on one reading is a concept scheme and on another is a topic. Writing\n`skos:broader` here would settle that reading in every file, and a later change\nof mind would be a corpus-wide edit rather than a new rule file.".
+<urn:doc:two-vocabularies#why-the-names-stay-plain> po:contains <urn:doc:two-vocabularies#why-the-names-stay-plain.p2>.
+<urn:doc:two-vocabularies#why-the-names-stay-plain.p2> po:isContainedBy <urn:doc:two-vocabularies#why-the-names-stay-plain>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    oa:hasSelector <urn:doc:two-vocabularies#why-the-names-stay-plain.p2.sel0>.
+<urn:doc:two-vocabularies#why-the-names-stay-plain.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "That is the whole trade. Where the author does have a vocabulary in mind, the\nfrontmatter example shows the other half: a qualified name is used as written\nand there is nothing left to decide.".
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    rdfs:label "What the two mappings differ on";
+    marginalia:depth 2;
+    marginalia:anchor "what-the-two-mappings-differ-on";
+    oa:hasSelector <urn:doc:two-vocabularies#what-the-two-mappings-differ-on.sel0>.
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on.sel0> a oa:FragmentSelector;
+    rdf:value "What the two mappings differ on".
+<urn:doc:two-vocabularies#vocabularies> po:contains <urn:doc:two-vocabularies#what-the-two-mappings-differ-on>.
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on> po:isContainedBy <urn:doc:two-vocabularies#vocabularies>;
+    po:contains <urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p1>.
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p1> po:isContainedBy <urn:doc:two-vocabularies#what-the-two-mappings-differ-on>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    oa:hasSelector <urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p1.sel0>.
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "The SKOS reading makes this a concept in a scheme, so `broader` becomes\n`skos:broader` and the prose becomes a scope note.".
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on> po:contains <urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p2>.
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p2> po:isContainedBy <urn:doc:two-vocabularies#what-the-two-mappings-differ-on>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:two-vocabularies>;
+    oa:hasSelector <urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p2.sel0>.
+<urn:doc:two-vocabularies#what-the-two-mappings-differ-on.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "The schema.org reading makes it a creative work, so the same `broader` becomes\n`schema:isPartOf`, the alias becomes an alternate name, and the date becomes a\nstart date. The two graphs share no predicate.".

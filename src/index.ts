@@ -8,3 +8,4 @@ export {
   structure
 } from './structure.ts'
 export { type Naming, naming, ns, term } from './terms.ts'
+export { type TreeOptions, tree } from './tree.ts'

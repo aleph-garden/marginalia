@@ -1,0 +1,18 @@
+https://example.org/docs/frontmatter  (schema:DigitalDocument, schema:TechArticle)
+│ schema:name "Naming things in frontmatter"
+│ schema:inLanguage "en"
+│ https://example.org/reviewed "false"
+│ status "draft"
+└─ naming-things-in-frontmatter  (doco:Section, oa:ResourceSelection)  Naming things in frontmatter
+   ├─ naming-things-in-frontmatter.p1  (oa:ResourceSelection, doco:Paragraph)  This directory has no mapping rules, and that is what it shows.…
+   ├─ what-each-key-does  (doco:Section, oa:ResourceSelection)  What each key does
+   │  ├─ what-each-key-does.p1  (oa:ResourceSelection, doco:Paragraph)  `@context` declares prefixes, in the YAML-LD shape. `@id` gives…
+   │  └─ what-each-key-does.p2  (oa:ResourceSelection, doco:Paragraph)  Everything else is a statement about the document. A qualified …
+   ├─ the-same-rule-in-the-body  (doco:Section, oa:ResourceSelection)  The same rule in the body
+   │  │ schema:dateModified "2026-09-18"
+   │  │ https://example.org/section "naming"
+   │  │ audience "whoever is weighing this format"
+   │  └─ the-same-rule-in-the-body.p1  (oa:ResourceSelection, doco:Paragraph)  The first two name their vocabulary and the third does not, so …
+   └─ what-this-document-is-about  (doco:Section, oa:ResourceSelection)  What this document is about
+      │ schema:about → https://www.w3.org/TR/json-ld11/
+      └─ what-this-document-is-about.p1  (oa:ResourceSelection, doco:Paragraph)  A note about a specification is not that specification, so what…

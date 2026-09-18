@@ -14,7 +14,7 @@ const parse = (source: string, format = 'application/trig') =>
 const same = (actual: Quad[], expected: Quad[]) => {
   if (isomorphic(actual, expected)) return
   const key = (q: Quad) =>
-    `${q.subject.value} ${q.predicate.value} ${q.object.value}${'language' in q.object && q.object.language ? `@${q.object.language}` : ''}`
+    `${q.graph.value ? `${q.graph.value} ` : ''}${q.subject.value} ${q.predicate.value} ${q.object.value}${'language' in q.object && q.object.language ? `@${q.object.language}` : ''}`
   const a = new Set(actual.map(key))
   const b = new Set(expected.map(key))
   const missing = [...b].filter((k) => !a.has(k)).sort()
@@ -31,22 +31,28 @@ const cases = readdirSync(EXAMPLES, { withFileTypes: true })
 describe('examples', () => {
   for (const name of cases) {
     const dir = join(EXAMPLES, name)
-    const markdown = readFileSync(join(dir, 'README.md'), 'utf8')
-    const result = structure(markdown, { name })
+    const result = structure(readFileSync(join(dir, 'README.md'), 'utf8'), { name })
 
-    test(`${name}: structure matches tree.ttl`, () => {
-      same(result.quads, parse(readFileSync(join(dir, 'tree.trig'), 'utf8')))
+    test(`${name}: structure matches its golden`, () => {
+      const trig = existsSync(join(dir, 'tree.trig'))
+      // Turtle until a fence gives the document a named graph, because GitHub
+      // highlights Turtle and an example is read more often than parsed.
+      expect(trig).toBe(result.quads.some((q) => q.graph.value !== ''))
+      same(result.quads, parse(readFileSync(join(dir, trig ? 'tree.trig' : 'tree.ttl'), 'utf8')))
     })
 
-    if (existsSync(join(dir, 'mapping.rq'))) {
-      test(`${name}: mapping matches meaning.ttl`, () => {
-        const meaning = applyMapping(result.quads, [readFileSync(join(dir, 'mapping.rq'), 'utf8')])
-        same(meaning, parse(readFileSync(join(dir, 'meaning.ttl'), 'utf8'), 'text/turtle'))
+    // Each rule file has a golden of the same name, so one document can show
+    // several vocabularies read out of it.
+    for (const rule of readdirSync(dir).filter((f) => f.endsWith('.rq'))) {
+      test(`${name}: ${rule} matches its golden`, () => {
+        const meaning = applyMapping(result.quads, [readFileSync(join(dir, rule), 'utf8')])
+        const golden = readFileSync(join(dir, rule.replace(/\.rq$/, '.ttl')), 'utf8')
+        same(meaning, parse(golden, 'text/turtle'))
       })
     }
   }
 
-  test('every example produced at least one triple', () => {
+  test('there are examples to check', () => {
     expect(cases.length).toBeGreaterThan(0)
   })
 })

@@ -1,0 +1,35 @@
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+PREFIX doco:   <http://purl.org/spar/doco/>
+PREFIX po:     <http://www.essepuntato.it/2008/12/pattern#>
+PREFIX oa:     <http://www.w3.org/ns/oa#>
+PREFIX tok:    <urn:token:>
+
+# The other reading of the same document: this is a creative work. The very
+# same "broader" now means the thing it is part of, and the date the author
+# wrote as plain text gets a datatype here rather than in the note.
+CONSTRUCT {
+  ?w a schema:CreativeWork ;
+     schema:name ?label ;
+     schema:alternateName ?alias ;
+     schema:isPartOf ?part ;
+     schema:mentions ?related ;
+     schema:startDate ?started ;
+     schema:description ?description .
+}
+WHERE {
+  ?w a doco:Section ; rdfs:label ?label .
+  FILTER NOT EXISTS { ?w po:isContainedBy [ a doco:Section ] }
+  OPTIONAL { ?w tok:alias ?alias }
+  OPTIONAL { ?w tok:broader ?part }
+  OPTIONAL { ?w tok:related ?related }
+  OPTIONAL {
+    ?w tok:started ?raw
+    BIND(STRDT(?raw, xsd:date) AS ?started)
+  }
+  OPTIONAL {
+    ?w po:contains [ a doco:BlockQuotation ; oa:hasSelector [ oa:exact ?quoted ] ] .
+    BIND(REPLACE(REPLACE(?quoted, "^> ", "", "m"), "\n", " ") AS ?description)
+  }
+}

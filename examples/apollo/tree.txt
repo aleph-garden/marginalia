@@ -1,0 +1,17 @@
+urn:doc:apollo  (schema:DigitalDocument)
+│ aliases "Apollo programme"
+└─ apollo-11  (doco:Section, oa:ResourceSelection)  Apollo 11
+   │ broader → urn:doc:space-missions
+   │ focus → https://www.wikidata.org/entity/Q43653
+   │ commander "Neil Armstrong"
+   │ year "1969"
+   │ organizer → https://nasa.gov
+   ├─ apollo-11.p1  (oa:ResourceSelection, doco:Paragraph)  The first crewed landing on the Moon. This file is both the exa…
+   ├─ apollo-11.p2  (oa:ResourceSelection, doco:Paragraph)  Three carriers are at work here. A **statement line** like the …
+   └─ landing  (doco:Section, oa:ResourceSelection)  Landing
+      │ moduleName "Eagle"
+      │ site → urn:doc:tranquility
+      ├─ landing.p1  (oa:ResourceSelection, doco:Paragraph)  A gloss can also be written inline, which is the same rule with…
+      ├─ landing.q2  (oa:ResourceSelection, doco:BlockQuotation)  > That's one small step for a man, one giant leap for mankind.
+      └─ landing.c3  (oa:ResourceSelection, schema:SoftwareSourceCode)  ```python print("contact light") ```
+           schema:programmingLanguage "python"

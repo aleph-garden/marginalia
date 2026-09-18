@@ -1,0 +1,13 @@
+urn:doc:sections  (schema:DigitalDocument)
+└─ sections  (doco:Section, oa:ResourceSelection)  Sections
+   │ owner → urn:doc:toph
+   ├─ sections.p1  (oa:ResourceSelection, doco:Paragraph)  CommonMark has no sections. Its tree has headings as siblings o…
+   ├─ rules  (doco:Section, oa:ResourceSelection)  Rules
+   │  │ rule "nearest-lesser-depth"
+   │  ├─ rules.p1  (oa:ResourceSelection, doco:Paragraph)  A heading of depth *n* opens a section contained by the nearest…
+   │  └─ skipping-a-level  (doco:Section, oa:ResourceSelection)  Skipping a level
+   │     │ note "a producer reports it, a consumer keeps working"
+   │     └─ skipping-a-level.p1  (oa:ResourceSelection, doco:Paragraph)  The heading above this paragraph is depth 4 under depth 2. HTML…
+   └─ depth-is-not-the-tree  (doco:Section, oa:ResourceSelection)  Depth is not the tree
+      │ caveat "ask containment, not depth"
+      └─ depth-is-not-the-tree.p1  (oa:ResourceSelection, doco:Paragraph)  Because a document may skip a level, `depth = 1` is not the sam…

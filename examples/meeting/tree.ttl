@@ -1,0 +1,120 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:meeting> a schema:DigitalDocument, schema:Event;
+    schema:startDate "2026-09-18T15:00:00Z".
+<urn:doc:meeting#format-work-item-weekly> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:meeting>;
+    rdfs:label "Format work item, weekly";
+    marginalia:depth 1;
+    marginalia:anchor "format-work-item-weekly";
+    oa:hasSelector <urn:doc:meeting#format-work-item-weekly.sel0>.
+<urn:doc:meeting#format-work-item-weekly.sel0> a oa:FragmentSelector;
+    rdf:value "Format work item, weekly".
+<urn:doc:meeting> po:contains <urn:doc:meeting#format-work-item-weekly>.
+<urn:doc:meeting#format-work-item-weekly> po:isContainedBy <urn:doc:meeting>;
+    po:contains <urn:doc:meeting#format-work-item-weekly.p1>.
+<urn:doc:meeting#format-work-item-weekly.p1> po:isContainedBy <urn:doc:meeting#format-work-item-weekly>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#format-work-item-weekly.p1.sel0>.
+<urn:doc:meeting#format-work-item-weekly.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "The work item that started this format asked for a replacement for a shared\nscratchpad in meetings. These are notes anyone would write in one, and the graph\nbeside them was read out without anyone annotating a thing.".
+<urn:doc:meeting#attending> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:meeting>;
+    rdfs:label "Attending";
+    marginalia:depth 2;
+    marginalia:anchor "attending";
+    oa:hasSelector <urn:doc:meeting#attending.sel0>.
+<urn:doc:meeting#attending.sel0> a oa:FragmentSelector;
+    rdf:value "Attending".
+<urn:doc:meeting#format-work-item-weekly> po:contains <urn:doc:meeting#attending>.
+<urn:doc:meeting#attending> po:isContainedBy <urn:doc:meeting#format-work-item-weekly>;
+    po:contains <urn:doc:meeting#attending.p1>.
+<urn:doc:meeting#attending.p1> po:isContainedBy <urn:doc:meeting#attending>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#attending.p1.sel0>.
+<urn:doc:meeting#attending.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "Notes were taken by [Toph](<> \"scribe\"), who also chaired.".
+<urn:doc:meeting#attending> token:scribe "Toph";
+    token:attendee <urn:doc:people/toph>, <urn:doc:people/cristian>, <urn:doc:people/jesse>;
+    token:apologies <urn:doc:people/ruben>.
+<urn:doc:meeting#decisions> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:meeting>;
+    rdfs:label "Decisions";
+    marginalia:depth 2;
+    marginalia:anchor "decisions";
+    oa:hasSelector <urn:doc:meeting#decisions.sel0>.
+<urn:doc:meeting#decisions.sel0> a oa:FragmentSelector;
+    rdf:value "Decisions".
+<urn:doc:meeting#format-work-item-weekly> po:contains <urn:doc:meeting#decisions>.
+<urn:doc:meeting#decisions> po:isContainedBy <urn:doc:meeting#format-work-item-weekly>;
+    po:contains <urn:doc:meeting#decisions.p1>.
+<urn:doc:meeting#decisions.p1> po:isContainedBy <urn:doc:meeting#decisions>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#decisions.p1.sel0>.
+<urn:doc:meeting#decisions.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "The parser stays borrowed rather than written, since the cases a hand-written\nscanner loses are exactly the ones a document hits by accident. Nobody objected.".
+<urn:doc:meeting#decisions> token:decision "borrow the parser", "one added production, and only one";
+    po:contains <urn:doc:meeting#decisions.p2>.
+<urn:doc:meeting#decisions.p2> po:isContainedBy <urn:doc:meeting#decisions>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#decisions.p2.sel0>.
+<urn:doc:meeting#decisions.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "The second is the harder promise, and it holds so far: statement lines are the\nonly syntax that is not CommonMark.".
+<urn:doc:meeting#open> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:meeting>;
+    rdfs:label "Open";
+    marginalia:depth 2;
+    marginalia:anchor "open";
+    oa:hasSelector <urn:doc:meeting#open.sel0>.
+<urn:doc:meeting#open.sel0> a oa:FragmentSelector;
+    rdf:value "Open".
+<urn:doc:meeting#format-work-item-weekly> po:contains <urn:doc:meeting#open>.
+<urn:doc:meeting#open> po:isContainedBy <urn:doc:meeting#format-work-item-weekly>;
+    po:contains <urn:doc:meeting#open.p1>.
+<urn:doc:meeting#open.p1> po:isContainedBy <urn:doc:meeting#open>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#open.p1.sel0>.
+<urn:doc:meeting#open.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "Whether wiki links belong in the core or in a profile stayed open, because the\nanswer turns on whether a producer can be assumed to have an index.".
+<urn:doc:meeting#open> token:open "wiki links, core or profile";
+    token:owner <urn:doc:people/toph>;
+    token:due "2026-10-02";
+    po:contains <urn:doc:meeting#open.q2>.
+<urn:doc:meeting#open.q2> po:isContainedBy <urn:doc:meeting#open>;
+    a oa:ResourceSelection, doco:BlockQuotation;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#open.q2.sel0>.
+<urn:doc:meeting#open.q2.sel0> a oa:TextQuoteSelector;
+    oa:exact "> A resolver has to exist somewhere. The question is whether the format may\n> assume it.".
+<urn:doc:meeting#next> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:meeting>;
+    rdfs:label "Next";
+    marginalia:depth 2;
+    marginalia:anchor "next";
+    oa:hasSelector <urn:doc:meeting#next.sel0>.
+<urn:doc:meeting#next.sel0> a oa:FragmentSelector;
+    rdf:value "Next".
+<urn:doc:meeting#format-work-item-weekly> po:contains <urn:doc:meeting#next>.
+<urn:doc:meeting#next> po:isContainedBy <urn:doc:meeting#format-work-item-weekly>;
+    po:contains <urn:doc:meeting#next.p1>.
+<urn:doc:meeting#next.p1> po:isContainedBy <urn:doc:meeting#next>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#next.p1.sel0>.
+<urn:doc:meeting#next.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "A working thing to try, rather than a document to agree with. See\n[the issue](https://github.com/w3c-cg/solid/issues/69 \"discussedIn\") for where\nthis goes back to.".
+<urn:doc:meeting#next> token:discussedIn <https://github.com/w3c-cg/solid/issues/69>.
