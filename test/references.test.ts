@@ -109,3 +109,18 @@ describe('IRI encoding', () => {
     expect(section?.subject.value).toBe('urn:doc:doc#a-heading-with-spaces')
   })
 })
+
+describe('profiles and conflicts', () => {
+  test('wiki links are a profile a producer can turn off', () => {
+    const off = structure('# T\n\nx :: [[a/b]]\n', { name: 'doc', wikiLinks: false })
+    const token = off.quads.find((q) => q.predicate.value === `${ns.token}x`)
+    expect(token?.object.value).toBe('[[a/b]]')
+    expect(off.diagnostics.map((d) => d.code)).toEqual(['wiki-link-off'])
+  })
+
+  test('a statement key already names the statement, so a title on its value is reported', () => {
+    const md = '# T\n\nbroader :: [X](y.md "other")\n'
+    expect(tokens(md)).toEqual([['broader', 'urn:doc:y']])
+    expect(codes(md)).toEqual(['name-stated-twice'])
+  })
+})

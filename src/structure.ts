@@ -24,6 +24,8 @@ export interface Diagnostic {
     | 'fence-not-parsed'
     | 'reference-unresolved'
     | 'slug-collision'
+    | 'wiki-link-off'
+    | 'name-stated-twice'
   message: string
   line?: number
 }
@@ -32,6 +34,12 @@ export interface StructureOptions {
   /** The document's name. Derived from `path` when absent. */
   name?: string
   path?: string
+  /**
+   * Obsidian's `[[name]]` links, which CommonMark does not define and which
+   * resolve by searching a collection rather than against a base. On by
+   * default for a vault; a producer that wants CommonMark alone turns it off.
+   */
+  wikiLinks?: boolean
   /** How IRIs are minted. Defaults to opaque IRIs under `urn:doc:`. */
   naming?: Naming
 }
@@ -55,6 +63,7 @@ const nameFromPath = (path: string) => path.split('/').pop()!.replace(/\.md$/, '
 export function structure(markdown: string, options: StructureOptions = {}): StructureResult {
   const name = options.name ?? (options.path ? nameFromPath(options.path) : 'document')
   const mint = options.naming ?? defaultNaming()
+  const wikiLinksEnabled = options.wikiLinks ?? true
   const tree = parse(markdown)
 
   // github-slugger is what rehype-slug uses, so the anchor here is the anchor
@@ -161,16 +170,35 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
    * A statement value. A wiki link, an absolute IRI or a CommonMark link all
    * name something; anything else is the text itself.
    */
-  const value = (raw: string, line?: number): Quad_Object => {
+  const value = (raw: string, key: string, line?: number): Quad_Object => {
     const wiki = wikiLink(raw)
-    if (wiki) return object(wiki, line)
+    if (wiki) {
+      if (!wikiLinksEnabled) {
+        diagnostics.push({
+          code: 'wiki-link-off',
+          message: `"${raw}" looks like a wiki link, which CommonMark does not define; enable the wikiLinks profile to resolve it`,
+          line
+        })
+        return literal(raw)
+      }
+      return object(wiki, line)
+    }
     if (IRI.test(raw)) return namedNode(raw)
     const inlineTree = parse(raw)
     const paragraph = inlineTree.children[0]
     if (paragraph?.type === 'paragraph' && paragraph.children.length === 1) {
       const only = paragraph.children[0]
-      if (only?.type === 'link')
-        return object(commonMarkLink(mdToString(only), only.url, only.title), line)
+      if (only?.type === 'link') {
+        // The statement line already names the relationship, so a title slot on
+        // its value would be a second name for the same triple.
+        if (only.title)
+          diagnostics.push({
+            code: 'name-stated-twice',
+            message: `"${key}" already names this statement, so the title "${only.title}" on its value is ignored`,
+            line
+          })
+        return object(commonMarkLink(mdToString(only), only.url, null), line)
+      }
     }
     return literal(raw)
   }
@@ -226,7 +254,11 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
           message: `"${key}" holds several links in one line; repeat the key instead`,
           line: node.position?.start.line
         })
-      emit(subject, namedNode(ns.token + encodeIri(key)), value(raw, node.position?.start.line))
+      emit(
+        subject,
+        namedNode(ns.token + encodeIri(key)),
+        value(raw, key, node.position?.start.line)
+      )
     }
     return true
   }
