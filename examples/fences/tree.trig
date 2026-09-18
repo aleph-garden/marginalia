@@ -10,104 +10,104 @@
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
 <urn:doc:fences> a schema:DigitalDocument.
-<urn:doc:fences#Fences> a doco:Section, oa:ResourceSelection;
+<urn:doc:fences#fences> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:fences>;
     rdfs:label "Fences";
     marginalia:depth 1;
     marginalia:anchor "fences";
-    oa:hasSelector <urn:doc:fences#Fences.sel0>.
-<urn:doc:fences#Fences.sel0> a oa:FragmentSelector;
+    oa:hasSelector <urn:doc:fences#fences.sel0>.
+<urn:doc:fences#fences.sel0> a oa:FragmentSelector;
     rdf:value "Fences".
-<urn:doc:fences> po:contains <urn:doc:fences#Fences>.
-<urn:doc:fences#Fences> po:isContainedBy <urn:doc:fences>;
-    po:contains <urn:doc:fences#Fences.p1>.
-<urn:doc:fences#Fences.p1> po:isContainedBy <urn:doc:fences#Fences>;
+<urn:doc:fences> po:contains <urn:doc:fences#fences>.
+<urn:doc:fences#fences> po:isContainedBy <urn:doc:fences>;
+    po:contains <urn:doc:fences#fences.p1>.
+<urn:doc:fences#fences.p1> po:isContainedBy <urn:doc:fences#fences>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:fences>;
-    oa:hasSelector <urn:doc:fences#Fences.p1.sel0>.
-<urn:doc:fences#Fences.p1.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:fences#fences.p1.sel0>.
+<urn:doc:fences#fences.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "The carriers a document has are deliberately narrow: a statement attaches to the\nsection it sits in, and there is no way to set a subject inside a sentence. When\nthat is not enough, the answer is not a richer syntax. It is RDF, which already\nhas one.".
-<urn:doc:fences#Fences> po:contains <urn:doc:fences#Fences.p2>.
-<urn:doc:fences#Fences.p2> po:isContainedBy <urn:doc:fences#Fences>;
+<urn:doc:fences#fences> po:contains <urn:doc:fences#fences.p2>.
+<urn:doc:fences#fences.p2> po:isContainedBy <urn:doc:fences#fences>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:fences>;
-    oa:hasSelector <urn:doc:fences#Fences.p2.sel0>.
-<urn:doc:fences#Fences.p2.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:fences#fences.p2.sel0>.
+<urn:doc:fences#fences.p2.sel0> a oa:TextQuoteSelector;
     oa:exact "A fenced code block whose language is an RDF syntax is parsed and kept, and its\ntriples land in a named graph whose name is the block's own IRI. Provenance\ntherefore costs nothing: the graph name already carries the block's source, its\nselectors and its language.".
-<urn:doc:fences#A%20block%20of%20its%20own> a doco:Section, oa:ResourceSelection;
+<urn:doc:fences#a-block-of-its-own> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:fences>;
     rdfs:label "A block of its own";
     marginalia:depth 2;
     marginalia:anchor "a-block-of-its-own";
-    oa:hasSelector <urn:doc:fences#A%20block%20of%20its%20own.sel0>.
-<urn:doc:fences#A%20block%20of%20its%20own.sel0> a oa:FragmentSelector;
+    oa:hasSelector <urn:doc:fences#a-block-of-its-own.sel0>.
+<urn:doc:fences#a-block-of-its-own.sel0> a oa:FragmentSelector;
     rdf:value "A block of its own".
-<urn:doc:fences#Fences> po:contains <urn:doc:fences#A%20block%20of%20its%20own>.
-<urn:doc:fences#A%20block%20of%20its%20own> po:isContainedBy <urn:doc:fences#Fences>;
-    po:contains <urn:doc:fences#A%20block%20of%20its%20own.p1>.
-<urn:doc:fences#A%20block%20of%20its%20own.p1> po:isContainedBy <urn:doc:fences#A%20block%20of%20its%20own>;
+<urn:doc:fences#fences> po:contains <urn:doc:fences#a-block-of-its-own>.
+<urn:doc:fences#a-block-of-its-own> po:isContainedBy <urn:doc:fences#fences>;
+    po:contains <urn:doc:fences#a-block-of-its-own.p1>.
+<urn:doc:fences#a-block-of-its-own.p1> po:isContainedBy <urn:doc:fences#a-block-of-its-own>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:fences>;
-    oa:hasSelector <urn:doc:fences#A%20block%20of%20its%20own.p1.sel0>.
-<urn:doc:fences#A%20block%20of%20its%20own.p1.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:fences#a-block-of-its-own.p1.sel0>.
+<urn:doc:fences#a-block-of-its-own.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "Relative references resolve against the document, so a fragment written here\nlands beside the sections of this same file.".
-<urn:doc:fences#A%20block%20of%20its%20own> po:contains <urn:doc:fences#A%20block%20of%20its%20own.c2>.
-<urn:doc:fences#A%20block%20of%20its%20own.c2> po:isContainedBy <urn:doc:fences#A%20block%20of%20its%20own>;
+<urn:doc:fences#a-block-of-its-own> po:contains <urn:doc:fences#a-block-of-its-own.c2>.
+<urn:doc:fences#a-block-of-its-own.c2> po:isContainedBy <urn:doc:fences#a-block-of-its-own>;
     a oa:ResourceSelection, schema:SoftwareSourceCode;
     oa:hasSource <urn:doc:fences>;
-    oa:hasSelector <urn:doc:fences#A%20block%20of%20its%20own.c2.sel0>.
-<urn:doc:fences#A%20block%20of%20its%20own.c2.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:fences#a-block-of-its-own.c2.sel0>.
+<urn:doc:fences#a-block-of-its-own.c2.sel0> a oa:TextQuoteSelector;
     oa:exact "```turtle\n@prefix schema: <https://schema.org/> .\n\n<#armstrong> a schema:Person ; schema:name \"Neil Armstrong\" .\n<#aldrin>    a schema:Person ; schema:name \"Buzz Aldrin\" .\n```".
-<urn:doc:fences#A%20block%20of%20its%20own.c2> schema:programmingLanguage "turtle".
-<urn:doc:fences#A%20block%20of%20its%20own.c2> {
+<urn:doc:fences#a-block-of-its-own.c2> schema:programmingLanguage "turtle".
+<urn:doc:fences#a-block-of-its-own.c2> {
 <urn:doc:fences#armstrong> a schema:Person;
     schema:name "Neil Armstrong".
 <urn:doc:fences#aldrin> a schema:Person;
     schema:name "Buzz Aldrin"
 }
-<urn:doc:fences#A%20base%20of%20its%20own> a doco:Section, oa:ResourceSelection;
+<urn:doc:fences#a-base-of-its-own> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:fences>;
     rdfs:label "A base of its own";
     marginalia:depth 2;
     marginalia:anchor "a-base-of-its-own";
-    oa:hasSelector <urn:doc:fences#A%20base%20of%20its%20own.sel0>.
-<urn:doc:fences#A%20base%20of%20its%20own.sel0> a oa:FragmentSelector;
+    oa:hasSelector <urn:doc:fences#a-base-of-its-own.sel0>.
+<urn:doc:fences#a-base-of-its-own.sel0> a oa:FragmentSelector;
     rdf:value "A base of its own".
-<urn:doc:fences#Fences> po:contains <urn:doc:fences#A%20base%20of%20its%20own>.
-<urn:doc:fences#A%20base%20of%20its%20own> po:isContainedBy <urn:doc:fences#Fences>;
-    po:contains <urn:doc:fences#A%20base%20of%20its%20own.p1>.
-<urn:doc:fences#A%20base%20of%20its%20own.p1> po:isContainedBy <urn:doc:fences#A%20base%20of%20its%20own>;
+<urn:doc:fences#fences> po:contains <urn:doc:fences#a-base-of-its-own>.
+<urn:doc:fences#a-base-of-its-own> po:isContainedBy <urn:doc:fences#fences>;
+    po:contains <urn:doc:fences#a-base-of-its-own.p1>.
+<urn:doc:fences#a-base-of-its-own.p1> po:isContainedBy <urn:doc:fences#a-base-of-its-own>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:fences>;
-    oa:hasSelector <urn:doc:fences#A%20base%20of%20its%20own.p1.sel0>.
-<urn:doc:fences#A%20base%20of%20its%20own.p1.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:fences#a-base-of-its-own.p1.sel0>.
+<urn:doc:fences#a-base-of-its-own.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "The info string after the language takes `base=` to resolve against something\nelse, and `graph=` to collect several blocks into one graph.".
-<urn:doc:fences#A%20base%20of%20its%20own> po:contains <urn:doc:fences#A%20base%20of%20its%20own.c2>.
-<urn:doc:fences#A%20base%20of%20its%20own.c2> po:isContainedBy <urn:doc:fences#A%20base%20of%20its%20own>;
+<urn:doc:fences#a-base-of-its-own> po:contains <urn:doc:fences#a-base-of-its-own.c2>.
+<urn:doc:fences#a-base-of-its-own.c2> po:isContainedBy <urn:doc:fences#a-base-of-its-own>;
     a oa:ResourceSelection, schema:SoftwareSourceCode;
     oa:hasSource <urn:doc:fences>;
-    oa:hasSelector <urn:doc:fences#A%20base%20of%20its%20own.c2.sel0>.
-<urn:doc:fences#A%20base%20of%20its%20own.c2.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:fences#a-base-of-its-own.c2.sel0>.
+<urn:doc:fences#a-base-of-its-own.c2.sel0> a oa:TextQuoteSelector;
     oa:exact "```turtle base=https://example.org/people/\n<armstrong> <https://schema.org/nationality> \"US\" .\n```".
-<urn:doc:fences#A%20base%20of%20its%20own.c2> schema:programmingLanguage "turtle".
-<urn:doc:fences#A%20base%20of%20its%20own.c2> {
+<urn:doc:fences#a-base-of-its-own.c2> schema:programmingLanguage "turtle".
+<urn:doc:fences#a-base-of-its-own.c2> {
 <https://example.org/people/armstrong> schema:nationality "US"
 }
-<urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs> a doco:Section, oa:ResourceSelection;
+<urn:doc:fences#what-this-buys-and-what-it-costs> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:fences>;
     rdfs:label "What this buys and what it costs";
     marginalia:depth 2;
     marginalia:anchor "what-this-buys-and-what-it-costs";
-    oa:hasSelector <urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs.sel0>.
-<urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs.sel0> a oa:FragmentSelector;
+    oa:hasSelector <urn:doc:fences#what-this-buys-and-what-it-costs.sel0>.
+<urn:doc:fences#what-this-buys-and-what-it-costs.sel0> a oa:FragmentSelector;
     rdf:value "What this buys and what it costs".
-<urn:doc:fences#Fences> po:contains <urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs>.
-<urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs> po:isContainedBy <urn:doc:fences#Fences>;
-    po:contains <urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs.p1>.
-<urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs.p1> po:isContainedBy <urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs>;
+<urn:doc:fences#fences> po:contains <urn:doc:fences#what-this-buys-and-what-it-costs>.
+<urn:doc:fences#what-this-buys-and-what-it-costs> po:isContainedBy <urn:doc:fences#fences>;
+    po:contains <urn:doc:fences#what-this-buys-and-what-it-costs.p1>.
+<urn:doc:fences#what-this-buys-and-what-it-costs.p1> po:isContainedBy <urn:doc:fences#what-this-buys-and-what-it-costs>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:fences>;
-    oa:hasSelector <urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs.p1.sel0>.
-<urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs.p1.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:fences#what-this-buys-and-what-it-costs.p1.sel0>.
+<urn:doc:fences#what-this-buys-and-what-it-costs.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "A block states real IRIs directly, so it skips the deferral that every other\ncarrier goes through. That is why it lives in its own graph: a mapping reaches\nit through `GRAPH` and does so on purpose, and nothing in it can be mistaken for\na statement the structure made.".
-<urn:doc:fences#What%20this%20buys%20and%20what%20it%20costs> token:reach "through a GRAPH clause".
+<urn:doc:fences#what-this-buys-and-what-it-costs> token:reach "through a GRAPH clause".

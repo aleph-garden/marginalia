@@ -9,15 +9,15 @@
 @prefix token: <urn:token:>.
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
-<urn:doc:sections#Depth%20is%20not%20the%20tree> <http://www.w3.org/2004/02/skos/core#broader> <urn:doc:sections#Sections>;
+<urn:doc:sections#depth-is-not-the-tree> <http://www.w3.org/2004/02/skos/core#broader> <urn:doc:sections#sections>;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Depth is not the tree";
     a <http://www.w3.org/2004/02/skos/core#Concept>.
-<urn:doc:sections#Skipping%20a%20level> <http://www.w3.org/2004/02/skos/core#broader> <urn:doc:sections#Rules>;
+<urn:doc:sections#skipping-a-level> <http://www.w3.org/2004/02/skos/core#broader> <urn:doc:sections#rules>;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Skipping a level";
     a <http://www.w3.org/2004/02/skos/core#Concept>.
-<urn:doc:sections#Rules> <http://www.w3.org/2004/02/skos/core#broader> <urn:doc:sections#Sections>;
+<urn:doc:sections#rules> <http://www.w3.org/2004/02/skos/core#broader> <urn:doc:sections#sections>;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Rules";
     a <http://www.w3.org/2004/02/skos/core#Concept>.
-<urn:doc:sections#Sections> <http://www.w3.org/2004/02/skos/core#topConceptOf> <urn:doc:sections>;
+<urn:doc:sections#sections> <http://www.w3.org/2004/02/skos/core#topConceptOf> <urn:doc:sections>;
     <http://www.w3.org/2004/02/skos/core#prefLabel> "Sections";
     a <http://www.w3.org/2004/02/skos/core#Concept>.

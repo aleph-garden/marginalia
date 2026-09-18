@@ -103,9 +103,9 @@ describe('IRI encoding', () => {
     ])
   })
 
-  test('what an IRI cannot carry is still encoded', () => {
+  test('a slug removes what would need encoding in a section IRI', () => {
     const quads = structure('# A Heading With Spaces\n', { name: 'doc' }).quads
     const section = quads.find((q) => q.predicate.value === `${ns.rdfs}label`)
-    expect(section?.subject.value).toBe('urn:doc:doc#A%20Heading%20With%20Spaces')
+    expect(section?.subject.value).toBe('urn:doc:doc#a-heading-with-spaces')
   })
 })

@@ -1,4 +1,5 @@
 import type { NamedNode } from '@rdfjs/types'
+import { slug } from 'github-slugger'
 import { DataFactory } from 'n3'
 
 const { namedNode } = DataFactory
@@ -95,14 +96,14 @@ export function naming(base = 'urn:doc:'): Naming {
   const doc = (name: string) => namedNode(base + encodeIri(name))
   return {
     document: doc,
-    section: (document, heading) => frag(document.value, encodeIri(heading)),
+    section: (document, heading) => frag(document.value, encodeIri(slug(heading))),
     part: (section, kind, index) => frag(section.value, `${kind}${index}`),
     selector: (of, index) => frag(of.value, `sel${index}`),
     reference: (target, from) => {
       if (/^[a-z][a-z0-9+.-]*:/i.test(target)) return namedNode(target)
       const [name, heading] = target.split('#')
       const document = name ? doc(name.replace(/\.md$/, '')) : from
-      return heading ? frag(document.value, encodeIri(heading)) : document
+      return heading ? frag(document.value, encodeIri(slug(heading))) : document
     }
   }
 }

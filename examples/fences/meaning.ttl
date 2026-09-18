@@ -9,9 +9,9 @@
 @prefix token: <urn:token:>.
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
-<urn:doc:fences#aldrin> <https://example.org/statedIn> <urn:doc:fences#A%20block%20of%20its%20own>;
+<urn:doc:fences#aldrin> <https://example.org/statedIn> <urn:doc:fences#a-block-of-its-own>;
     schema:name "Buzz Aldrin";
     a <https://example.org/Crew>.
-<urn:doc:fences#armstrong> <https://example.org/statedIn> <urn:doc:fences#A%20block%20of%20its%20own>;
+<urn:doc:fences#armstrong> <https://example.org/statedIn> <urn:doc:fences#a-block-of-its-own>;
     schema:name "Neil Armstrong";
     a <https://example.org/Crew>.

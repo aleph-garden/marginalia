@@ -23,6 +23,7 @@ export interface Diagnostic {
     | 'value-looks-plural'
     | 'fence-not-parsed'
     | 'reference-unresolved'
+    | 'slug-collision'
   message: string
   line?: number
 }
@@ -87,10 +88,22 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   let subject: NamedNode = document
   let partIndex = 0
   const stack: { depth: number; node: NamedNode }[] = []
+  const slugged = new Map<string, string>()
 
   const openSection = (heading: Heading) => {
     const label = mdToString(heading)
     const section = mint.section(document, label)
+    // Two headings that differ only in punctuation land on one section. That is
+    // ambiguous in the document itself, so the author gets told rather than
+    // finding the two merged later.
+    const seen = slugged.get(section.value)
+    if (seen && seen !== label)
+      diagnostics.push({
+        code: 'slug-collision',
+        message: `"${label}" and "${seen}" share the identifier ${section.value.split('#').pop()}`,
+        line: heading.position?.start.line
+      })
+    slugged.set(section.value, label)
     while (stack.length && stack[stack.length - 1]!.depth >= heading.depth) stack.pop()
     const parent = stack[stack.length - 1]
     if (parent && heading.depth > parent.depth + 1)

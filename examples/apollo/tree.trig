@@ -11,66 +11,66 @@
 
 <urn:doc:apollo> a schema:DigitalDocument;
     token:aliases "Apollo programme".
-<urn:doc:apollo#Apollo%2011> a doco:Section, oa:ResourceSelection;
+<urn:doc:apollo#apollo-11> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:apollo>;
     rdfs:label "Apollo 11";
     marginalia:depth 1;
     marginalia:anchor "apollo-11";
-    oa:hasSelector <urn:doc:apollo#Apollo%2011.sel0>.
-<urn:doc:apollo#Apollo%2011.sel0> a oa:FragmentSelector;
+    oa:hasSelector <urn:doc:apollo#apollo-11.sel0>.
+<urn:doc:apollo#apollo-11.sel0> a oa:FragmentSelector;
     rdf:value "Apollo 11".
-<urn:doc:apollo> po:contains <urn:doc:apollo#Apollo%2011>.
-<urn:doc:apollo#Apollo%2011> po:isContainedBy <urn:doc:apollo>;
-    po:contains <urn:doc:apollo#Apollo%2011.p1>.
-<urn:doc:apollo#Apollo%2011.p1> po:isContainedBy <urn:doc:apollo#Apollo%2011>;
+<urn:doc:apollo> po:contains <urn:doc:apollo#apollo-11>.
+<urn:doc:apollo#apollo-11> po:isContainedBy <urn:doc:apollo>;
+    po:contains <urn:doc:apollo#apollo-11.p1>.
+<urn:doc:apollo#apollo-11.p1> po:isContainedBy <urn:doc:apollo#apollo-11>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:apollo>;
-    oa:hasSelector <urn:doc:apollo#Apollo%2011.p1.sel0>.
-<urn:doc:apollo#Apollo%2011.p1.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:apollo#apollo-11.p1.sel0>.
+<urn:doc:apollo#apollo-11.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "The first crewed landing on the Moon. This file is both the example and its own\nexplanation: everything below is ordinary CommonMark, and the graph beside it in\n`tree.ttl` is what the format reads out of it.".
-<urn:doc:apollo#Apollo%2011> token:broader <urn:doc:space-missions>;
+<urn:doc:apollo#apollo-11> token:broader <urn:doc:space-missions>;
     token:focus <https://www.wikidata.org/entity/Q43653>;
-    po:contains <urn:doc:apollo#Apollo%2011.p2>.
-<urn:doc:apollo#Apollo%2011.p2> po:isContainedBy <urn:doc:apollo#Apollo%2011>;
+    po:contains <urn:doc:apollo#apollo-11.p2>.
+<urn:doc:apollo#apollo-11.p2> po:isContainedBy <urn:doc:apollo#apollo-11>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:apollo>;
-    oa:hasSelector <urn:doc:apollo#Apollo%2011.p2.sel0>.
-<urn:doc:apollo#Apollo%2011.p2.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:apollo#apollo-11.p2.sel0>.
+<urn:doc:apollo#apollo-11.p2.sel0> a oa:TextQuoteSelector;
     oa:exact "Three carriers are at work here. A **statement line** like the two above states\na fact about the section it sits in. A **gloss** marks a span of running prose:\ncommanded by [Neil Armstrong], launched in [1969], run by [NASA]. And the\n**structure** carries the rest, so this paragraph, the quotation and the code\nblock below all arrive as addressable slices without anyone annotating them.".
-<urn:doc:apollo#Apollo%2011> token:commander "Neil Armstrong";
+<urn:doc:apollo#apollo-11> token:commander "Neil Armstrong";
     token:year "1969";
     token:organizer <https://nasa.gov>.
-<urn:doc:apollo#Landing> a doco:Section, oa:ResourceSelection;
+<urn:doc:apollo#landing> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:apollo>;
     rdfs:label "Landing";
     marginalia:depth 2;
     marginalia:anchor "landing";
-    oa:hasSelector <urn:doc:apollo#Landing.sel0>.
-<urn:doc:apollo#Landing.sel0> a oa:FragmentSelector;
+    oa:hasSelector <urn:doc:apollo#landing.sel0>.
+<urn:doc:apollo#landing.sel0> a oa:FragmentSelector;
     rdf:value "Landing".
-<urn:doc:apollo#Apollo%2011> po:contains <urn:doc:apollo#Landing>.
-<urn:doc:apollo#Landing> po:isContainedBy <urn:doc:apollo#Apollo%2011>;
-    po:contains <urn:doc:apollo#Landing.p1>.
-<urn:doc:apollo#Landing.p1> po:isContainedBy <urn:doc:apollo#Landing>;
+<urn:doc:apollo#apollo-11> po:contains <urn:doc:apollo#landing>.
+<urn:doc:apollo#landing> po:isContainedBy <urn:doc:apollo#apollo-11>;
+    po:contains <urn:doc:apollo#landing.p1>.
+<urn:doc:apollo#landing.p1> po:isContainedBy <urn:doc:apollo#landing>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:apollo>;
-    oa:hasSelector <urn:doc:apollo#Landing.p1.sel0>.
-<urn:doc:apollo#Landing.p1.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:apollo#landing.p1.sel0>.
+<urn:doc:apollo#landing.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "A gloss can also be written inline, which is the same rule with the annotation\nin the sentence instead of at the foot of the file: the module\n[Eagle](<> \"moduleName\") touched down at the\n[Sea of Tranquility](tranquility.md \"site\").".
-<urn:doc:apollo#Landing> token:moduleName "Eagle";
+<urn:doc:apollo#landing> token:moduleName "Eagle";
     token:site <urn:doc:tranquility>;
-    po:contains <urn:doc:apollo#Landing.q2>.
-<urn:doc:apollo#Landing.q2> po:isContainedBy <urn:doc:apollo#Landing>;
+    po:contains <urn:doc:apollo#landing.q2>.
+<urn:doc:apollo#landing.q2> po:isContainedBy <urn:doc:apollo#landing>;
     a oa:ResourceSelection, doco:BlockQuotation;
     oa:hasSource <urn:doc:apollo>;
-    oa:hasSelector <urn:doc:apollo#Landing.q2.sel0>.
-<urn:doc:apollo#Landing.q2.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:apollo#landing.q2.sel0>.
+<urn:doc:apollo#landing.q2.sel0> a oa:TextQuoteSelector;
     oa:exact "> That's one small step for a man, one giant leap for mankind.".
-<urn:doc:apollo#Landing> po:contains <urn:doc:apollo#Landing.c3>.
-<urn:doc:apollo#Landing.c3> po:isContainedBy <urn:doc:apollo#Landing>;
+<urn:doc:apollo#landing> po:contains <urn:doc:apollo#landing.c3>.
+<urn:doc:apollo#landing.c3> po:isContainedBy <urn:doc:apollo#landing>;
     a oa:ResourceSelection, schema:SoftwareSourceCode;
     oa:hasSource <urn:doc:apollo>;
-    oa:hasSelector <urn:doc:apollo#Landing.c3.sel0>.
-<urn:doc:apollo#Landing.c3.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:apollo#landing.c3.sel0>.
+<urn:doc:apollo#landing.c3.sel0> a oa:TextQuoteSelector;
     oa:exact "```python\nprint(\"contact light\")\n```".
-<urn:doc:apollo#Landing.c3> schema:programmingLanguage "python".
+<urn:doc:apollo#landing.c3> schema:programmingLanguage "python".

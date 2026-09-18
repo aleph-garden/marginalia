@@ -53,8 +53,8 @@ describe('sections', () => {
     const contained = result.quads.filter((q) => q.predicate.value === `${ns.po}isContainedBy`)
     // The document is the root, so the tree reaches all the way up.
     expect(contained.map((q) => [q.subject.value, q.object.value])).toEqual([
-      ['urn:doc:doc#A', 'urn:doc:doc'],
-      ['urn:doc:doc#B', 'urn:doc:doc#A']
+      ['urn:doc:doc#a', 'urn:doc:doc'],
+      ['urn:doc:doc#b', 'urn:doc:doc#a']
     ])
     expect(result.diagnostics.map((d) => d.code)).toEqual(['heading-level-skipped'])
   })
@@ -71,8 +71,8 @@ describe('sections', () => {
       .filter((q) => q.predicate.value === `${ns.token}k`)
       .map((q) => [q.subject.value, q.object.value])
     expect(values).toEqual([
-      ['urn:doc:doc#Notes', '1'],
-      ['urn:doc:doc#Notes', '2']
+      ['urn:doc:doc#notes', '1'],
+      ['urn:doc:doc#notes', '2']
     ])
   })
 
@@ -85,8 +85,8 @@ describe('sections', () => {
   test('identity survives an edit above it', () => {
     const before = graph('# A\n\n## B\n').quads.map((q) => q.subject.value)
     const after = graph('# A\n\nAn inserted paragraph.\n\n## B\n').quads.map((q) => q.subject.value)
-    expect(after).toContain('urn:doc:doc#B')
-    expect(before).toContain('urn:doc:doc#B')
+    expect(after).toContain('urn:doc:doc#b')
+    expect(before).toContain('urn:doc:doc#b')
   })
 })
 

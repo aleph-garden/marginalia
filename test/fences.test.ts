@@ -16,7 +16,7 @@ const TURTLE = '# S\n\n```turtle\n<#a> <https://schema.org/name> "A" .\n```\n'
 describe('RDF fences', () => {
   test('a turtle block becomes a graph named after the block', () => {
     expect(fenced(TURTLE)).toEqual([
-      ['urn:doc:doc#S.c1', 'urn:doc:doc#a', 'https://schema.org/name', 'A']
+      ['urn:doc:doc#s.c1', 'urn:doc:doc#a', 'https://schema.org/name', 'A']
     ])
   })
 
