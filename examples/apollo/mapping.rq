@@ -1,0 +1,33 @@
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+PREFIX doco:   <http://purl.org/spar/doco/>
+PREFIX po:     <http://www.essepuntato.it/2008/12/pattern#>
+PREFIX oa:     <http://www.w3.org/ns/oa#>
+PREFIX token:  <urn:token:>
+PREFIX ex:     <https://example.org/>
+
+# The document is one thing, so facts stated in any contained section belong to
+# it. Swapping po:contains* for nothing at all would give one thing per heading
+# instead. The structural graph supports either, because statements attach to
+# the finest subject available and a mapping coarsens from there.
+CONSTRUCT {
+  ?doc a ex:Mission ;
+       schema:name ?name ;
+       ex:commander ?commander ;
+       ex:year ?year ;
+       ex:organizer ?organizer ;
+       ex:moduleName ?module ;
+       ex:site ?site ;
+       schema:sameAs ?focus .
+}
+WHERE {
+  ?doc a schema:DigitalDocument ; schema:about ?top .
+  ?top a doco:Section ; rdfs:label ?name .
+  FILTER NOT EXISTS { ?top po:isContainedBy [ a doco:Section ] }
+  OPTIONAL { ?top po:contains*/token:commander  ?commander }
+  OPTIONAL { ?top po:contains*/token:year       ?year }
+  OPTIONAL { ?top po:contains*/token:organizer  ?organizer }
+  OPTIONAL { ?top po:contains*/token:moduleName ?module }
+  OPTIONAL { ?top po:contains*/token:site       ?site }
+  OPTIONAL { ?top po:contains*/token:focus      ?focus }
+}

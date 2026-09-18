@@ -1,0 +1,41 @@
+{
+  "name": "@aleph-garden/marginalia",
+  "version": "0.1.0",
+  "description": "Deferred semantics for CommonMark: a document becomes a structural RDF graph, and SPARQL CONSTRUCT rules give it meaning",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./structure": "./src/structure.ts",
+    "./map": "./src/map.ts"
+  },
+  "bin": {
+    "marginalia": "./src/cli.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "bun test",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check": "biome check --write . && bun run typecheck && bun test"
+  },
+  "dependencies": {
+    "@rdfjs/types": "^2.0.1",
+    "mdast-util-to-string": "^4.0.0",
+    "n3": "^2.7.12",
+    "oxigraph": "^0.5.11",
+    "rdf-isomorphic": "^2.0.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@types/bun": "^1.4.2",
+    "@types/mdast": "^4.0.4",
+    "@types/n3": "^1.26.4",
+    "typescript": "^5.9.3"
+  }
+}

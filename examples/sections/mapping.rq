@@ -1,0 +1,20 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX po:   <http://www.essepuntato.it/2008/12/pattern#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX tok:  <urn:token:>
+
+# Every section becomes a concept, and containment becomes the broader relation.
+# A section with nothing above it is a top concept, which is a question about
+# containment and not about depth.
+CONSTRUCT {
+  ?s a skos:Concept ; skos:prefLabel ?label ; skos:broader ?parent ; skos:topConceptOf ?scheme .
+}
+WHERE {
+  ?s a doco:Section ; rdfs:label ?label .
+  OPTIONAL { ?s po:isContainedBy ?parent . ?parent a doco:Section }
+  OPTIONAL {
+    FILTER NOT EXISTS { ?s po:isContainedBy [ a doco:Section ] }
+    BIND(<urn:doc:sections> AS ?scheme)
+  }
+}
