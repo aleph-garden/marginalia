@@ -12,9 +12,12 @@ const prefixes = Object.fromEntries(
  */
 export function write(
   quads: Quad[],
-  format: 'text/turtle' | 'application/n-triples' = 'text/turtle'
+  format: 'application/trig' | 'application/n-quads' = 'application/trig'
 ): string {
-  const writer = new Writer({ format, prefixes: format === 'text/turtle' ? prefixes : undefined })
+  const writer = new Writer({
+    format,
+    prefixes: format === 'application/trig' ? prefixes : undefined
+  })
   for (const q of quads) writer.addQuad(q)
   let out = ''
   writer.end((error: Error | null, result: string) => {

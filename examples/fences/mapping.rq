@@ -1,0 +1,16 @@
+PREFIX schema: <https://schema.org/>
+PREFIX doco:   <http://purl.org/spar/doco/>
+PREFIX po:     <http://www.essepuntato.it/2008/12/pattern#>
+PREFIX ex:     <https://example.org/>
+
+# Triples from a block are reached through GRAPH, and the graph name is the
+# block itself, so the section a fact was written in comes back with it.
+CONSTRUCT {
+  ?person a ex:Crew ;
+          schema:name ?name ;
+          ex:statedIn ?section .
+}
+WHERE {
+  GRAPH ?block { ?person a schema:Person ; schema:name ?name }
+  ?section a doco:Section ; po:contains ?block .
+}

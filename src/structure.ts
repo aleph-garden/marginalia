@@ -4,6 +4,7 @@ import { toString as mdToString } from 'mdast-util-to-string'
 import { DataFactory } from 'n3'
 import { parse as parseYaml } from 'yaml'
 import { parse } from './parse.ts'
+import { isRdfSyntax, parseFence } from './rdf-fence.ts'
 import { naming as defaultNaming, type Naming, ns, term } from './terms.ts'
 
 const { literal, namedNode, quad } = DataFactory
@@ -15,7 +16,7 @@ const WIKI = /^\[\[([^\]|]+)(?:\|[^\]]*)?\]\]$/
 const IRI = /^[a-z][a-z0-9+.-]*:/i
 
 export interface Diagnostic {
-  code: 'heading-level-skipped' | 'gloss-unused' | 'value-looks-plural'
+  code: 'heading-level-skipped' | 'gloss-unused' | 'value-looks-plural' | 'fence-not-parsed'
   message: string
   line?: number
 }
@@ -209,6 +210,26 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       case 'code': {
         const part = addPart('c', node, [term.SoftwareSourceCode])
         if (node.lang) emit(part, term.programmingLanguage, literal(node.lang))
+        if (isRdfSyntax(node.lang)) {
+          // The block's own IRI names the graph its triples go into, so where a
+          // statement came from is already recorded by the structural graph.
+          const fence = parseFence(node.value, node.lang!, {
+            meta: node.meta,
+            defaultBase: document.value
+          })
+          const graph = fence.graph ? mint.reference(fence.graph, document) : part
+          for (const q of fence.quads)
+            quads.push(quad(q.subject, q.predicate, q.object, graph) as Quad)
+          // Only when the fence named a graph of its own: the default graph is
+          // the block itself, and a block does not contain itself.
+          if (graph.value !== part.value) emit(part, term.contains, graph)
+          for (const problem of fence.problems)
+            diagnostics.push({
+              code: 'fence-not-parsed',
+              message: `${node.lang} block: ${problem}`,
+              line: node.position?.start.line
+            })
+        }
         break
       }
       case 'list':

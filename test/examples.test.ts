@@ -7,7 +7,8 @@ import { isomorphic } from 'rdf-isomorphic'
 import { applyMapping, structure } from '../src/index.ts'
 
 const EXAMPLES = join(import.meta.dir, '..', 'examples')
-const parse = (ttl: string) => new Parser({ format: 'text/turtle' }).parse(ttl) as Quad[]
+const parse = (source: string, format = 'application/trig') =>
+  new Parser({ format }).parse(source) as Quad[]
 
 /** Goldens are compared as graphs, so they stay free to be laid out for people. */
 const same = (actual: Quad[], expected: Quad[]) => {
@@ -34,13 +35,13 @@ describe('examples', () => {
     const result = structure(markdown, { name })
 
     test(`${name}: structure matches tree.ttl`, () => {
-      same(result.quads, parse(readFileSync(join(dir, 'tree.ttl'), 'utf8')))
+      same(result.quads, parse(readFileSync(join(dir, 'tree.trig'), 'utf8')))
     })
 
     if (existsSync(join(dir, 'mapping.rq'))) {
       test(`${name}: mapping matches meaning.ttl`, () => {
         const meaning = applyMapping(result.quads, [readFileSync(join(dir, 'mapping.rq'), 'utf8')])
-        same(meaning, parse(readFileSync(join(dir, 'meaning.ttl'), 'utf8')))
+        same(meaning, parse(readFileSync(join(dir, 'meaning.ttl'), 'utf8'), 'text/turtle'))
       })
     }
   }

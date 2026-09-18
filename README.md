@@ -108,7 +108,7 @@ graphs it produces, and the rules that produce the second:
 ```
 examples/apollo/
   README.md      the document, which is also the explanation
-  tree.ttl       the structural graph
+  tree.trig      the structural graph, a dataset because a fence makes a graph
   mapping.rq     the rules
   meaning.ttl    the graph after the rules
 ```
@@ -140,12 +140,36 @@ The wider field, for anyone weighing the options:
 Discussion of a common markdown-to-RDF syntax is
 [w3c-cg/solid#69](https://github.com/w3c-cg/solid/issues/69).
 
+## RDF in a fence
+
+A fenced code block whose language is an RDF syntax is parsed, and its triples
+land in a named graph whose name is the block's own IRI:
+
+````markdown
+```turtle
+<#armstrong> a schema:Person ; schema:name "Neil Armstrong" .
+```
+````
+
+Turtle, TriG, N-Triples, N-Quads and N3 are read. Relative references resolve
+against the document, so `<#armstrong>` lands beside that document's sections.
+The info string takes `base=` to resolve against something else and `graph=` to
+collect several blocks into one graph.
+
+Because the graph name is the block, provenance needs no extra vocabulary: the
+block already carries its source, its selectors and its language. And because
+the triples sit in their own graph, a mapping reaches them through `GRAPH` and
+does so on purpose, so a block cannot be mistaken for something the structure
+said. A block that does not parse is reported and contributes nothing.
+
 ## Deliberately absent
 
-An arbitrary subject in running prose. Every project that added one ended up
-with sigils in the sentence, and the format's one hard requirement is that the
-prose reads as prose. A statement attaches to the section it sits in; to say
-something about another subject, open a heading for it.
+An arbitrary subject in running prose. Stating a subject, a predicate and an
+object inside a sentence needs three markers per statement, which is how every
+earlier attempt ended up with sigils in the text, and the one hard requirement
+here is that prose reads as prose. A statement attaches to the section it sits
+in. For anything that needs its own subject, open a heading or write a fence:
+that case is RDF, and RDF has a syntax already.
 
 ## Licence
 

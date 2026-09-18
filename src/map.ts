@@ -12,7 +12,7 @@ import { write } from './serialize.ts'
  */
 export function applyMapping(quads: Quad[], rules: string[]): Quad[] {
   const store = new oxigraph.Store()
-  store.load(write(quads, 'application/n-triples'), { format: 'application/n-triples' })
+  store.load(write(quads, 'application/n-quads'), { format: 'application/n-quads' })
   const out: Quad[] = []
   for (const rule of rules) {
     const result = store.query(rule)
