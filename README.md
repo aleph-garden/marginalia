@@ -24,7 +24,8 @@ with no edit to the corpus.
 
 ## What an author writes
 
-Three carriers, and only the first is syntax this format adds.
+Three carriers, and only the first is syntax this format adds. Frontmatter
+carries a fourth, which is the same three rules applied to a YAML mapping.
 
 A **statement line** states a fact about the section it sits in:
 
@@ -96,6 +97,60 @@ containment tree, which `po:contains` already covers.
 
 The test matters more than any single cut: without it the vocabulary grows by
 one plausible addition at a time until nobody can implement the format.
+
+## When a name already says what it means
+
+Deferral earns its place where the author had no vocabulary in mind. `broader`
+in a pile of notes is such a name, and the whole point of the split is that one
+corpus can serve several target vocabularies. Where the author has already
+chosen, deferral is a detour: mapping `urn:token:schema:name` to `schema:name`
+adds a rule that says a name means what it says.
+
+So a name that is already qualified is used as written, and only a bare one is
+deferred. Prefixes are declared in frontmatter, in the YAML-LD shape:
+
+```yaml
+---
+"@context":
+  schema: https://schema.org/
+"@type": schema:CreativeWork
+schema:name: Apollo 11
+status: draft
+---
+```
+
+```turtle
+<doc> a schema:CreativeWork ;
+      schema:name "Apollo 11" ;
+      urn:token:status "draft" .
+```
+
+The same rule runs everywhere a name appears, so a statement line and a gloss
+behave like a frontmatter key:
+
+```markdown
+schema:dateCreated :: 1969-07-16      # a term
+role               :: commander       # deferred
+kind               :: schema:Person   # a declared prefix in a value, too
+```
+
+A value is left alone unless its prefix is declared, because a value may be any
+text and a colon in one is not evidence of anything. A key is different: a colon
+there with nothing declared behind it is almost always a forgotten declaration,
+so `prefix-not-declared` says so and the name is deferred. JSON-LD would mint
+`schema:name` as an IRI with the scheme `schema`; saying so is the smaller
+surprise.
+
+## What a document is
+
+`@type` carries an IRI, and that is the whole of it. Which rules read a document
+of a given type is a question for whoever holds the rules, not for the document
+and not for this parser.
+
+A key naming a mapping file was the obvious alternative and is worse: a relative
+path needs a filesystem to resolve, which puts back the context this parser
+deliberately does without. A type is a name in RDF, and a deployment that wants
+to bind types to rule sets can say so in RDF, out of band.
 
 ## Sections
 
@@ -211,10 +266,6 @@ here is that prose reads as prose. A statement attaches to the section it sits
 in. For anything that needs its own subject, open a heading or write a fence:
 that case is RDF, and RDF has a syntax already.
 
-## Licence
-
-MIT.
-
 ## Profiles
 
 Two things a document may contain cannot be resolved from the document alone,
@@ -244,3 +295,9 @@ Nothing here stops a run. A producer reports, a consumer keeps working.
 | `wiki-link-off` | a wiki link was found while the profile is off |
 | `gloss-unused` | a link definition carries a name that nothing in the prose uses |
 | `fence-not-parsed` | an RDF block did not parse, or needs a hierarchical base |
+| `prefix-not-declared` | a key looks like a CURIE whose prefix no `@context` declares |
+| `context-not-read` | `@context` is not a mapping of prefix to namespace |
+
+## Licence
+
+MIT.

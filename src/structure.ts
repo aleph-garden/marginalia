@@ -4,6 +4,7 @@ import type { BlockContent, Heading, List, Paragraph, Root, RootContent } from '
 import { toString as mdToString } from 'mdast-util-to-string'
 import { DataFactory } from 'n3'
 import { parse as parseYaml } from 'yaml'
+import { type Context, readContext, resolveName, resolveValue } from './context.ts'
 import { parse } from './parse.ts'
 import { isRdfSyntax, parseFence } from './rdf-fence.ts'
 import { commonMarkLink, type Reference, wikiLink } from './reference.ts'
@@ -12,9 +13,7 @@ import { naming as defaultNaming, encodeIri, type Naming, ns, term } from './ter
 const { literal, namedNode, quad } = DataFactory
 
 /** A statement line: a name the author chose, and the value it takes. */
-const FIELD = /^([A-Za-z][A-Za-z0-9_.:-]*)\s+::\s+(.+)$/
-/** An Obsidian-style link, which CommonMark does not define. */
-const IRI = /^[a-z][a-z0-9+.-]*:/i
+const FIELD = /^([A-Za-z][A-Za-z0-9_.:\-/#%]*)\s+::\s+(.+)$/
 
 export interface Diagnostic {
   code:
@@ -26,6 +25,8 @@ export interface Diagnostic {
     | 'slug-collision'
     | 'wiki-link-off'
     | 'name-stated-twice'
+    | 'context-not-read'
+    | 'prefix-not-declared'
   message: string
   line?: number
 }
@@ -98,6 +99,8 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   let partIndex = 0
   const stack: { depth: number; node: NamedNode }[] = []
   const slugged = new Map<string, string>()
+  // Prefix declarations, which frontmatter supplies before anything else is read.
+  let context: Context = new Map()
 
   const openSection = (heading: Heading) => {
     const label = mdToString(heading)
@@ -170,6 +173,15 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
    * A statement value. A wiki link, an absolute IRI or a CommonMark link all
    * name something; anything else is the text itself.
    */
+  /** A predicate name, with a complaint when its prefix was never declared. */
+  const predicate = (name: string, line?: number): NamedNode => {
+    const { node, problem } = resolveName(name, context)
+    if (problem) diagnostics.push({ code: 'prefix-not-declared', message: problem, line })
+    return node
+  }
+
+  const literalOrResource = (raw: string): Quad_Object => resolveValue(raw, context) ?? literal(raw)
+
   const value = (raw: string, key: string, line?: number): Quad_Object => {
     const wiki = wikiLink(raw)
     if (wiki) {
@@ -183,7 +195,8 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       }
       return object(wiki, line)
     }
-    if (IRI.test(raw)) return namedNode(raw)
+    const resource = resolveValue(raw, context)
+    if (resource) return resource
     const inlineTree = parse(raw)
     const paragraph = inlineTree.children[0]
     if (paragraph?.type === 'paragraph' && paragraph.children.length === 1) {
@@ -223,7 +236,8 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
    */
   const inline = (node: BlockContent, line?: number) => {
     const state = (ref: Reference) => {
-      if (ref.name) emit(subject, namedNode(ns.token + encodeIri(ref.name)), object(ref, line))
+      // A name in a gloss is a name like any other, so it resolves the same way.
+      if (ref.name) emit(subject, predicate(ref.name, line), object(ref, line))
       else if (ref.kind !== 'none') emit(subject, term.references, object(ref, line))
     }
     const walk = (n: RootContent) => {
@@ -256,7 +270,7 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
         })
       emit(
         subject,
-        namedNode(ns.token + encodeIri(key)),
+        predicate(key, node.position?.start.line),
         value(raw, key, node.position?.start.line)
       )
     }
@@ -267,9 +281,27 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     switch (node.type) {
       case 'yaml': {
         const data = (parseYaml(node.value) ?? {}) as Record<string, unknown>
-        for (const [key, raw] of Object.entries(data))
+        const read = readContext(data['@context'])
+        context = read.context
+        for (const problem of read.problems)
+          diagnostics.push({
+            code: 'context-not-read',
+            message: problem,
+            line: node.position?.start.line
+          })
+        // What the document says it is. A type is an IRI, so which rules read
+        // a document of that type is a question for whoever holds the rules.
+        for (const one of [data['@type'] ?? []].flat())
+          emit(document, term.type, predicate(String(one), node.position?.start.line))
+        for (const [key, raw] of Object.entries(data)) {
+          if (key.startsWith('@')) continue
           for (const one of Array.isArray(raw) ? raw : [raw])
-            emit(document, namedNode(ns.token + encodeIri(key)), literal(String(one)))
+            emit(
+              document,
+              predicate(key, node.position?.start.line),
+              literalOrResource(String(one))
+            )
+        }
         break
       }
       case 'heading':
