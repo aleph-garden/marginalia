@@ -27,6 +27,7 @@ export interface Diagnostic {
     | 'name-stated-twice'
     | 'context-not-read'
     | 'prefix-not-declared'
+    | 'id-not-absolute'
   message: string
   line?: number
 }
@@ -74,7 +75,22 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   const diagnostics: Diagnostic[] = []
   const emit = (s: NamedNode, p: NamedNode, o: Quad_Object) => quads.push(quad(s, p, o) as Quad)
 
-  const document = mint.document(name)
+  // Frontmatter is read before anything is emitted, because it may say what the
+  // document is called. A minted name is a placeholder for a document that has
+  // not been told its own IRI; where it has, the placeholder is not wanted.
+  const frontmatter = tree.children.find((n) => n.type === 'yaml')
+  const head = (frontmatter ? (parseYaml(frontmatter.value) ?? {}) : {}) as Record<string, unknown>
+  const declared = head['@id']
+  let document = mint.document(name)
+  if (typeof declared === 'string') {
+    if (/^[a-z][a-z0-9+.-]*:/i.test(declared)) document = namedNode(declared)
+    else
+      diagnostics.push({
+        code: 'id-not-absolute',
+        message: `@id "${declared}" is relative, and resolving it needs a base this parser is not given`,
+        line: frontmatter?.position?.start.line
+      })
+  }
   emit(document, term.type, term.Document)
 
   /** The source slice a node covers, which is what a quote selector records. */
@@ -280,7 +296,7 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   for (const node of tree.children) {
     switch (node.type) {
       case 'yaml': {
-        const data = (parseYaml(node.value) ?? {}) as Record<string, unknown>
+        const data = head
         const read = readContext(data['@context'])
         context = read.context
         for (const problem of read.problems)

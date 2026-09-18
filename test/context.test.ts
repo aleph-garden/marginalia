@@ -91,3 +91,39 @@ describe('one rule everywhere', () => {
     expect(out).toContainEqual(['urn:token:pilot', 'Buzz'])
   })
 })
+
+describe('@id', () => {
+  const DECLARED = '---\n"@id": https://pod.toph.so/weltbild/apollo\n---\n# Apollo 11\n'
+
+  test('a document that knows its IRI does not get a minted one', () => {
+    const result = structure(DECLARED, { name: 'ignored' })
+    expect(result.document.value).toBe('https://pod.toph.so/weltbild/apollo')
+  })
+
+  test('sections hang off the declared IRI as real fragments', () => {
+    const result = structure(DECLARED, { name: 'ignored' })
+    const section = result.quads.find((q) => q.predicate.value === `${ns.rdfs}label`)
+    expect(section?.subject.value).toBe('https://pod.toph.so/weltbild/apollo#apollo-11')
+  })
+
+  test('slices still point at the document they were cut from', () => {
+    const result = structure(DECLARED, { name: 'ignored' })
+    const source = result.quads.find((q) => q.predicate.value === `${ns.oa}hasSource`)
+    expect(source?.object.value).toBe('https://pod.toph.so/weltbild/apollo')
+  })
+
+  test('a relative @id is reported, because resolving it needs a base', () => {
+    const result = structure('---\n"@id": ./apollo\n---\n# A\n', { name: 'doc' })
+    expect(result.diagnostics.map((d) => d.code)).toEqual(['id-not-absolute'])
+    expect(result.document.value).toBe('urn:doc:doc')
+  })
+
+  test('what a document is and what it is about stay two things', () => {
+    const md =
+      '---\n"@context":\n  schema: https://schema.org/\n"@id": https://pod.toph.so/a\nschema:about: https://dbpedia.org/resource/Apollo_11\n---\n'
+    const result = structure(md, { name: 'doc' })
+    const about = result.quads.find((q) => q.predicate.value === 'https://schema.org/about')
+    expect(about?.subject.value).toBe('https://pod.toph.so/a')
+    expect(about?.object.value).toBe('https://dbpedia.org/resource/Apollo_11')
+  })
+})

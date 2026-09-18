@@ -152,6 +152,39 @@ path needs a filesystem to resolve, which puts back the context this parser
 deliberately does without. A type is a name in RDF, and a deployment that wants
 to bind types to rule sets can say so in RDF, out of band.
 
+## What a document is called
+
+`@id` gives the document its own IRI, and everything cut from it follows:
+sections become real fragments of it, and every slice points back at it.
+
+```yaml
+---
+"@id": https://pod.toph.so/weltbild/apollo
+---
+# Apollo 11
+```
+
+```turtle
+<https://pod.toph.so/weltbild/apollo#apollo-11>
+    a doco:Section ; oa:hasSource <https://pod.toph.so/weltbild/apollo> .
+```
+
+Without it, a name is minted under `urn:doc:` as a placeholder for a document
+that has not been told what it is called. A relative `@id` is reported, for the
+same reason a relative link target above the document is: resolving it needs a
+base this parser is not given.
+
+What a document is called and what it is about are two things, and only the
+first needs a mechanism. A note about Neil Armstrong is not Neil Armstrong, and
+RDF has had words for that relationship for twenty years:
+
+```yaml
+"@id": https://pod.toph.so/weltbild/apollo
+schema:about: https://dbpedia.org/resource/Apollo_11
+```
+
+That is an ordinary statement under the rule above, so nothing here defines it.
+
 ## Sections
 
 CommonMark has no sections. Its tree has headings as siblings of the blocks that
@@ -297,6 +330,7 @@ Nothing here stops a run. A producer reports, a consumer keeps working.
 | `fence-not-parsed` | an RDF block did not parse, or needs a hierarchical base |
 | `prefix-not-declared` | a key looks like a CURIE whose prefix no `@context` declares |
 | `context-not-read` | `@context` is not a mapping of prefix to namespace |
+| `id-not-absolute` | `@id` is relative, and resolving it needs a base this parser is not given |
 
 ## Licence
 
