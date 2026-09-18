@@ -6,18 +6,23 @@ import { DataFactory } from 'n3'
 import { parse as parseYaml } from 'yaml'
 import { parse } from './parse.ts'
 import { isRdfSyntax, parseFence } from './rdf-fence.ts'
-import { naming as defaultNaming, type Naming, ns, term } from './terms.ts'
+import { commonMarkLink, type Reference, wikiLink } from './reference.ts'
+import { naming as defaultNaming, encodeIri, type Naming, ns, term } from './terms.ts'
 
 const { literal, namedNode, quad } = DataFactory
 
 /** A statement line: a name the author chose, and the value it takes. */
-const FIELD = /^([A-Za-z][A-Za-z0-9_.:-]*) :: (.+)$/
+const FIELD = /^([A-Za-z][A-Za-z0-9_.:-]*)\s+::\s+(.+)$/
 /** An Obsidian-style link, which CommonMark does not define. */
-const WIKI = /^\[\[([^\]|]+)(?:\|[^\]]*)?\]\]$/
 const IRI = /^[a-z][a-z0-9+.-]*:/i
 
 export interface Diagnostic {
-  code: 'heading-level-skipped' | 'gloss-unused' | 'value-looks-plural' | 'fence-not-parsed'
+  code:
+    | 'heading-level-skipped'
+    | 'gloss-unused'
+    | 'value-looks-plural'
+    | 'fence-not-parsed'
+    | 'reference-unresolved'
   message: string
   line?: number
 }
@@ -131,10 +136,29 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     return part
   }
 
-  const value = (raw: string): Quad_Object => {
-    const wiki = raw.match(WIKI)
-    if (wiki?.[1]) return mint.reference(wiki[1], document)
+  /** One reference, whichever spelling it was written in, as an RDF object. */
+  const object = (ref: Reference, line?: number): Quad_Object => {
+    if (ref.problem) diagnostics.push({ code: 'reference-unresolved', message: ref.problem, line })
+    if (ref.kind === 'none') return literal(ref.anchor)
+    if (ref.kind === 'iri') return namedNode(ref.target)
+    return mint.reference(ref.target, document)
+  }
+
+  /**
+   * A statement value. A wiki link, an absolute IRI or a CommonMark link all
+   * name something; anything else is the text itself.
+   */
+  const value = (raw: string, line?: number): Quad_Object => {
+    const wiki = wikiLink(raw)
+    if (wiki) return object(wiki, line)
     if (IRI.test(raw)) return namedNode(raw)
+    const inlineTree = parse(raw)
+    const paragraph = inlineTree.children[0]
+    if (paragraph?.type === 'paragraph' && paragraph.children.length === 1) {
+      const only = paragraph.children[0]
+      if (only?.type === 'link')
+        return object(commonMarkLink(mdToString(only), only.url, only.title), line)
+    }
     return literal(raw)
   }
 
@@ -151,28 +175,24 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       : null
   }
 
-  const inline = (node: BlockContent) => {
+  /**
+   * References in running prose. A name makes the reference a statement; no
+   * name makes it a plain reference. The anchor text gets no triple of its
+   * own: it is already in the quote selector of the part it sits in.
+   */
+  const inline = (node: BlockContent, line?: number) => {
+    const state = (ref: Reference) => {
+      if (ref.name) emit(subject, namedNode(ns.token + encodeIri(ref.name)), object(ref, line))
+      else if (ref.kind !== 'none') emit(subject, term.references, object(ref, line))
+    }
     const walk = (n: RootContent) => {
-      if (n.type === 'link' && n.title) {
-        // A typed edge: the title slot carries the name, the destination the object.
-        emit(
-          subject,
-          namedNode(ns.token + encodeURIComponent(n.title)),
-          n.url === '' ? literal(mdToString(n)) : mint.reference(n.url, document)
-        )
-      } else if (n.type === 'link') {
-        const target = mint.reference(n.url, document)
-        emit(subject, term.references, target)
-        emit(target, term.label, literal(mdToString(n)))
+      if (n.type === 'link') {
+        state(commonMarkLink(mdToString(n), n.url, n.title))
       } else if (n.type === 'linkReference') {
         const def = gloss.get(n.identifier)
         if (def) {
           usedGloss.add(n.identifier)
-          emit(
-            subject,
-            namedNode(ns.token + encodeURIComponent(def.pred)),
-            def.url === '' ? literal(mdToString(n)) : mint.reference(def.url, document)
-          )
+          state(commonMarkLink(mdToString(n), def.url, def.pred))
         }
       }
       for (const child of (n as { children?: RootContent[] }).children ?? []) walk(child)
@@ -193,7 +213,7 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
           message: `"${key}" holds several links in one line; repeat the key instead`,
           line: node.position?.start.line
         })
-      emit(subject, namedNode(ns.token + encodeURIComponent(key)), value(raw))
+      emit(subject, namedNode(ns.token + encodeIri(key)), value(raw, node.position?.start.line))
     }
     return true
   }
@@ -204,7 +224,7 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
         const data = (parseYaml(node.value) ?? {}) as Record<string, unknown>
         for (const [key, raw] of Object.entries(data))
           for (const one of Array.isArray(raw) ? raw : [raw])
-            emit(document, namedNode(ns.token + encodeURIComponent(key)), literal(String(one)))
+            emit(document, namedNode(ns.token + encodeIri(key)), literal(String(one)))
         break
       }
       case 'heading':
@@ -244,7 +264,7 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       case 'paragraph':
         if (!statements(node as Paragraph)) {
           addPart('p', node as Paragraph, [term.Paragraph])
-          inline(node as Paragraph)
+          inline(node as Paragraph, node.position?.start.line)
         }
         break
       default:

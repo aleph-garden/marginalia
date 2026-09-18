@@ -70,6 +70,19 @@ export interface Naming {
   reference(target: string, from: NamedNode): NamedNode
 }
 
+/**
+ * Percent-encode only what an IRI cannot carry at this position.
+ *
+ * RFC 3986 allows `pchar / "/" / "?"` in a fragment, and RFC 8141 allows
+ * `pchar *(pchar / "/")` in a URN's namespace-specific string, so a slash, a
+ * colon and an at-sign stay as they are. `encodeURIComponent` escapes all
+ * three and would turn a hierarchical IRI into an opaque one, which breaks a
+ * naming that mints real URLs.
+ */
+const SAFE = /[A-Za-z0-9\-._~!$&'()*+,;=:@/?]/
+export const encodeIri = (value: string): string =>
+  [...value].map((c) => (SAFE.test(c) ? c : encodeURIComponent(c))).join('')
+
 const frag = (iri: string, suffix: string) =>
   namedNode(iri.includes('#') ? `${iri}.${suffix}` : `${iri}#${suffix}`)
 
@@ -79,17 +92,17 @@ const frag = (iri: string, suffix: string) =>
  * mint IRIs that dereference.
  */
 export function naming(base = 'urn:doc:'): Naming {
-  const doc = (name: string) => namedNode(base + encodeURIComponent(name))
+  const doc = (name: string) => namedNode(base + encodeIri(name))
   return {
     document: doc,
-    section: (document, heading) => frag(document.value, encodeURIComponent(heading)),
+    section: (document, heading) => frag(document.value, encodeIri(heading)),
     part: (section, kind, index) => frag(section.value, `${kind}${index}`),
     selector: (of, index) => frag(of.value, `sel${index}`),
     reference: (target, from) => {
       if (/^[a-z][a-z0-9+.-]*:/i.test(target)) return namedNode(target)
       const [name, heading] = target.split('#')
       const document = name ? doc(name.replace(/\.md$/, '')) : from
-      return heading ? frag(document.value, encodeURIComponent(heading)) : document
+      return heading ? frag(document.value, encodeIri(heading)) : document
     }
   }
 }
