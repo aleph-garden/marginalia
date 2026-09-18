@@ -105,10 +105,20 @@ a heading of depth *n* opens a section contained by the nearest open section of
 lesser depth. The same derivation is written down as the HTML document outline
 and implemented by `pandoc --section-divs` and `remark-sectionize`.
 
-A section is identified by its heading text, never by its position, so inserting
-a paragraph above a heading leaves every reference to it intact. A jump of more
-than one level is reported as a diagnostic and still nests, which is how HTML
-treats it.
+A section is identified by the slug of its heading, never by its position, so
+inserting a paragraph above a heading leaves every reference to it intact. The
+slug is the one `github-slugger` produces, which is the identifier `rehype-slug`
+writes into rendered HTML, so `[…](other.md#some-heading)` names the same
+section that other document mints for itself. A jump of more than one level is
+reported and still nests, which is how HTML treats it.
+
+The slug is flat rather than qualified by the sections above it, and each side
+of that costs something. Flat keeps a cross-document reference working without
+an index: a writer naming `other.md#skills` has no way to know whether that
+section sits under `#bio` or under `#work` over there. The cost is that two
+sections with the same heading under different parents become one node. Where
+the headings differ only in punctuation, `slug-collision` reports it; where they
+are the same word, they merge silently and renaming one is the only fix.
 
 ## Use
 
@@ -204,3 +214,33 @@ that case is RDF, and RDF has a syntax already.
 ## Licence
 
 MIT.
+
+## Profiles
+
+Two things a document may contain cannot be resolved from the document alone,
+so a producer says whether it can supply what they need.
+
+**Wiki links.** `[[some-note]]` is not CommonMark, and its target is a name
+resolved by searching a collection rather than a reference resolved against a
+base. `structure(markdown, { wikiLinks: false })` leaves them as text and
+reports `wiki-link-off`. They are on by default, because a vault is the common
+case; a producer working on loose files turns them off.
+
+**RDF in a fence.** A block states real IRIs directly, skipping the deferral
+every other carrier goes through, so it lands in its own graph rather than
+among the structural triples. See above.
+
+## Diagnostics
+
+Nothing here stops a run. A producer reports, a consumer keeps working.
+
+| Code | What it means |
+|---|---|
+| `heading-level-skipped` | a heading jumped more than one level, which HTML calls non-conforming |
+| `slug-collision` | two headings that differ only in punctuation share one identifier |
+| `value-looks-plural` | a statement line holds several links; repeat the key instead |
+| `name-stated-twice` | a statement key already names the triple, so a title on its value was ignored |
+| `reference-unresolved` | a path points above the document, which needs a base this parser is not given |
+| `wiki-link-off` | a wiki link was found while the profile is off |
+| `gloss-unused` | a link definition carries a name that nothing in the prose uses |
+| `fence-not-parsed` | an RDF block did not parse, or needs a hierarchical base |
