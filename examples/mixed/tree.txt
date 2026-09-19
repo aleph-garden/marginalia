@@ -1,0 +1,34 @@
+urn:doc:mixed  (schema:DigitalDocument, schema:Event)
+│ schema:startDate "2026-09-25T10:00:00Z"
+└─ planning-weekly  (doco:Section, oa:ResourceSelection)  Planning, weekly
+   ├─ planning-weekly.p1  (oa:ResourceSelection, doco:Paragraph)  Two shipped readings of one note. The frontmatter types the doc…
+   ├─ attending  (doco:Section, oa:ResourceSelection)  Attending
+   │  │ attendee → urn:doc:people/toph
+   │  │ attendee → urn:doc:people/cristian
+   │  │ scribe "Toph"
+   │  └─ attending.p1  (oa:ResourceSelection, doco:Paragraph)  Notes were taken by [Toph](<> "scribe").
+   ├─ decisions  (doco:Section, oa:ResourceSelection)  Decisions
+   │  └─ decisions.l1  (oa:ResourceSelection, doco:List)  - ship one rule per kind of document - key a rule on the type, …
+   │     ├─ decisions.l1.i1  (oa:ResourceSelection, schema:ListItem)  ship one rule per kind of document
+   │     │    schema:position "1"
+   │     └─ decisions.l1.i2  (oa:ResourceSelection, schema:ListItem)  key a rule on the type, never on a heading
+   │          schema:position "2"
+   ├─ action-items  (doco:Section, oa:ResourceSelection, http://www.w3.org/2005/01/wf/flow#Tracker)  Action items
+   │  ├─ action-items.l1  (oa:ResourceSelection, doco:List)  - Write the task reading - [x] Read the Flow ontology - [ ] Che…
+   │  │  ├─ action-items.l1.i1  (oa:ResourceSelection, schema:ListItem)  Write the task reading
+   │  │  │  │ schema:position "1"
+   │  │  │  └─ action-items.l1.i1.l1  (oa:ResourceSelection, doco:List)  - [x] Read the Flow ontology - [ ] Check what nesting means
+   │  │  │     ├─ action-items.l1.i1.l1.i1  (oa:ResourceSelection, schema:ListItem)  Read the Flow ontology
+   │  │  │     │    schema:position "1"
+   │  │  │     │    mg:checked "true"
+   │  │  │     └─ action-items.l1.i1.l1.i2  (oa:ResourceSelection, schema:ListItem)  Check what nesting means
+   │  │  │          schema:position "2"
+   │  │  │          mg:checked "false"
+   │  │  └─ action-items.l1.i2  (oa:ResourceSelection, schema:ListItem)  Send the minutes round
+   │  │       schema:position "2"
+   │  └─ action-items.p2  (oa:ResourceSelection, doco:Paragraph)  The type on a section keeps the two apart. The task list is `po…
+   └─ open  (doco:Section, oa:ResourceSelection)  Open
+      │ open "whether a rule may follow an `@subject` redirect"
+      │ owner → urn:doc:people/cristian
+      │ due "2026-10-09"
+      └─ open.q1  (oa:ResourceSelection, doco:BlockQuotation)  > A rule that follows the redirect reads the thing the section …

@@ -1,0 +1,32 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX doco: <http://purl.org/spar/doco/>
+PREFIX po:   <http://www.essepuntato.it/2008/12/pattern#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX tok:  <urn:token:>
+
+# A concept scheme. Whatever carries skos:ConceptScheme holds the concepts, one
+# per section directly under it: the heading is the preferred label, the plain
+# names the author wrote become SKOS, and a quotation is a scope note.
+CONSTRUCT {
+  ?c a skos:Concept ;
+     skos:inScheme ?scheme ;
+     skos:prefLabel ?label ;
+     skos:altLabel ?alias ;
+     skos:broader ?broader ;
+     skos:related ?related ;
+     skos:scopeNote ?note .
+}
+WHERE {
+  ?scheme a skos:ConceptScheme ; po:contains ?c .
+  ?c a doco:Section ; rdfs:label ?label .
+  OPTIONAL { ?c tok:alias ?alias }
+  OPTIONAL { ?c tok:broader ?broader }
+  OPTIONAL { ?c tok:related ?related }
+  OPTIONAL {
+    ?c po:contains [ a doco:BlockQuotation ; oa:hasSelector [ oa:exact ?quoted ] ] .
+    # oa:exact is the source slice, so the quote markers are inside it and
+    # taking them off is the mapping's job rather than the parser's.
+    BIND(REPLACE(REPLACE(?quoted, "^> ", "", "m"), "\n", " ") AS ?note)
+  }
+}

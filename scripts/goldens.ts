@@ -11,6 +11,8 @@ import { applyMapping, structure, tree, write } from '../src/index.ts'
  * an example is read more often than it is parsed.
  */
 const EXAMPLES = join(import.meta.dir, '..', 'examples')
+const MAPPINGS = join(import.meta.dir, '..', 'mappings')
+const shipped = readdirSync(MAPPINGS).filter((file) => file.endsWith('.rq'))
 
 for (const name of readdirSync(EXAMPLES, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
@@ -27,13 +29,26 @@ for (const name of readdirSync(EXAMPLES, { withFileTypes: true })
   // What a person reads. The Turtle beside it is what the tests check.
   writeFileSync(join(dir, 'tree.txt'), `${tree(quads)}\n`)
 
-  const rules = readdirSync(dir).filter((file) => file.endsWith('.rq'))
-  for (const rule of rules) {
+  const local = readdirSync(dir).filter((file) => file.endsWith('.rq'))
+  for (const rule of local) {
     const meaning = applyMapping(quads, [readFileSync(join(dir, rule), 'utf8')])
     writeFileSync(join(dir, rule.replace(/\.rq$/, '.ttl')), write(meaning))
   }
 
-  const counts = `${quads.length} triples, ${rules.length} mapping${rules.length === 1 ? '' : 's'}`
+  // Every shipped rule is run against every example as well. A local rule of
+  // the same name owns the golden, and a rule the example declares no type for
+  // reads nothing and leaves no file behind.
+  let goldens = local.length
+  for (const rule of shipped.filter((file) => !local.includes(file))) {
+    const golden = join(dir, rule.replace(/\.rq$/, '.ttl'))
+    const meaning = applyMapping(quads, [readFileSync(join(MAPPINGS, rule), 'utf8')])
+    if (meaning.length) {
+      writeFileSync(golden, write(meaning))
+      goldens++
+    } else if (existsSync(golden)) rmSync(golden)
+  }
+
+  const counts = `${quads.length} triples, ${goldens} mapping${goldens === 1 ? '' : 's'}`
   const noise = diagnostics.length ? `, ${diagnostics.length} diagnostics` : ''
   console.log(`${name.padEnd(18)} ${graphFile.padEnd(10)} ${counts}${noise}`)
   for (const d of diagnostics) console.log(`${' '.repeat(18)} ${d.code}: ${d.message}`)

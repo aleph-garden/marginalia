@@ -1,0 +1,25 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:mixed#action-items.l1.i2> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Send the minutes round";
+    <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
+    a <http://www.w3.org/2005/01/wf/flow#Open>.
+<urn:doc:mixed#action-items.l1.i1> <http://www.w3.org/2005/01/wf/flow#dependent> <urn:doc:mixed#action-items.l1.i1.l1.i2>;
+    <http://www.w3.org/2005/01/wf/flow#goalDescription> "Write the task reading";
+    <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
+    a <http://www.w3.org/2005/01/wf/flow#Open>;
+    <http://www.w3.org/2005/01/wf/flow#dependent> <urn:doc:mixed#action-items.l1.i1.l1.i1>.
+<urn:doc:mixed#action-items.l1.i1.l1.i2> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Check what nesting means";
+    <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
+    a <http://www.w3.org/2005/01/wf/flow#Open>.
+<urn:doc:mixed#action-items.l1.i1.l1.i1> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Read the Flow ontology";
+    <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
+    a <http://www.w3.org/2005/01/wf/flow#Closed>.

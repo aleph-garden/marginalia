@@ -1,0 +1,16 @@
+urn:doc:todo  (schema:DigitalDocument, http://www.w3.org/2005/01/wf/flow#Tracker)
+└─ breakfast  (doco:Section, oa:ResourceSelection)  Breakfast
+   │ dct:references → https://github.com/w3c-cg/solid/issues/69
+   ├─ breakfast.l1  (oa:ResourceSelection, doco:List)  - Make Breakfast - [x] Cook eggs - [ ] Toast bread
+   │  └─ breakfast.l1.i1  (oa:ResourceSelection, schema:ListItem)  Make Breakfast
+   │     │ schema:position "1"
+   │     └─ breakfast.l1.i1.l1  (oa:ResourceSelection, doco:List)  - [x] Cook eggs - [ ] Toast bread
+   │        ├─ breakfast.l1.i1.l1.i1  (oa:ResourceSelection, schema:ListItem)  Cook eggs
+   │        │    schema:position "1"
+   │        │    mg:checked "true"
+   │        └─ breakfast.l1.i1.l1.i2  (oa:ResourceSelection, schema:ListItem)  Toast bread
+   │             schema:position "2"
+   │             mg:checked "false"
+   ├─ breakfast.p2  (oa:ResourceSelection, doco:Paragraph)  That list is the one from the discussion of a common markdown-t…
+   ├─ breakfast.p3  (oa:ResourceSelection, doco:Paragraph)  Flow defines `wf:Task` as the disjoint union of `wf:Open` and `…
+   └─ breakfast.p4  (oa:ResourceSelection, doco:Paragraph)  An entry is already an identified slice of this file, so a task…

@@ -14,13 +14,13 @@
     schema:agent <urn:doc:people/toph>;
     schema:text "wiki links, core or profile";
     a <https://example.org/meeting#OpenQuestion>.
-<urn:doc:meeting#decisions.l2.i1> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
-    schema:text "borrow the parser";
+<urn:doc:meeting#decisions.l2.i2> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
+    schema:text "one added production, and only one";
     a <https://example.org/meeting#Decision>.
 <urn:doc:meeting> <https://example.org/meeting#scribe> "Toph";
     <https://example.org/meeting#apologies> <urn:doc:people/ruben>;
     schema:attendee <urn:doc:people/jesse>.
-<urn:doc:meeting#decisions.l2.i2> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
-    schema:text "one added production, and only one";
+<urn:doc:meeting#decisions.l2.i1> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
+    schema:text "borrow the parser";
     a <https://example.org/meeting#Decision>.
 <urn:doc:meeting> schema:attendee <urn:doc:people/cristian>, <urn:doc:people/toph>.

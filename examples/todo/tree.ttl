@@ -1,0 +1,87 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:todo> a schema:DigitalDocument, <http://www.w3.org/2005/01/wf/flow#Tracker>.
+<urn:doc:todo#breakfast> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:todo>;
+    rdfs:label "Breakfast";
+    marginalia:depth 1;
+    marginalia:anchor "breakfast";
+    oa:hasSelector <urn:doc:todo#breakfast.sel0>.
+<urn:doc:todo#breakfast.sel0> a oa:FragmentSelector;
+    rdf:value "Breakfast".
+<urn:doc:todo> po:contains <urn:doc:todo#breakfast>.
+<urn:doc:todo#breakfast> po:isContainedBy <urn:doc:todo>;
+    po:contains <urn:doc:todo#breakfast.l1>.
+<urn:doc:todo#breakfast.l1> po:isContainedBy <urn:doc:todo#breakfast>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.l1.sel0>.
+<urn:doc:todo#breakfast.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Make Breakfast\n    - [x] Cook eggs\n    - [ ] Toast bread".
+<urn:doc:todo#breakfast.l1> po:contains <urn:doc:todo#breakfast.l1.i1>.
+<urn:doc:todo#breakfast.l1.i1> po:isContainedBy <urn:doc:todo#breakfast.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.l1.i1.sel0>.
+<urn:doc:todo#breakfast.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Make Breakfast\n    - [x] Cook eggs\n    - [ ] Toast bread".
+<urn:doc:todo#breakfast.l1.i1> schema:position 1;
+    rdfs:label "Make Breakfast";
+    po:contains <urn:doc:todo#breakfast.l1.i1.l1>.
+<urn:doc:todo#breakfast.l1.i1.l1> po:isContainedBy <urn:doc:todo#breakfast.l1.i1>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.l1.i1.l1.sel0>.
+<urn:doc:todo#breakfast.l1.i1.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- [x] Cook eggs\n    - [ ] Toast bread".
+<urn:doc:todo#breakfast.l1.i1.l1> po:contains <urn:doc:todo#breakfast.l1.i1.l1.i1>.
+<urn:doc:todo#breakfast.l1.i1.l1.i1> po:isContainedBy <urn:doc:todo#breakfast.l1.i1.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.l1.i1.l1.i1.sel0>.
+<urn:doc:todo#breakfast.l1.i1.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- [x] Cook eggs".
+<urn:doc:todo#breakfast.l1.i1.l1.i1> schema:position 1;
+    marginalia:checked true;
+    rdfs:label "Cook eggs".
+<urn:doc:todo#breakfast.l1.i1.l1> po:contains <urn:doc:todo#breakfast.l1.i1.l1.i2>.
+<urn:doc:todo#breakfast.l1.i1.l1.i2> po:isContainedBy <urn:doc:todo#breakfast.l1.i1.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.l1.i1.l1.i2.sel0>.
+<urn:doc:todo#breakfast.l1.i1.l1.i2.sel0> a oa:TextQuoteSelector;
+    oa:exact "- [ ] Toast bread".
+<urn:doc:todo#breakfast.l1.i1.l1.i2> schema:position 2;
+    marginalia:checked false;
+    rdfs:label "Toast bread".
+<urn:doc:todo#breakfast> po:contains <urn:doc:todo#breakfast.p2>.
+<urn:doc:todo#breakfast.p2> po:isContainedBy <urn:doc:todo#breakfast>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.p2.sel0>.
+<urn:doc:todo#breakfast.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "That list is the one from the discussion of a common markdown-to-RDF syntax,\n[w3c-cg/solid#69](https://github.com/w3c-cg/solid/issues/69), where it is\nwritten out by hand as three tasks in the Flow ontology. Here it is three\nordinary list entries, and `mappings/todo.rq` reads the same graph out of them\nbecause the frontmatter says the document is a `wf:Tracker`.".
+<urn:doc:todo#breakfast> dct:references <https://github.com/w3c-cg/solid/issues/69>;
+    po:contains <urn:doc:todo#breakfast.p3>.
+<urn:doc:todo#breakfast.p3> po:isContainedBy <urn:doc:todo#breakfast>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.p3.sel0>.
+<urn:doc:todo#breakfast.p3.sel0> a oa:TextQuoteSelector;
+    oa:exact "Flow defines `wf:Task` as the disjoint union of `wf:Open` and `wf:Closed`, which\nis what a GFM box carries: a ticked entry is closed, and an entry with no box at\nall is open. `wf:goalDescription` takes the entry's label, and `wf:dependent`\nfollows the nesting, so the outer entry waits on the two under it.".
+<urn:doc:todo#breakfast> po:contains <urn:doc:todo#breakfast.p4>.
+<urn:doc:todo#breakfast.p4> po:isContainedBy <urn:doc:todo#breakfast>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:todo>;
+    oa:hasSelector <urn:doc:todo#breakfast.p4.sel0>.
+<urn:doc:todo#breakfast.p4.sel0> a oa:TextQuoteSelector;
+    oa:exact "An entry is already an identified slice of this file, so a task needs no\nidentifier of its own and the rule mints none. The hand-written graph in the\nissue also carries `task:stateStore`, which says where the tracker's state is\nkept; a markdown file says nothing about that, so this reading leaves it out.".

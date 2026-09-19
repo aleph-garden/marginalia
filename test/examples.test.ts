@@ -7,6 +7,8 @@ import { isomorphic } from 'rdf-isomorphic'
 import { applyMapping, structure } from '../src/index.ts'
 
 const EXAMPLES = join(import.meta.dir, '..', 'examples')
+const MAPPINGS = join(import.meta.dir, '..', 'mappings')
+const shipped = readdirSync(MAPPINGS).filter((f) => f.endsWith('.rq'))
 const parse = (source: string, format = 'application/trig') =>
   new Parser({ format }).parse(source) as Quad[]
 
@@ -43,11 +45,25 @@ describe('examples', () => {
 
     // Each rule file has a golden of the same name, so one document can show
     // several vocabularies read out of it.
-    for (const rule of readdirSync(dir).filter((f) => f.endsWith('.rq'))) {
+    const local = readdirSync(dir).filter((f) => f.endsWith('.rq'))
+    for (const rule of local) {
       test(`${name}: ${rule} matches its golden`, () => {
         const meaning = applyMapping(result.quads, [readFileSync(join(dir, rule), 'utf8')])
         const golden = readFileSync(join(dir, rule.replace(/\.rq$/, '.ttl')), 'utf8')
         same(meaning, parse(golden, 'text/turtle'))
+      })
+    }
+
+    // Every shipped rule runs against every example, and an example that
+    // declares the type one reads has a golden of that rule's name beside it.
+    // A local rule of the same name owns the golden, so an example is free to
+    // keep a reading of its own.
+    for (const rule of shipped.filter((r) => !local.includes(r))) {
+      test(`${name}: mappings/${rule} matches its golden`, () => {
+        const meaning = applyMapping(result.quads, [readFileSync(join(MAPPINGS, rule), 'utf8')])
+        const golden = join(dir, rule.replace(/\.rq$/, '.ttl'))
+        expect(existsSync(golden)).toBe(meaning.length > 0)
+        if (meaning.length > 0) same(meaning, parse(readFileSync(golden, 'utf8'), 'text/turtle'))
       })
     }
   }

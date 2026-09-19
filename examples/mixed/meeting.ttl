@@ -1,0 +1,25 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:mixed#open.open> schema:description "A rule that follows the redirect reads the thing the section names. A rule that stays put reads the section.";
+    schema:scheduledTime "2026-10-09";
+    schema:agent <urn:doc:people/cristian>;
+    schema:text "whether a rule may follow an `@subject` redirect";
+    a <https://example.org/meeting#OpenQuestion>.
+<urn:doc:mixed#decisions.l1.i2> <https://example.org/meeting#takenIn> <urn:doc:mixed#decisions>;
+    schema:text "key a rule on the type, never on a heading";
+    a <https://example.org/meeting#Decision>.
+<urn:doc:mixed> <https://example.org/meeting#scribe> "Toph";
+    schema:attendee <urn:doc:people/cristian>.
+<urn:doc:mixed#decisions.l1.i1> <https://example.org/meeting#takenIn> <urn:doc:mixed#decisions>;
+    schema:text "ship one rule per kind of document";
+    a <https://example.org/meeting#Decision>.
+<urn:doc:mixed> schema:attendee <urn:doc:people/toph>.
