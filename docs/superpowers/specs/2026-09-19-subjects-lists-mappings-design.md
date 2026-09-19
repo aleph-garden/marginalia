@@ -46,8 +46,10 @@ resolves to a literal is reported as `subject-not-a-name` and ignored.
 
 Frontmatter gets the same key by the existing rule that frontmatter is the
 three carriers applied to a YAML mapping: `@subject` there redirects the
-frontmatter statements and everything before the first heading. `@id` keeps
-its job of naming the document.
+frontmatter statements, including `@type`, and everything below, since the
+document is the root of the containment tree and sections inherit from it as
+they inherit from each other. A note that is about one thing states that once.
+`@id` keeps its job of naming the document.
 
 Scope starts at the line, so a statement above `@subject` in the same section
 stays on the section. That is what a reader of the source sees, and it keeps
@@ -99,9 +101,14 @@ A list that is not a statement list (the existing rule: every line matches
 
 - **Item IRI**: `mint.part(list, 'i', n)`, so `…l1.i2`, `…l1.i2.l1.i1` for a
   nested one. Same naming rule as every other part.
-- **Type**: `schema:ListItem`. DoCO defines `List` and no item class; PO has
-  none either. schema.org is already in the structural vocabulary, and
-  `ListItem` brings `position` with it.
+- **Type**: `schema:ListItem`. DoCO defines `List` and no item class. Its
+  restriction on what a list contains names PO's pattern classes, `po:Block`,
+  `po:Field` or a plain `po:Container`, which type an item by its shape (text
+  only, or blocks inside) and carry no position; a mapping would have to
+  match two classes and still lack the order. One class that brings
+  `position` with it is worth more, and schema.org is already in the
+  structural vocabulary. The DoCO restriction is neither satisfied nor
+  contradicted, and the README's vocabulary section says so in a sentence.
 - **`schema:position`**: 1-based, `xsd:integer`. Lists are ordered by nature
   and nothing else in the graph says the order.
 - **`rdfs:label`**: the plain text of the item's first paragraph, the way a
