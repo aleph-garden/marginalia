@@ -177,6 +177,18 @@ surprise.
 of a given type is a question for whoever holds the rules, not for the document
 and not for this parser.
 
+This repository holds a set of them in `mappings/`, one file per kind of
+document, each bound to the type it reads: `skos.rq` to `skos:ConceptScheme`,
+`meeting.rq` to `schema:Event`, `todo.rq` to `wf:Tracker` from the Flow
+ontology. A rule matches the type and reaches content by containment from
+whatever carries it, so a section may declare a type and be read on its own: an
+`## Action items` section typed `wf:Tracker` holds the list its rule wants one
+`po:contains` away. `map doc.md mappings/*.rq` reads a document with everything
+it declares, and each rule sees the structural graph alone, so the order they
+run in changes nothing. A type declared under `@subject` sits on the thing the
+section names, and a rule that wants that thing's content hops
+`^marginalia:subject` first; the shipped rules stay on the section.
+
 A key naming a mapping file was the obvious alternative and is worse: a relative
 path needs a filesystem to resolve, which puts back the context this parser
 deliberately does without. A type is a name in RDF, and a deployment that wants
@@ -280,7 +292,9 @@ examples/two-vocabularies/
 
 A structural graph is Turtle until an RDF fence gives it a named graph, and TriG
 after that, because GitHub highlights the first and not the second. Every `.rq`
-has a golden of the same name, so one document can show several vocabularies.
+has a golden of the same name, so one document can show several vocabularies. A
+golden with no `.rq` beside it comes from the shipped rule of that name, which
+every example is read by.
 
 | Example | What it shows |
 |---|---|
@@ -288,9 +302,11 @@ has a golden of the same name, so one document can show several vocabularies.
 | `frontmatter` | `@context`, `@type`, `@id`, and a document that needs no mapping |
 | `two-vocabularies` | one note read as SKOS and as schema.org, with nothing in it changed |
 | `meeting` | minutes of the kind the work item asked for, mapped by section |
+| `mixed` | one note read as minutes and as a task list, by two shipped rules |
 | `sections` | nesting, a skipped level, and why depth is not the tree |
 | `subjects` | `@subject` and `@type` in statement lines, and what a section keeps |
 | `lists` | entries as items: position, label, a task box, and what an item states |
+| `todo` | the breakfast list from the discussion, read as Flow tasks |
 | `fences` | RDF blocks as named graphs |
 
 Tests compare graphs for isomorphism rather than bytes, so a golden may be
