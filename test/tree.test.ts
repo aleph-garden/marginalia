@@ -1,9 +1,12 @@
 import { describe, expect, test } from 'bun:test'
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { structure, tree } from '../src/index.ts'
 
 const EXAMPLES = join(import.meta.dir, '..', 'examples')
+const cases = readdirSync(EXAMPLES, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
 const drawn = (markdown: string) => tree(structure(markdown, { name: 'doc' }).quads)
 
 // The drawing is derived from a graph the other tests already check, so these
@@ -44,7 +47,8 @@ describe('tree', () => {
   })
 
   test('every example ships a current drawing', () => {
-    for (const name of ['apollo', 'meeting', 'two-vocabularies', 'frontmatter']) {
+    expect(cases.length).toBeGreaterThan(0)
+    for (const name of cases) {
       const dir = join(EXAMPLES, name)
       const quads = structure(readFileSync(join(dir, 'README.md'), 'utf8'), { name }).quads
       expect(readFileSync(join(dir, 'tree.txt'), 'utf8')).toBe(`${tree(quads)}\n`)
