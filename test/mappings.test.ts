@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import type { Quad } from '@rdfjs/types'
 import { applyMapping, structure } from '../src/index.ts'
 
 const MAPPINGS = join(import.meta.dir, '..', 'mappings')
@@ -8,6 +9,12 @@ const read = (markdown: string, rule: string) =>
   applyMapping(structure(markdown, { name: 'doc' }).quads, [
     readFileSync(join(MAPPINGS, rule), 'utf8')
   ])
+
+const DUE = 'http://www.w3.org/2005/01/wf/flow#dateDue'
+const datatype = (quads: Quad[], predicate: string) => {
+  const object = quads.find((q) => q.predicate.value === predicate)?.object
+  return object && 'datatype' in object ? object.datatype.value : null
+}
 
 /** The goldens beside the examples read these rules whole. What holds for a
  *  document no example covers belongs here. */
@@ -41,6 +48,17 @@ describe('shipped mappings', () => {
       'http://www.w3.org/2005/01/wf/flow#tracker urn:doc:doc',
       'https://schema.org/agent urn:doc:people/toph'
     ])
+    // A due date carries its datatype, so a consumer can order and compare it.
+    expect(datatype(meaning, DUE)).toBe('http://www.w3.org/2001/XMLSchema#date')
+  })
+
+  test('todo.rq leaves a due that is not a date as the text the author wrote', () => {
+    const meaning = read(
+      '---\n"@context":\n  wf: http://www.w3.org/2005/01/wf/flow#\n"@type": wf:Tracker\n---\n# Work\n\n- Borrow the parser\n\n  due :: next Tuesday\n',
+      'todo.rq'
+    )
+    expect(meaning.find((q) => q.predicate.value === DUE)?.object.value).toBe('next Tuesday')
+    expect(datatype(meaning, DUE)).toBe('http://www.w3.org/2001/XMLSchema#string')
   })
 
   test('skos.rq reads a section of a scheme as a concept', () => {

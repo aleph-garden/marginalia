@@ -10,7 +10,7 @@
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
 <urn:doc:meeting#open.l2.i1> schema:agent <urn:doc:people/toph>;
-    <http://www.w3.org/2005/01/wf/flow#dateDue> "2026-10-02";
+    <http://www.w3.org/2005/01/wf/flow#dateDue> "2026-10-02"^^xsd:date;
     <http://www.w3.org/2005/01/wf/flow#goalDescription> "wiki links, core or profile";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:meeting#open>;
     a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>.

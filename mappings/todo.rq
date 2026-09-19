@@ -5,6 +5,7 @@ PREFIX po:   <http://www.essepuntato.it/2008/12/pattern#>
 PREFIX mg:   <https://aleph.garden/ns/marginalia#>
 PREFIX tok:  <urn:token:>
 PREFIX wf:   <http://www.w3.org/2005/01/wf/flow#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 
 # A task list. Whatever carries wf:Tracker holds the tasks, and every list item
 # under it is one: the label is the goal, the box says whether the task is open
@@ -28,8 +29,14 @@ WHERE {
   OPTIONAL { ?task mg:checked ?checked }
   BIND(IF(COALESCE(?checked, false), wf:Closed, wf:Open) AS ?state)
   # A bare due or owner under an entry means what a tracker says it means:
-  # wf:dateDue takes dates, and schema:agent takes whoever the work is on.
-  OPTIONAL { ?task tok:due ?due }
+  # wf:dateDue takes dates, and schema:agent takes whoever the work is on. A due
+  # written as a calendar date is typed xsd:date so a consumer can order and
+  # compare it; any other wording stays the text the author wrote.
+  OPTIONAL {
+    ?task tok:due ?stated .
+    BIND(IF(REGEX(STR(?stated), "^\\d{4}-\\d{2}-\\d{2}$"),
+            STRDT(STR(?stated), xsd:date), ?stated) AS ?due)
+  }
   OPTIONAL { ?task tok:owner ?owner }
   OPTIONAL {
     ?task po:contains [ a doco:List ; po:contains ?dependent ] .
