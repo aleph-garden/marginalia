@@ -65,13 +65,37 @@
     oa:hasSelector <urn:doc:meeting#decisions.p1.sel0>.
 <urn:doc:meeting#decisions.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "The parser stays borrowed rather than written, since the cases a hand-written\nscanner loses are exactly the ones a document hits by accident. Nobody objected.".
-<urn:doc:meeting#decisions> token:decision "borrow the parser", "one added production, and only one";
-    po:contains <urn:doc:meeting#decisions.p2>.
-<urn:doc:meeting#decisions.p2> po:isContainedBy <urn:doc:meeting#decisions>;
+<urn:doc:meeting#decisions> po:contains <urn:doc:meeting#decisions.l2>.
+<urn:doc:meeting#decisions.l2> po:isContainedBy <urn:doc:meeting#decisions>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#decisions.l2.sel0>.
+<urn:doc:meeting#decisions.l2.sel0> a oa:TextQuoteSelector;
+    oa:exact "- borrow the parser\n- one added production, and only one".
+<urn:doc:meeting#decisions.l2> po:contains <urn:doc:meeting#decisions.l2.i1>.
+<urn:doc:meeting#decisions.l2.i1> po:isContainedBy <urn:doc:meeting#decisions.l2>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#decisions.l2.i1.sel0>.
+<urn:doc:meeting#decisions.l2.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- borrow the parser".
+<urn:doc:meeting#decisions.l2.i1> schema:position 1;
+    rdfs:label "borrow the parser".
+<urn:doc:meeting#decisions.l2> po:contains <urn:doc:meeting#decisions.l2.i2>.
+<urn:doc:meeting#decisions.l2.i2> po:isContainedBy <urn:doc:meeting#decisions.l2>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#decisions.l2.i2.sel0>.
+<urn:doc:meeting#decisions.l2.i2.sel0> a oa:TextQuoteSelector;
+    oa:exact "- one added production, and only one".
+<urn:doc:meeting#decisions.l2.i2> schema:position 2;
+    rdfs:label "one added production, and only one".
+<urn:doc:meeting#decisions> po:contains <urn:doc:meeting#decisions.p3>.
+<urn:doc:meeting#decisions.p3> po:isContainedBy <urn:doc:meeting#decisions>;
     a oa:ResourceSelection, doco:Paragraph;
     oa:hasSource <urn:doc:meeting>;
-    oa:hasSelector <urn:doc:meeting#decisions.p2.sel0>.
-<urn:doc:meeting#decisions.p2.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:meeting#decisions.p3.sel0>.
+<urn:doc:meeting#decisions.p3.sel0> a oa:TextQuoteSelector;
     oa:exact "The second is the harder promise, and it holds so far: statement lines are the\nonly syntax that is not CommonMark.".
 <urn:doc:meeting#open> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:meeting>;

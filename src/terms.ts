@@ -29,6 +29,8 @@ export const term = {
   Document: t('schema', 'DigitalDocument'),
   SoftwareSourceCode: t('schema', 'SoftwareSourceCode'),
   programmingLanguage: t('schema', 'programmingLanguage'),
+  ListItem: t('schema', 'ListItem'),
+  position: t('schema', 'position'),
 
   references: t('dct', 'references'),
 
@@ -49,7 +51,8 @@ export const term = {
 
   depth: t('mg', 'depth'),
   anchor: t('mg', 'anchor'),
-  subject: t('mg', 'subject')
+  subject: t('mg', 'subject'),
+  checked: t('mg', 'checked')
 } as const
 
 /**

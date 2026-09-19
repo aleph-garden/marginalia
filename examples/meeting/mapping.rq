@@ -4,6 +4,7 @@ PREFIX doco:   <http://purl.org/spar/doco/>
 PREFIX po:     <http://www.essepuntato.it/2008/12/pattern#>
 PREFIX oa:     <http://www.w3.org/ns/oa#>
 PREFIX tok:    <urn:token:>
+PREFIX mg:     <https://aleph.garden/ns/marginalia#>
 PREFIX ex:     <https://example.org/meeting#>
 
 # Minutes are structured by their headings, so a section is the unit: who was
@@ -22,9 +23,13 @@ WHERE {
   OPTIONAL { ?doc (po:contains+)/tok:attendee ?attendee }
   OPTIONAL { ?doc (po:contains+)/tok:apologies ?apologies }
   OPTIONAL { ?doc (po:contains+)/tok:scribe ?scribe }
+  # Each decision is an entry of the list under that heading, and an item is
+  # already an identified slice, so the rule reads its label and needs no
+  # identifier of its own.
   OPTIONAL {
-    ?inSection a doco:Section ; tok:decision ?decisionText .
-    BIND(IRI(CONCAT(STR(?inSection), ".decision.", ENCODE_FOR_URI(?decisionText))) AS ?decision)
+    ?inSection a doco:Section ; mg:anchor "decisions" ; po:contains ?list .
+    ?list a doco:List ; po:contains ?decision .
+    ?decision a schema:ListItem ; rdfs:label ?decisionText .
   }
   OPTIONAL {
     ?openSection a doco:Section ; tok:open ?openText .

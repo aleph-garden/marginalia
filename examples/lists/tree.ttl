@@ -1,0 +1,253 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:lists> a schema:DigitalDocument.
+<urn:doc:lists#lists> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:lists>;
+    rdfs:label "Lists";
+    marginalia:depth 1;
+    marginalia:anchor "lists";
+    oa:hasSelector <urn:doc:lists#lists.sel0>.
+<urn:doc:lists#lists.sel0> a oa:FragmentSelector;
+    rdf:value "Lists".
+<urn:doc:lists> po:contains <urn:doc:lists#lists>.
+<urn:doc:lists#lists> po:isContainedBy <urn:doc:lists>;
+    po:contains <urn:doc:lists#lists.p1>.
+<urn:doc:lists#lists.p1> po:isContainedBy <urn:doc:lists#lists>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#lists.p1.sel0>.
+<urn:doc:lists#lists.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "A list whose lines are not all statement lines becomes a `doco:List`, and every\nentry becomes an item: an addressable slice carrying its position, the text of\nits first paragraph as its label, and whatever that entry states about itself.".
+<urn:doc:lists#steps> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:lists>;
+    rdfs:label "Steps";
+    marginalia:depth 2;
+    marginalia:anchor "steps";
+    oa:hasSelector <urn:doc:lists#steps.sel0>.
+<urn:doc:lists#steps.sel0> a oa:FragmentSelector;
+    rdf:value "Steps".
+<urn:doc:lists#lists> po:contains <urn:doc:lists#steps>.
+<urn:doc:lists#steps> po:isContainedBy <urn:doc:lists#lists>;
+    po:contains <urn:doc:lists#steps.l1>.
+<urn:doc:lists#steps.l1> po:isContainedBy <urn:doc:lists#steps>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.sel0>.
+<urn:doc:lists#steps.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Read the file\n- Parse it with CommonMark\n  - Sections are derived from the heading depths\n    - A jump of more than one level is reported and still nests\n- Read the graph out of the tree".
+<urn:doc:lists#steps.l1> po:contains <urn:doc:lists#steps.l1.i1>.
+<urn:doc:lists#steps.l1.i1> po:isContainedBy <urn:doc:lists#steps.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.i1.sel0>.
+<urn:doc:lists#steps.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Read the file".
+<urn:doc:lists#steps.l1.i1> schema:position 1;
+    rdfs:label "Read the file".
+<urn:doc:lists#steps.l1> po:contains <urn:doc:lists#steps.l1.i2>.
+<urn:doc:lists#steps.l1.i2> po:isContainedBy <urn:doc:lists#steps.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.i2.sel0>.
+<urn:doc:lists#steps.l1.i2.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Parse it with CommonMark\n  - Sections are derived from the heading depths\n    - A jump of more than one level is reported and still nests".
+<urn:doc:lists#steps.l1.i2> schema:position 2;
+    rdfs:label "Parse it with CommonMark";
+    po:contains <urn:doc:lists#steps.l1.i2.l1>.
+<urn:doc:lists#steps.l1.i2.l1> po:isContainedBy <urn:doc:lists#steps.l1.i2>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.i2.l1.sel0>.
+<urn:doc:lists#steps.l1.i2.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Sections are derived from the heading depths\n    - A jump of more than one level is reported and still nests".
+<urn:doc:lists#steps.l1.i2.l1> po:contains <urn:doc:lists#steps.l1.i2.l1.i1>.
+<urn:doc:lists#steps.l1.i2.l1.i1> po:isContainedBy <urn:doc:lists#steps.l1.i2.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.i2.l1.i1.sel0>.
+<urn:doc:lists#steps.l1.i2.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Sections are derived from the heading depths\n    - A jump of more than one level is reported and still nests".
+<urn:doc:lists#steps.l1.i2.l1.i1> schema:position 1;
+    rdfs:label "Sections are derived from the heading depths";
+    po:contains <urn:doc:lists#steps.l1.i2.l1.i1.l1>.
+<urn:doc:lists#steps.l1.i2.l1.i1.l1> po:isContainedBy <urn:doc:lists#steps.l1.i2.l1.i1>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.i2.l1.i1.l1.sel0>.
+<urn:doc:lists#steps.l1.i2.l1.i1.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- A jump of more than one level is reported and still nests".
+<urn:doc:lists#steps.l1.i2.l1.i1.l1> po:contains <urn:doc:lists#steps.l1.i2.l1.i1.l1.i1>.
+<urn:doc:lists#steps.l1.i2.l1.i1.l1.i1> po:isContainedBy <urn:doc:lists#steps.l1.i2.l1.i1.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.i2.l1.i1.l1.i1.sel0>.
+<urn:doc:lists#steps.l1.i2.l1.i1.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- A jump of more than one level is reported and still nests".
+<urn:doc:lists#steps.l1.i2.l1.i1.l1.i1> schema:position 1;
+    rdfs:label "A jump of more than one level is reported and still nests".
+<urn:doc:lists#steps.l1> po:contains <urn:doc:lists#steps.l1.i3>.
+<urn:doc:lists#steps.l1.i3> po:isContainedBy <urn:doc:lists#steps.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.l1.i3.sel0>.
+<urn:doc:lists#steps.l1.i3.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Read the graph out of the tree".
+<urn:doc:lists#steps.l1.i3> schema:position 3;
+    rdfs:label "Read the graph out of the tree".
+<urn:doc:lists#steps> po:contains <urn:doc:lists#steps.p2>.
+<urn:doc:lists#steps.p2> po:isContainedBy <urn:doc:lists#steps>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#steps.p2.sel0>.
+<urn:doc:lists#steps.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "An item holds the blocks below its first paragraph the way a section holds the\nblocks below its heading, so the nested list above is contained by the item it\nsits under rather than by this section.".
+<urn:doc:lists#packing> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:lists>;
+    rdfs:label "Packing";
+    marginalia:depth 2;
+    marginalia:anchor "packing";
+    oa:hasSelector <urn:doc:lists#packing.sel0>.
+<urn:doc:lists#packing.sel0> a oa:FragmentSelector;
+    rdf:value "Packing".
+<urn:doc:lists#lists> po:contains <urn:doc:lists#packing>.
+<urn:doc:lists#packing> po:isContainedBy <urn:doc:lists#lists>;
+    po:contains <urn:doc:lists#packing.l1>.
+<urn:doc:lists#packing.l1> po:isContainedBy <urn:doc:lists#packing>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#packing.l1.sel0>.
+<urn:doc:lists#packing.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- [x] Passport\n- [ ] Tickets\n- [ ] An [adapter](<> \"spare\") for the other plug".
+<urn:doc:lists#packing.l1> po:contains <urn:doc:lists#packing.l1.i1>.
+<urn:doc:lists#packing.l1.i1> po:isContainedBy <urn:doc:lists#packing.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#packing.l1.i1.sel0>.
+<urn:doc:lists#packing.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- [x] Passport".
+<urn:doc:lists#packing.l1.i1> schema:position 1;
+    marginalia:checked true;
+    rdfs:label "Passport".
+<urn:doc:lists#packing.l1> po:contains <urn:doc:lists#packing.l1.i2>.
+<urn:doc:lists#packing.l1.i2> po:isContainedBy <urn:doc:lists#packing.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#packing.l1.i2.sel0>.
+<urn:doc:lists#packing.l1.i2.sel0> a oa:TextQuoteSelector;
+    oa:exact "- [ ] Tickets".
+<urn:doc:lists#packing.l1.i2> schema:position 2;
+    marginalia:checked false;
+    rdfs:label "Tickets".
+<urn:doc:lists#packing.l1> po:contains <urn:doc:lists#packing.l1.i3>.
+<urn:doc:lists#packing.l1.i3> po:isContainedBy <urn:doc:lists#packing.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#packing.l1.i3.sel0>.
+<urn:doc:lists#packing.l1.i3.sel0> a oa:TextQuoteSelector;
+    oa:exact "- [ ] An [adapter](<> \"spare\") for the other plug".
+<urn:doc:lists#packing.l1.i3> schema:position 3;
+    marginalia:checked false;
+    rdfs:label "An adapter for the other plug";
+    token:spare "adapter".
+<urn:doc:lists#packing> po:contains <urn:doc:lists#packing.p2>.
+<urn:doc:lists#packing.p2> po:isContainedBy <urn:doc:lists#packing>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#packing.p2.sel0>.
+<urn:doc:lists#packing.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "A checkbox is GFM, so the state of the box is structure and\n`marginalia:checked` carries it. What a tick means is left to a mapping. The\ngloss in the third entry states its fact about the item, because inside an item\nthe item is the subject.".
+<urn:doc:lists#work> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:lists>;
+    rdfs:label "Work";
+    marginalia:depth 2;
+    marginalia:anchor "work";
+    oa:hasSelector <urn:doc:lists#work.sel0>.
+<urn:doc:lists#work.sel0> a oa:FragmentSelector;
+    rdf:value "Work".
+<urn:doc:lists#lists> po:contains <urn:doc:lists#work>.
+<urn:doc:lists#work> po:isContainedBy <urn:doc:lists#lists>;
+    po:contains <urn:doc:lists#work.l1>.
+<urn:doc:lists#work.l1> po:isContainedBy <urn:doc:lists#work>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#work.l1.sel0>.
+<urn:doc:lists#work.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Borrow the parser\n\n  owner :: [[people/toph]]\n  due :: 2026-10-02\n\n- Write the mapping".
+<urn:doc:lists#work.l1> po:contains <urn:doc:lists#work.l1.i1>.
+<urn:doc:lists#work.l1.i1> po:isContainedBy <urn:doc:lists#work.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#work.l1.i1.sel0>.
+<urn:doc:lists#work.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Borrow the parser\n\n  owner :: [[people/toph]]\n  due :: 2026-10-02".
+<urn:doc:lists#work.l1.i1> schema:position 1;
+    rdfs:label "Borrow the parser";
+    token:owner <urn:doc:people/toph>;
+    token:due "2026-10-02".
+<urn:doc:lists#work.l1> po:contains <urn:doc:lists#work.l1.i2>.
+<urn:doc:lists#work.l1.i2> po:isContainedBy <urn:doc:lists#work.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#work.l1.i2.sel0>.
+<urn:doc:lists#work.l1.i2.sel0> a oa:TextQuoteSelector;
+    oa:exact "- Write the mapping".
+<urn:doc:lists#work.l1.i2> schema:position 2;
+    rdfs:label "Write the mapping".
+<urn:doc:lists#work> po:contains <urn:doc:lists#work.p2>.
+<urn:doc:lists#work.p2> po:isContainedBy <urn:doc:lists#work>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#work.p2.sel0>.
+<urn:doc:lists#work.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "A statement line in an item's continuation is about the item, so a list of work\nitems reads without a heading for each one.".
+<urn:doc:lists#order> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:lists>;
+    rdfs:label "Order";
+    marginalia:depth 2;
+    marginalia:anchor "order";
+    oa:hasSelector <urn:doc:lists#order.sel0>.
+<urn:doc:lists#order.sel0> a oa:FragmentSelector;
+    rdf:value "Order".
+<urn:doc:lists#lists> po:contains <urn:doc:lists#order>.
+<urn:doc:lists#order> po:isContainedBy <urn:doc:lists#lists>;
+    po:contains <urn:doc:lists#order.l1>.
+<urn:doc:lists#order.l1> po:isContainedBy <urn:doc:lists#order>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#order.l1.sel0>.
+<urn:doc:lists#order.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "1. Structure\n2. Meaning".
+<urn:doc:lists#order.l1> po:contains <urn:doc:lists#order.l1.i1>.
+<urn:doc:lists#order.l1.i1> po:isContainedBy <urn:doc:lists#order.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#order.l1.i1.sel0>.
+<urn:doc:lists#order.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "1. Structure".
+<urn:doc:lists#order.l1.i1> schema:position 1;
+    rdfs:label "Structure".
+<urn:doc:lists#order.l1> po:contains <urn:doc:lists#order.l1.i2>.
+<urn:doc:lists#order.l1.i2> po:isContainedBy <urn:doc:lists#order.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#order.l1.i2.sel0>.
+<urn:doc:lists#order.l1.i2.sel0> a oa:TextQuoteSelector;
+    oa:exact "2. Meaning".
+<urn:doc:lists#order.l1.i2> schema:position 2;
+    rdfs:label "Meaning".
+<urn:doc:lists#order> po:contains <urn:doc:lists#order.p2>.
+<urn:doc:lists#order.p2> po:isContainedBy <urn:doc:lists#order>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:lists>;
+    oa:hasSelector <urn:doc:lists#order.p2.sel0>.
+<urn:doc:lists#order.p2.sel0> a oa:TextQuoteSelector;
+    oa:exact "Ordered or bullet, tight or loose, and the marker character are not carried.\n`schema:position` carries the order, which is the part of a list's shape a\nconsumer has asked for.".

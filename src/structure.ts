@@ -1,6 +1,6 @@
 import type { NamedNode, Quad, Quad_Object } from '@rdfjs/types'
 import GithubSlugger from 'github-slugger'
-import type { BlockContent, Heading, List, Paragraph, Root, RootContent } from 'mdast'
+import type { BlockContent, Heading, ListItem, Root, RootContent } from 'mdast'
 import { toString as mdToString } from 'mdast-util-to-string'
 import { DataFactory } from 'n3'
 import { parse as parseYaml } from 'yaml'
@@ -117,13 +117,19 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   // as siblings of the blocks that follow them, so the section tree is built
   // here, from the sequence of heading depths.
   //
-  // `@subject` separates two notions: the section is where a part sits and
+  // `@subject` separates two notions: the container is where a part sits and
   // what a plain reference is stated from, and the subject is what a statement
   // or a gloss is about. They are one until a redirect says otherwise, which
   // is what an entry carries, null where nothing above it redirected.
+  //
+  // A section is the container for the blocks of the document; a list item is
+  // the container for its own blocks, so parts are numbered per container.
   let section: NamedNode = document
   let subject: NamedNode = document
-  let partIndex = 0
+  // A redirect inside a list item reaches the item alone, so it leaves the
+  // stack, which is what a nested section inherits from, as it is.
+  let inItem = false
+  const partIndex = new Map<string, number>()
   const stack: { depth: number; node: NamedNode; subject: NamedNode | null }[] = []
   // The document's own redirect, which a top-level section inherits the way a
   // nested section inherits its parent's. Null where the document sets none.
@@ -162,7 +168,6 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     const inherited = parent ? parent.subject : documentSubject
     subject = inherited ?? section
     stack.push({ depth: heading.depth, node: section, subject: inherited })
-    partIndex = 0
 
     emit(section, term.type, term.Section)
     emit(section, term.type, term.ResourceSelection)
@@ -183,10 +188,17 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     emit(section, term.isContainedBy, container)
   }
 
-  const addPart = (kind: string, node: BlockContent, types: NamedNode[]) => {
-    const part = mint.part(section, kind, ++partIndex)
-    emit(section, term.contains, part)
-    emit(part, term.isContainedBy, section)
+  const addPart = (
+    kind: string,
+    node: BlockContent | ListItem,
+    types: NamedNode[],
+    into: NamedNode
+  ) => {
+    const index = (partIndex.get(into.value) ?? 0) + 1
+    partIndex.set(into.value, index)
+    const part = mint.part(into, kind, index)
+    emit(into, term.contains, part)
+    emit(part, term.isContainedBy, into)
     emit(part, term.type, term.ResourceSelection)
     for (const ty of types) emit(part, term.type, ty)
     emit(part, term.hasSource, document)
@@ -270,13 +282,13 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
    * name makes it a plain reference. The anchor text gets no triple of its
    * own: it is already in the quote selector of the part it sits in.
    */
-  const inline = (node: BlockContent, line?: number) => {
+  const inline = (node: BlockContent, into: NamedNode, line?: number) => {
     const state = (ref: Reference) => {
       // A name in a gloss is a name like any other, so it resolves the same way
       // and the statement it makes follows the subject. An unnamed reference
-      // says only that this section points somewhere.
+      // says only that the container it sits in points somewhere.
       if (ref.name) emit(subject, predicate(ref.name, line), object(ref, line))
-      else if (ref.kind !== 'none') emit(section, term.references, object(ref, line))
+      else if (ref.kind !== 'none') emit(into, term.references, object(ref, line))
     }
     const walk = (n: RootContent) => {
       if (n.type === 'link') {
@@ -294,8 +306,9 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   }
 
   /**
-   * `@subject` names what the statements from here on are about. The section
+   * `@subject` names what the statements from here on are about. The container
    * keeps its identity and its containment; only what the author stated moves.
+   * Inside a list item the line reaches that item and ends with it.
    */
   const redirect = (on: NamedNode, resolved: Quad_Object, raw: string, line?: number) => {
     if (resolved.termType !== 'NamedNode') {
@@ -308,14 +321,15 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     }
     emit(on, term.subject, resolved)
     subject = resolved
+    if (inItem) return
     const open = stack[stack.length - 1]
     if (open) open.subject = resolved
     else documentSubject = resolved
   }
 
   /** A key the format reserved for itself. Two are defined, and no more. */
-  const reserved = (key: string, raw: string, line?: number) => {
-    if (key === '@subject') redirect(section, value(raw, key, line), raw, line)
+  const reserved = (key: string, raw: string, into: NamedNode, line?: number) => {
+    if (key === '@subject') redirect(into, value(raw, key, line), raw, line)
     // A type is a statement like any other, so it lands where the statements
     // around it land.
     else if (key === '@type') emit(subject, term.type, predicate(raw, line))
@@ -327,12 +341,12 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       })
   }
 
-  const statements = (node: BlockContent): boolean => {
+  const statements = (node: BlockContent, into: NamedNode): boolean => {
     const fields = fieldLines(node)
     if (!fields) return false
     for (const [key, raw] of fields) {
       if (key.startsWith('@')) {
-        reserved(key, raw, node.position?.start.line)
+        reserved(key, raw, into, node.position?.start.line)
         continue
       }
       // A statement line holds one value, and repeating the key is the plural.
@@ -351,6 +365,89 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       )
     }
     return true
+  }
+
+  /**
+   * One block, in the container its parts belong to: a section for a block of
+   * the document, a list item for a block of that item. A heading opens a
+   * section, which only the document can do, so it is handled where the
+   * document's own blocks are read.
+   */
+  const block = (node: RootContent, into: NamedNode) => {
+    switch (node.type) {
+      case 'blockquote':
+        addPart('q', node, [term.BlockQuotation], into)
+        break
+      case 'code': {
+        const part = addPart('c', node, [term.SoftwareSourceCode], into)
+        if (node.lang) emit(part, term.programmingLanguage, literal(node.lang))
+        if (isRdfSyntax(node.lang)) {
+          // The block's own IRI names the graph its triples go into, so where a
+          // statement came from is already recorded by the structural graph.
+          const fence = parseFence(node.value, node.lang!, {
+            meta: node.meta,
+            defaultBase: document.value
+          })
+          const graph = fence.graph ? mint.reference(fence.graph, document) : part
+          for (const q of fence.quads)
+            quads.push(quad(q.subject, q.predicate, q.object, graph) as Quad)
+          // Only when the fence named a graph of its own: the default graph is
+          // the block itself, and a block does not contain itself.
+          if (graph.value !== part.value) emit(part, term.contains, graph)
+          for (const problem of fence.problems)
+            diagnostics.push({
+              code: 'fence-not-parsed',
+              message: `${node.lang} block: ${problem}`,
+              line: node.position?.start.line
+            })
+        }
+        break
+      }
+      case 'list':
+        if (!statements(node, into)) {
+          const list = addPart('l', node, [term.List], into)
+          node.children.forEach((entry, index) => {
+            listItem(list, entry, index + 1)
+          })
+        }
+        break
+      case 'paragraph':
+        if (!statements(node, into)) {
+          addPart('p', node, [term.Paragraph], into)
+          inline(node, into, node.position?.start.line)
+        }
+        break
+      default:
+        break
+    }
+  }
+
+  /**
+   * One entry of a list. The item is where its own blocks sit and what they
+   * state facts about, so a gloss in its text and a statement line in its
+   * continuation are about the item. Its first paragraph is its label and gets
+   * no part of its own; every block after it is a part of the item.
+   */
+  const listItem = (list: NamedNode, node: ListItem, position: number) => {
+    const item = addPart('i', node, [term.ListItem], list)
+    emit(item, term.position, literal(String(position), namedNode(`${ns.xsd}integer`)))
+    // A box is a GFM task item; an ordinary entry has none, which is what null
+    // says. What a tick means is the mapping's question.
+    if (typeof node.checked === 'boolean')
+      emit(item, term.checked, literal(String(node.checked), namedNode(`${ns.xsd}boolean`)))
+
+    const outerSubject = subject
+    const outerInItem = inItem
+    subject = item
+    inItem = true
+    const [first, ...rest] = node.children
+    if (first?.type === 'paragraph') {
+      emit(item, term.label, literal(mdToString(first)))
+      inline(first, item, first.position?.start.line)
+    } else if (first) block(first, item)
+    for (const child of rest) block(child, item)
+    subject = outerSubject
+    inItem = outerInItem
   }
 
   for (const node of tree.children) {
@@ -389,44 +486,8 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       case 'heading':
         openSection(node)
         break
-      case 'blockquote':
-        addPart('q', node, [term.BlockQuotation])
-        break
-      case 'code': {
-        const part = addPart('c', node, [term.SoftwareSourceCode])
-        if (node.lang) emit(part, term.programmingLanguage, literal(node.lang))
-        if (isRdfSyntax(node.lang)) {
-          // The block's own IRI names the graph its triples go into, so where a
-          // statement came from is already recorded by the structural graph.
-          const fence = parseFence(node.value, node.lang!, {
-            meta: node.meta,
-            defaultBase: document.value
-          })
-          const graph = fence.graph ? mint.reference(fence.graph, document) : part
-          for (const q of fence.quads)
-            quads.push(quad(q.subject, q.predicate, q.object, graph) as Quad)
-          // Only when the fence named a graph of its own: the default graph is
-          // the block itself, and a block does not contain itself.
-          if (graph.value !== part.value) emit(part, term.contains, graph)
-          for (const problem of fence.problems)
-            diagnostics.push({
-              code: 'fence-not-parsed',
-              message: `${node.lang} block: ${problem}`,
-              line: node.position?.start.line
-            })
-        }
-        break
-      }
-      case 'list':
-        if (!statements(node as List)) addPart('l', node as List, [term.List])
-        break
-      case 'paragraph':
-        if (!statements(node as Paragraph)) {
-          addPart('p', node as Paragraph, [term.Paragraph])
-          inline(node as Paragraph, node.position?.start.line)
-        }
-        break
       default:
+        block(node, section)
         break
     }
   }

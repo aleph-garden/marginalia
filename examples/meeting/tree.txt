@@ -10,10 +10,13 @@ urn:doc:meeting  (schema:DigitalDocument, schema:Event)
    │  │ apologies → urn:doc:people/ruben
    │  └─ attending.p1  (oa:ResourceSelection, doco:Paragraph)  Notes were taken by [Toph](<> "scribe"), who also chaired.
    ├─ decisions  (doco:Section, oa:ResourceSelection)  Decisions
-   │  │ decision "borrow the parser"
-   │  │ decision "one added production, and only one"
    │  ├─ decisions.p1  (oa:ResourceSelection, doco:Paragraph)  The parser stays borrowed rather than written, since the cases …
-   │  └─ decisions.p2  (oa:ResourceSelection, doco:Paragraph)  The second is the harder promise, and it holds so far: statemen…
+   │  ├─ decisions.l2  (oa:ResourceSelection, doco:List)  - borrow the parser - one added production, and only one
+   │  │  ├─ decisions.l2.i1  (oa:ResourceSelection, schema:ListItem)  borrow the parser
+   │  │  │    schema:position "1"
+   │  │  └─ decisions.l2.i2  (oa:ResourceSelection, schema:ListItem)  one added production, and only one
+   │  │       schema:position "2"
+   │  └─ decisions.p3  (oa:ResourceSelection, doco:Paragraph)  The second is the harder promise, and it holds so far: statemen…
    ├─ open  (doco:Section, oa:ResourceSelection)  Open
    │  │ open "wiki links, core or profile"
    │  │ owner → urn:doc:people/toph

@@ -1,0 +1,47 @@
+urn:doc:lists  (schema:DigitalDocument)
+└─ lists  (doco:Section, oa:ResourceSelection)  Lists
+   ├─ lists.p1  (oa:ResourceSelection, doco:Paragraph)  A list whose lines are not all statement lines becomes a `doco:…
+   ├─ steps  (doco:Section, oa:ResourceSelection)  Steps
+   │  ├─ steps.l1  (oa:ResourceSelection, doco:List)  - Read the file - Parse it with CommonMark - Sections are deriv…
+   │  │  ├─ steps.l1.i1  (oa:ResourceSelection, schema:ListItem)  Read the file
+   │  │  │    schema:position "1"
+   │  │  ├─ steps.l1.i2  (oa:ResourceSelection, schema:ListItem)  Parse it with CommonMark
+   │  │  │  │ schema:position "2"
+   │  │  │  └─ steps.l1.i2.l1  (oa:ResourceSelection, doco:List)  - Sections are derived from the heading depths - A jump of more…
+   │  │  │     └─ steps.l1.i2.l1.i1  (oa:ResourceSelection, schema:ListItem)  Sections are derived from the heading depths
+   │  │  │        │ schema:position "1"
+   │  │  │        └─ steps.l1.i2.l1.i1.l1  (oa:ResourceSelection, doco:List)  - A jump of more than one level is reported and still nests
+   │  │  │           └─ steps.l1.i2.l1.i1.l1.i1  (oa:ResourceSelection, schema:ListItem)  A jump of more than one level is reported and still nests
+   │  │  │                schema:position "1"
+   │  │  └─ steps.l1.i3  (oa:ResourceSelection, schema:ListItem)  Read the graph out of the tree
+   │  │       schema:position "3"
+   │  └─ steps.p2  (oa:ResourceSelection, doco:Paragraph)  An item holds the blocks below its first paragraph the way a se…
+   ├─ packing  (doco:Section, oa:ResourceSelection)  Packing
+   │  ├─ packing.l1  (oa:ResourceSelection, doco:List)  - [x] Passport - [ ] Tickets - [ ] An [adapter](<> "spare") for…
+   │  │  ├─ packing.l1.i1  (oa:ResourceSelection, schema:ListItem)  Passport
+   │  │  │    schema:position "1"
+   │  │  │    mg:checked "true"
+   │  │  ├─ packing.l1.i2  (oa:ResourceSelection, schema:ListItem)  Tickets
+   │  │  │    schema:position "2"
+   │  │  │    mg:checked "false"
+   │  │  └─ packing.l1.i3  (oa:ResourceSelection, schema:ListItem)  An adapter for the other plug
+   │  │       schema:position "3"
+   │  │       mg:checked "false"
+   │  │       spare "adapter"
+   │  └─ packing.p2  (oa:ResourceSelection, doco:Paragraph)  A checkbox is GFM, so the state of the box is structure and `ma…
+   ├─ work  (doco:Section, oa:ResourceSelection)  Work
+   │  ├─ work.l1  (oa:ResourceSelection, doco:List)  - Borrow the parser owner :: [[people/toph]] due :: 2026-10-02 …
+   │  │  ├─ work.l1.i1  (oa:ResourceSelection, schema:ListItem)  Borrow the parser
+   │  │  │    schema:position "1"
+   │  │  │    owner → urn:doc:people/toph
+   │  │  │    due "2026-10-02"
+   │  │  └─ work.l1.i2  (oa:ResourceSelection, schema:ListItem)  Write the mapping
+   │  │       schema:position "2"
+   │  └─ work.p2  (oa:ResourceSelection, doco:Paragraph)  A statement line in an item's continuation is about the item, s…
+   └─ order  (doco:Section, oa:ResourceSelection)  Order
+      ├─ order.l1  (oa:ResourceSelection, doco:List)  1. Structure 2. Meaning
+      │  ├─ order.l1.i1  (oa:ResourceSelection, schema:ListItem)  Structure
+      │  │    schema:position "1"
+      │  └─ order.l1.i2  (oa:ResourceSelection, schema:ListItem)  Meaning
+      │       schema:position "2"
+      └─ order.p2  (oa:ResourceSelection, doco:Paragraph)  Ordered or bullet, tight or loose, and the marker character are…

@@ -24,8 +24,8 @@ apologies :: [[people/ruben]]
 The parser stays borrowed rather than written, since the cases a hand-written
 scanner loses are exactly the ones a document hits by accident. Nobody objected.
 
-decision :: borrow the parser
-decision :: one added production, and only one
+- borrow the parser
+- one added production, and only one
 
 The second is the harder promise, and it holds so far: statement lines are the
 only syntax that is not CommonMark.

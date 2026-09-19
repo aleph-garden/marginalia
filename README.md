@@ -78,6 +78,7 @@ The structural graph is built from terms that already exist:
 | document components | `doco:Section`, `doco:Paragraph`, `doco:BlockQuotation`, `doco:List` |
 | containment | `po:contains`, `po:isContainedBy` |
 | the document | `schema:DigitalDocument`, `schema:SoftwareSourceCode`, `schema:programmingLanguage`, `dct:references` |
+| an entry of a list | `schema:ListItem`, `schema:position`, `marginalia:checked` |
 | what a section's statements are about | `marginalia:subject` |
 
 Two of those are the ones a consumer has to know to do the usual thing, which
@@ -85,7 +86,14 @@ is to find sections, walk containment and read text: Web Annotation and
 DoCO with the Pattern Ontology it is built on. The rest is detail to look up
 when it comes up.
 
-Three terms are minted here. `marginalia:depth` carries the heading depth, which
+DoCO defines `List` and leaves its entries to the Pattern Ontology, whose
+classes type an entry by its shape and carry no order, so a mapping would have
+to match two of them and still ask what came first. An entry here is a
+`schema:ListItem` carrying `schema:position`: one class, and the order with it.
+DoCO's restriction on what a list contains is neither satisfied nor
+contradicted.
+
+Four terms are minted here. `marginalia:depth` carries the heading depth, which
 has no equivalent anywhere, and `marginalia:anchor` carries the identifier a
 renderer gives a heading, computed with `github-slugger` so it matches what
 `rehype-slug` will put in the HTML. ITS 2.0 defines `itsrdf:id` for the same
@@ -95,6 +103,8 @@ rather than imported. `marginalia:subject` records the redirect an `@subject`
 line makes, so a consumer can see that the statements under a section were made
 about something the section names. `schema:about` is the near miss: it says what
 a work is about, which stays true of a section whose statements never moved.
+`marginalia:checked` carries the state of a GFM task box, which the box says and
+no vocabulary of documents has a word for; what a tick means is the mapping's.
 
 `schema.org` is the one vocabulary here that is not a standard: it is run by a
 consortium in a W3C Community Group, and CG reports are explicitly not W3C
@@ -280,6 +290,7 @@ has a golden of the same name, so one document can show several vocabularies.
 | `meeting` | minutes of the kind the work item asked for, mapped by section |
 | `sections` | nesting, a skipped level, and why depth is not the tree |
 | `subjects` | `@subject` and `@type` in statement lines, and what a section keeps |
+| `lists` | entries as items: position, label, a task box, and what an item states |
 | `fences` | RDF blocks as named graphs |
 
 Tests compare graphs for isomorphism rather than bytes, so a golden may be
@@ -296,9 +307,12 @@ urn:doc:meeting  (schema:DigitalDocument, schema:Event)
    │  │ attendee → urn:doc:people/toph
    │  └─ attending.p1  (doco:Paragraph)  Notes were taken by [Toph](<> "scribe")…
    └─ decisions  (doco:Section)  Decisions
-      │ decision "borrow the parser"
-      │ decision "one added production, and only one"
-      └─ decisions.p1  (doco:Paragraph)  The parser stays borrowed rather than…
+      ├─ decisions.p1  (doco:Paragraph)  The parser stays borrowed rather than…
+      └─ decisions.l2  (doco:List)  - borrow the parser - one added production…
+         ├─ decisions.l2.i1  (schema:ListItem)  borrow the parser
+         │    schema:position "1"
+         └─ decisions.l2.i2  (schema:ListItem)  one added production, and only…
+              schema:position "2"
 ```
 
 ## Prior art
