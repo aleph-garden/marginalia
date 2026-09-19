@@ -125,6 +125,9 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   let subject: NamedNode = document
   let partIndex = 0
   const stack: { depth: number; node: NamedNode; subject: NamedNode | null }[] = []
+  // The document's own redirect, which a top-level section inherits the way a
+  // nested section inherits its parent's. Null where the document sets none.
+  let documentSubject: NamedNode | null = null
   const slugged = new Map<string, string>()
   // Prefix declarations, which frontmatter supplies before anything else is read.
   let context: Context = new Map()
@@ -153,7 +156,10 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
       })
     // A redirect reaches the sections below it, the way RDFa's `about` reaches
     // the descendants of the element that carries it, until one says otherwise.
-    const inherited = parent?.subject ?? null
+    // A top-level section has no parent entry to inherit from, so it inherits
+    // the document's own redirect instead, the document being the root of the
+    // containment tree.
+    const inherited = parent ? parent.subject : documentSubject
     subject = inherited ?? section
     stack.push({ depth: heading.depth, node: section, subject: inherited })
     partIndex = 0
@@ -304,6 +310,7 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     subject = resolved
     const open = stack[stack.length - 1]
     if (open) open.subject = resolved
+    else documentSubject = resolved
   }
 
   /** A key the format reserved for itself. Two are defined, and no more. */
@@ -358,10 +365,6 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
             message: problem,
             line: node.position?.start.line
           })
-        // What the document says it is. A type is an IRI, so which rules read
-        // a document of that type is a question for whoever holds the rules.
-        for (const one of [data['@type'] ?? []].flat())
-          emit(document, term.type, predicate(String(one), node.position?.start.line))
         // Read before the keys it redirects, so a single pass is enough.
         const stated = data['@subject']
         if (stated !== undefined)
@@ -371,6 +374,11 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
             String(stated),
             node.position?.start.line
           )
+        // What the document says it is, or its subject once redirected. A type
+        // is an IRI, so which rules read a document of that type is a question
+        // for whoever holds the rules.
+        for (const one of [data['@type'] ?? []].flat())
+          emit(subject, term.type, predicate(String(one), node.position?.start.line))
         for (const [key, raw] of Object.entries(data)) {
           if (key.startsWith('@')) continue
           for (const one of Array.isArray(raw) ? raw : [raw])

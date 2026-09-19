@@ -72,6 +72,15 @@ describe('@subject', () => {
     ])
   })
 
+  test('a top-level section inherits the document’s redirect and a sibling may set its own', () => {
+    const md =
+      '---\n"@subject": https://example.org/thing\n---\n# T\n\nk :: 1\n\n# U\n\n@subject :: https://example.org/other\nj :: 2\n'
+    expect(stated(md)).toEqual([
+      ['https://example.org/thing', 'k', '1'],
+      ['https://example.org/other', 'j', '2']
+    ])
+  })
+
   test('a value that resolves to a literal is reported and ignored', () => {
     const md = '# T\n\n@subject :: Neil Armstrong\nk :: 1\n'
     expect(codes(md)).toEqual(['subject-not-a-name'])
@@ -85,13 +94,14 @@ describe('@subject', () => {
     expect(stated(md)).toEqual([['https://www.wikidata.org/entity/Q1615', 'k', '1']])
   })
 
-  test('in frontmatter it covers the frontmatter and what precedes the first heading', () => {
+  test('in frontmatter it redirects the frontmatter and everything below', () => {
     const md =
-      '---\n"@subject": https://example.org/thing\nstatus: draft\n---\nowner :: me\n\n# T\n\nk :: 1\n'
+      '---\n"@subject": https://example.org/thing\nstatus: draft\n---\nowner :: me\n\n# T\n\nk :: 1\n\n## U\n\nj :: 2\n'
     expect(stated(md)).toEqual([
       ['https://example.org/thing', 'status', 'draft'],
       ['https://example.org/thing', 'owner', 'me'],
-      ['urn:doc:doc#t', 'k', '1']
+      ['https://example.org/thing', 'k', '1'],
+      ['https://example.org/thing', 'j', '2']
     ])
     expect(redirects(md)).toEqual([['urn:doc:doc', 'https://example.org/thing']])
   })
@@ -113,6 +123,24 @@ describe('@type', () => {
       .quads.filter((q) => q.predicate.value === `${ns.rdf}type`)
       .map((q) => [q.subject.value, q.object.value])
     expect(types).toContainEqual(['urn:doc:doc#t', 'https://example.org/wf#Tracker'])
+  })
+
+  test('in frontmatter it follows the frontmatter @subject when one is given', () => {
+    const md =
+      '---\n"@context":\n  wf: https://example.org/wf#\n"@subject": https://example.org/thing\n"@type": wf:Tracker\n---\n'
+    const types = graph(md)
+      .quads.filter((q) => q.predicate.value === `${ns.rdf}type`)
+      .map((q) => [q.subject.value, q.object.value])
+    expect(types).toContainEqual(['https://example.org/thing', 'https://example.org/wf#Tracker'])
+    expect(types).not.toContainEqual(['urn:doc:doc', 'https://example.org/wf#Tracker'])
+  })
+
+  test('in frontmatter it types the document without a @subject', () => {
+    const md = '---\n"@context":\n  wf: https://example.org/wf#\n"@type": wf:Tracker\n---\n'
+    const types = graph(md)
+      .quads.filter((q) => q.predicate.value === `${ns.rdf}type`)
+      .map((q) => [q.subject.value, q.object.value])
+    expect(types).toContainEqual(['urn:doc:doc', 'https://example.org/wf#Tracker'])
   })
 })
 
