@@ -153,12 +153,16 @@ reading a type the document declares:
 | File | Reads | Produces |
 |---|---|---|
 | `skos.rq` | `skos:ConceptScheme` on the document | one `skos:Concept` per top-level section, `broader`, `related`, `altLabel`, scope note from a quotation |
-| `meeting.rq` | `schema:Event` on the document or a section | attendees, decisions from a list, open items with owner and due |
-| `todo.rq` | `wf:Tracker` on the document or a section | `wf:Task` per item, `wf:Open` or `wf:Closed` from the box, `wf:goalDescription` from the label, `wf:dependent` from nesting, `wf:tracker` back |
+| `meeting.rq` | `schema:Event` on the document or a section | `schema:attendee`, `minutes:scribe`, `minutes:apologies`, one `minutes:Decision` per item of a list under an untyped section; open items are a `wf:Tracker` section read by `todo.rq` |
+| `todo.rq` | `wf:Tracker` on the document or a section | `wf:Task` per item, `wf:Open` or `wf:Closed` from the box, `wf:goalDescription` from the label, `wf:dependent` from nesting, `wf:tracker` back, `due ::` as `wf:dateDue`, `owner ::` as `schema:agent` |
 
 `wf:` is `http://www.w3.org/2005/01/wf/flow#`, the Flow ontology. Its
 `Task` is the disjoint union of `Open` and `Closed`, which is what a checkbox
 carries.
+
+`minutes:` is `https://aleph.garden/ns/minutes#`, this project's namespace for
+the two minute-taking terms no published vocabulary has, in the spirit of the
+minted `marginalia:` terms. A rule shipped here emits no `example.org` term.
 
 A rule matches on the type and finds content by containment from whatever
 carries the type. That is why the type keyed on a section works: the tracker
