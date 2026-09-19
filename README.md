@@ -46,9 +46,10 @@ defined, and any other `@`-key is reported and contributes nothing:
 section are about, and the sections nested under it inherit that until one of
 them says otherwise. The section keeps its identity and its containment: it is
 still a slice of the document, the paragraph is still its part, and a plain link
-is still a reference the section makes. Only what the author stated moves.
-`@type` emits `rdf:type`, and follows `@subject` the way every other statement
-does.
+is still a reference the section makes. Only what the author stated moves. The
+key works in frontmatter too, where it covers the whole document: the
+frontmatter statements and every section below. `@type` emits `rdf:type`, and
+follows `@subject` the way every other statement does.
 
 A **gloss** marks a span of running prose. It is a CommonMark link whose title
 slot carries the name, either inline or collected at the foot of the file:

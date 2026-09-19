@@ -467,7 +467,7 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
         if (stated !== undefined)
           redirect(
             document,
-            literalOrResource(String(stated)),
+            value(String(stated), '@subject', node.position?.start.line),
             String(stated),
             node.position?.start.line
           )

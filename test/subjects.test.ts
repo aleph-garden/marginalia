@@ -94,6 +94,18 @@ describe('@subject', () => {
     expect(stated(md)).toEqual([['https://www.wikidata.org/entity/Q1615', 'k', '1']])
   })
 
+  test('a wiki link names the note it points at', () => {
+    expect(redirects('# T\n\n@subject :: [[people/toph]]\n')).toEqual([
+      ['urn:doc:doc#t', 'urn:doc:people/toph']
+    ])
+  })
+
+  test('in frontmatter a wiki link resolves the same way', () => {
+    const md = '---\n"@subject": "[[people/toph]]"\nstatus: draft\n---\n'
+    expect(redirects(md)).toEqual([['urn:doc:doc', 'urn:doc:people/toph']])
+    expect(stated(md)).toEqual([['urn:doc:people/toph', 'status', 'draft']])
+  })
+
   test('in frontmatter it redirects the frontmatter and everything below', () => {
     const md =
       '---\n"@subject": https://example.org/thing\nstatus: draft\n---\nowner :: me\n\n# T\n\nk :: 1\n\n## U\n\nj :: 2\n'
