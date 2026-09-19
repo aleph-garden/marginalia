@@ -161,7 +161,7 @@ reading a type the document declares:
 carries.
 
 `minutes:` is `https://aleph.garden/ns/minutes#`, this project's namespace for
-the two minute-taking terms no published vocabulary has, in the spirit of the
+the minute-taking terms no published vocabulary has, in the spirit of the
 minted `marginalia:` terms. A rule shipped here emits no `example.org` term.
 
 A rule matches on the type and finds content by containment from whatever
