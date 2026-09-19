@@ -288,18 +288,26 @@ This project owes it the idea; what it does differently is borrow the parser
 instead of scanning lines, use published vocabulary instead of a private scheme,
 and make IRI minting a parameter.
 
-The wider field, for anyone weighing the options:
+The wider field, for anyone weighing the options. Two axes separate them:
+whether a statement in running prose may have any subject, and whether that
+prose still reads as prose once it is annotated. HTML has RDFa because an
+attribute is invisible in the rendering; markdown has two invisible slots,
+frontmatter and the title of a link, and no third. So a format either confines
+itself to those slots and gives up the free subject, or it adds markers to the
+text and gives up the prose. This one takes the first side, and puts the free
+subject in a fence, where RDF is written as RDF.
 
-| Project | Position |
-|---|---|
-| [dot-triples](https://github.com/cristianvasquez/dot-triples) | deferred semantics, Obsidian-shaped, hand-written scanner |
-| [markdown-ld](https://github.com/ozekik/markdown-ld) | structure carries meaning, with inline Turtle per line |
-| [markdown-rdfa](https://github.com/tetherless-world/markdown-rdfa) | RDFa Lite inline, dormant since 2019 |
-| [MD-LD](https://github.com/davay42/mdld-parse) | sigil syntax, arbitrary triples in prose, no open licence |
-| [Vault-LD](https://github.com/The-Knowledge-Graph-Guys/vault-ld) | YAML-LD frontmatter through a shared context, prose stays prose |
-| [MIF](https://github.com/modeled-information-format/MIF) | JSON-LD and Markdown maintained side by side |
-| [YARRRML](https://rml.io/yarrrml/spec/) | declarative mappings for other sources, no markdown input |
-| [YAML-LD](https://json-ld.github.io/yaml-ld/spec/) | the standards-track relative |
+| Project | Any subject in prose | Prose stays prose | Meaning decided |
+|---|---|---|---|
+| [dot-triples](https://github.com/cristianvasquez/dot-triples) | no, the note or heading | yes | later, by CONSTRUCT |
+| [markdown-ld](https://github.com/ozekik/markdown-ld) | yes, Turtle per line | no | in the document |
+| [markdown-rdfa](https://github.com/tetherless-world/markdown-rdfa) | yes, RDFa Lite inline | no; dormant since 2019 | in the document |
+| [MD-LD](https://github.com/davay42/mdld-parse) | yes, sigils | no; no open licence | in the document |
+| [Vault-LD](https://github.com/The-Knowledge-Graph-Guys/vault-ld) | no, frontmatter only | yes | in the document, through a shared context |
+| [MIF](https://github.com/modeled-information-format/MIF) | in JSON-LD kept beside the markdown | yes | in the document |
+| [YARRRML](https://rml.io/yarrrml/spec/) | no markdown input | | later, by mapping |
+| [YAML-LD](https://json-ld.github.io/yaml-ld/spec/) | the standards-track relative of the frontmatter | | in the document |
+| marginalia | no, the section; any subject in a fence | yes | later, or in the document for a qualified name |
 
 Discussion of a common markdown-to-RDF syntax is
 [w3c-cg/solid#69](https://github.com/w3c-cg/solid/issues/69).
