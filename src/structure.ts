@@ -12,8 +12,11 @@ import { naming as defaultNaming, encodeIri, type Naming, ns, term } from './ter
 
 const { literal, namedNode, quad } = DataFactory
 
-/** A statement line: a name the author chose, and the value it takes. */
-const FIELD = /^([A-Za-z][A-Za-z0-9_.:\-/#%]*)\s+::\s+(.+)$/
+/**
+ * A statement line: a name the author chose, and the value it takes. A key
+ * that starts with `@` is reserved for this format rather than chosen.
+ */
+const FIELD = /^(@?[A-Za-z][A-Za-z0-9_.:\-/#%]*)\s+::\s+(.+)$/
 
 export interface Diagnostic {
   code:
@@ -28,6 +31,8 @@ export interface Diagnostic {
     | 'context-not-read'
     | 'prefix-not-declared'
     | 'id-not-absolute'
+    | 'key-reserved'
+    | 'subject-not-a-name'
   message: string
   line?: number
 }
@@ -111,16 +116,22 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   // Sections nest. CommonMark says nothing about that: its tree has headings
   // as siblings of the blocks that follow them, so the section tree is built
   // here, from the sequence of heading depths.
+  //
+  // `@subject` separates two notions: the section is where a part sits and
+  // what a plain reference is stated from, and the subject is what a statement
+  // or a gloss is about. They are one until a redirect says otherwise, which
+  // is what an entry carries, null where nothing above it redirected.
+  let section: NamedNode = document
   let subject: NamedNode = document
   let partIndex = 0
-  const stack: { depth: number; node: NamedNode }[] = []
+  const stack: { depth: number; node: NamedNode; subject: NamedNode | null }[] = []
   const slugged = new Map<string, string>()
   // Prefix declarations, which frontmatter supplies before anything else is read.
   let context: Context = new Map()
 
   const openSection = (heading: Heading) => {
     const label = mdToString(heading)
-    const section = mint.section(document, label)
+    section = mint.section(document, label)
     // Two headings that differ only in punctuation land on one section. That is
     // ambiguous in the document itself, so the author gets told rather than
     // finding the two merged later.
@@ -140,8 +151,11 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
         message: `heading "${label}" is depth ${heading.depth} under depth ${parent.depth}; HTML requires at most one step`,
         line: heading.position?.start.line
       })
-    stack.push({ depth: heading.depth, node: section })
-    subject = section
+    // A redirect reaches the sections below it, the way RDFa's `about` reaches
+    // the descendants of the element that carries it, until one says otherwise.
+    const inherited = parent?.subject ?? null
+    subject = inherited ?? section
+    stack.push({ depth: heading.depth, node: section, subject: inherited })
     partIndex = 0
 
     emit(section, term.type, term.Section)
@@ -164,9 +178,9 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
   }
 
   const addPart = (kind: string, node: BlockContent, types: NamedNode[]) => {
-    const part = mint.part(subject, kind, ++partIndex)
-    emit(subject, term.contains, part)
-    emit(part, term.isContainedBy, subject)
+    const part = mint.part(section, kind, ++partIndex)
+    emit(section, term.contains, part)
+    emit(part, term.isContainedBy, section)
     emit(part, term.type, term.ResourceSelection)
     for (const ty of types) emit(part, term.type, ty)
     emit(part, term.hasSource, document)
@@ -252,9 +266,11 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
    */
   const inline = (node: BlockContent, line?: number) => {
     const state = (ref: Reference) => {
-      // A name in a gloss is a name like any other, so it resolves the same way.
+      // A name in a gloss is a name like any other, so it resolves the same way
+      // and the statement it makes follows the subject. An unnamed reference
+      // says only that this section points somewhere.
       if (ref.name) emit(subject, predicate(ref.name, line), object(ref, line))
-      else if (ref.kind !== 'none') emit(subject, term.references, object(ref, line))
+      else if (ref.kind !== 'none') emit(section, term.references, object(ref, line))
     }
     const walk = (n: RootContent) => {
       if (n.type === 'link') {
@@ -271,10 +287,47 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
     walk(node as RootContent)
   }
 
+  /**
+   * `@subject` names what the statements from here on are about. The section
+   * keeps its identity and its containment; only what the author stated moves.
+   */
+  const redirect = (on: NamedNode, resolved: Quad_Object, raw: string, line?: number) => {
+    if (resolved.termType !== 'NamedNode') {
+      diagnostics.push({
+        code: 'subject-not-a-name',
+        message: `@subject "${raw}" resolves to a literal, and a subject has to be a name`,
+        line
+      })
+      return
+    }
+    emit(on, term.subject, resolved)
+    subject = resolved
+    const open = stack[stack.length - 1]
+    if (open) open.subject = resolved
+  }
+
+  /** A key the format reserved for itself. Two are defined, and no more. */
+  const reserved = (key: string, raw: string, line?: number) => {
+    if (key === '@subject') redirect(section, value(raw, key, line), raw, line)
+    // A type is a statement like any other, so it lands where the statements
+    // around it land.
+    else if (key === '@type') emit(subject, term.type, predicate(raw, line))
+    else
+      diagnostics.push({
+        code: 'key-reserved',
+        message: `"${key}" starts with "@", which this format reserves; only @subject and @type are defined`,
+        line
+      })
+  }
+
   const statements = (node: BlockContent): boolean => {
     const fields = fieldLines(node)
     if (!fields) return false
     for (const [key, raw] of fields) {
+      if (key.startsWith('@')) {
+        reserved(key, raw, node.position?.start.line)
+        continue
+      }
       // A statement line holds one value, and repeating the key is the plural.
       // A value that looks like several links is reported rather than folded
       // into one literal, which is where the prior art corrupts silently.
@@ -309,14 +362,19 @@ export function structure(markdown: string, options: StructureOptions = {}): Str
         // a document of that type is a question for whoever holds the rules.
         for (const one of [data['@type'] ?? []].flat())
           emit(document, term.type, predicate(String(one), node.position?.start.line))
+        // Read before the keys it redirects, so a single pass is enough.
+        const stated = data['@subject']
+        if (stated !== undefined)
+          redirect(
+            document,
+            literalOrResource(String(stated)),
+            String(stated),
+            node.position?.start.line
+          )
         for (const [key, raw] of Object.entries(data)) {
           if (key.startsWith('@')) continue
           for (const one of Array.isArray(raw) ? raw : [raw])
-            emit(
-              document,
-              predicate(key, node.position?.start.line),
-              literalOrResource(String(one))
-            )
+            emit(subject, predicate(key, node.position?.start.line), literalOrResource(String(one)))
         }
         break
       }

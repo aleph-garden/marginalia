@@ -1,0 +1,19 @@
+urn:doc:subjects  (schema:DigitalDocument)
+└─ two-astronauts  (doco:Section, oa:ResourceSelection)  Two astronauts
+   │ dct:references → urn:doc:apollo
+   ├─ two-astronauts.p1  (oa:ResourceSelection, doco:Paragraph)  Each section below is a slice of this file, and each says which…
+   ├─ neil-armstrong  (doco:Section, oa:ResourceSelection)  Neil Armstrong
+   │  │ @subject → https://www.wikidata.org/entity/Q1615  (schema:Person)
+   │  │ born "1930-08-05"
+   │  │ commanded "Apollo 11"
+   │  │ role "command pilot"
+   │  ├─ neil-armstrong.p1  (oa:ResourceSelection, doco:Paragraph)  Scope starts at the line, which is why `@subject` is written fi…
+   │  └─ gemini-8  (doco:Section, oa:ResourceSelection)  Gemini 8
+   │     └─ gemini-8.p1  (oa:ResourceSelection, doco:Paragraph)  A nested section inherits the redirect, the way RDFa's `about` …
+   ├─ buzz-aldrin  (doco:Section, oa:ResourceSelection)  Buzz Aldrin
+   │  │ @subject → https://www.wikidata.org/entity/Q2252  (schema:Person)
+   │  │ role "lunar module pilot"
+   │  └─ buzz-aldrin.p1  (oa:ResourceSelection, doco:Paragraph)  A second section names a second subject. A redirect reaches the…
+   └─ about-this-note  (doco:Section, oa:ResourceSelection)  About this note
+      │ status "draft"
+      └─ about-this-note.p1  (oa:ResourceSelection, doco:Paragraph)  This section sets no `@subject`, so `status` is a fact about th…

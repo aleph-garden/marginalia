@@ -48,7 +48,8 @@ export const term = {
   isContainedBy: t('po', 'isContainedBy'),
 
   depth: t('mg', 'depth'),
-  anchor: t('mg', 'anchor')
+  anchor: t('mg', 'anchor'),
+  subject: t('mg', 'subject')
 } as const
 
 /**

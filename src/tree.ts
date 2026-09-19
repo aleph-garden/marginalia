@@ -70,6 +70,8 @@ export function tree(quads: Quad[], options: TreeOptions = {}): string {
   }
 
   const contained = (iri: string) => of(iri, `${ns.po}contains`).map((q) => q.object.value)
+  const facts = (iri: string) =>
+    (bySubject.get(iri) ?? []).filter((q) => !STRUCTURAL.has(q.predicate.value))
   const roots = [...bySubject.keys()].filter(
     (iri) => of(iri, `${ns.po}isContainedBy`).length === 0 && contained(iri).length > 0
   )
@@ -86,12 +88,21 @@ export function tree(quads: Quad[], options: TreeOptions = {}): string {
 
     const inner = root ? '' : prefix + (last ? '   ' : '│  ')
     const children = contained(iri)
-    const facts = (bySubject.get(iri) ?? []).filter((q) => !STRUCTURAL.has(q.predicate.value))
-    for (const fact of facts)
-      lines.push(
-        `${inner}${children.length ? '│' : ' '} ${short(fact.predicate.value)} ${render(fact.object)}`
-      )
-    children.forEach((child, index) => draw(child, inner, index === children.length - 1, false))
+    const gutter = `${inner}${children.length ? '│' : ' '} `
+    for (const fact of facts(iri)) {
+      if (fact.predicate.value === `${ns.mg}subject`) {
+        // A section that named its subject reads like one that did not: the
+        // redirect is drawn, and what was stated about the subject hangs below
+        // it where the section's own facts would be.
+        const kind = types(fact.object.value)
+        lines.push(`${gutter}@subject ${render(fact.object)}${kind ? `  (${kind})` : ''}`)
+        for (const stated of facts(fact.object.value))
+          lines.push(`${gutter}${short(stated.predicate.value)} ${render(stated.object)}`)
+      } else lines.push(`${gutter}${short(fact.predicate.value)} ${render(fact.object)}`)
+    }
+    children.forEach((child, index) => {
+      draw(child, inner, index === children.length - 1, false)
+    })
   }
 
   for (const root of roots) draw(root, '', true, true)

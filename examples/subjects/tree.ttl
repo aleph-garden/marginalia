@@ -1,0 +1,107 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix schema: <https://schema.org/>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+@prefix doco: <http://purl.org/spar/doco/>.
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <urn:token:>.
+@prefix marginalia: <https://aleph.garden/ns/marginalia#>.
+
+<urn:doc:subjects> a schema:DigitalDocument.
+<urn:doc:subjects#two-astronauts> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:subjects>;
+    rdfs:label "Two astronauts";
+    marginalia:depth 1;
+    marginalia:anchor "two-astronauts";
+    oa:hasSelector <urn:doc:subjects#two-astronauts.sel0>.
+<urn:doc:subjects#two-astronauts.sel0> a oa:FragmentSelector;
+    rdf:value "Two astronauts".
+<urn:doc:subjects> po:contains <urn:doc:subjects#two-astronauts>.
+<urn:doc:subjects#two-astronauts> po:isContainedBy <urn:doc:subjects>;
+    po:contains <urn:doc:subjects#two-astronauts.p1>.
+<urn:doc:subjects#two-astronauts.p1> po:isContainedBy <urn:doc:subjects#two-astronauts>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:subjects>;
+    oa:hasSelector <urn:doc:subjects#two-astronauts.p1.sel0>.
+<urn:doc:subjects#two-astronauts.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "Each section below is a slice of this file, and each says which person its\nstatements are about. `@subject` is the line that says so, and the section keeps\neverything else: this paragraph is a part of the section it sits in, and a plain\nlink such as [the Apollo note](apollo.md) is a reference the section makes.".
+<urn:doc:subjects#two-astronauts> dct:references <urn:doc:apollo>.
+<urn:doc:subjects#neil-armstrong> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:subjects>;
+    rdfs:label "Neil Armstrong";
+    marginalia:depth 2;
+    marginalia:anchor "neil-armstrong";
+    oa:hasSelector <urn:doc:subjects#neil-armstrong.sel0>.
+<urn:doc:subjects#neil-armstrong.sel0> a oa:FragmentSelector;
+    rdf:value "Neil Armstrong".
+<urn:doc:subjects#two-astronauts> po:contains <urn:doc:subjects#neil-armstrong>.
+<urn:doc:subjects#neil-armstrong> po:isContainedBy <urn:doc:subjects#two-astronauts>;
+    marginalia:subject <https://www.wikidata.org/entity/Q1615>.
+<https://www.wikidata.org/entity/Q1615> a schema:Person;
+    token:born "1930-08-05".
+<urn:doc:subjects#neil-armstrong> po:contains <urn:doc:subjects#neil-armstrong.p1>.
+<urn:doc:subjects#neil-armstrong.p1> po:isContainedBy <urn:doc:subjects#neil-armstrong>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:subjects>;
+    oa:hasSelector <urn:doc:subjects#neil-armstrong.p1.sel0>.
+<urn:doc:subjects#neil-armstrong.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "Scope starts at the line, which is why `@subject` is written first: the two\nstatements above it in the same block land on the Wikidata entity, and so does\nthe gloss in this sentence, which says he commanded\n[Apollo 11](<> \"commanded\"). Compare `tree.ttl`, where the slices sit on\n`#neil-armstrong` and the facts sit on `wd:Q1615`.".
+<https://www.wikidata.org/entity/Q1615> token:commanded "Apollo 11".
+<urn:doc:subjects#gemini-8> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:subjects>;
+    rdfs:label "Gemini 8";
+    marginalia:depth 3;
+    marginalia:anchor "gemini-8";
+    oa:hasSelector <urn:doc:subjects#gemini-8.sel0>.
+<urn:doc:subjects#gemini-8.sel0> a oa:FragmentSelector;
+    rdf:value "Gemini 8".
+<urn:doc:subjects#neil-armstrong> po:contains <urn:doc:subjects#gemini-8>.
+<urn:doc:subjects#gemini-8> po:isContainedBy <urn:doc:subjects#neil-armstrong>.
+<https://www.wikidata.org/entity/Q1615> token:role "command pilot".
+<urn:doc:subjects#gemini-8> po:contains <urn:doc:subjects#gemini-8.p1>.
+<urn:doc:subjects#gemini-8.p1> po:isContainedBy <urn:doc:subjects#gemini-8>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:subjects>;
+    oa:hasSelector <urn:doc:subjects#gemini-8.p1.sel0>.
+<urn:doc:subjects#gemini-8.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "A nested section inherits the redirect, the way RDFa's `about` is inherited by\nthe descendants of the element that carries it. The role above is his, and the\nheading still opens a section of this document.".
+<urn:doc:subjects#buzz-aldrin> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:subjects>;
+    rdfs:label "Buzz Aldrin";
+    marginalia:depth 2;
+    marginalia:anchor "buzz-aldrin";
+    oa:hasSelector <urn:doc:subjects#buzz-aldrin.sel0>.
+<urn:doc:subjects#buzz-aldrin.sel0> a oa:FragmentSelector;
+    rdf:value "Buzz Aldrin".
+<urn:doc:subjects#two-astronauts> po:contains <urn:doc:subjects#buzz-aldrin>.
+<urn:doc:subjects#buzz-aldrin> po:isContainedBy <urn:doc:subjects#two-astronauts>;
+    marginalia:subject <https://www.wikidata.org/entity/Q2252>.
+<https://www.wikidata.org/entity/Q2252> a schema:Person;
+    token:role "lunar module pilot".
+<urn:doc:subjects#buzz-aldrin> po:contains <urn:doc:subjects#buzz-aldrin.p1>.
+<urn:doc:subjects#buzz-aldrin.p1> po:isContainedBy <urn:doc:subjects#buzz-aldrin>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:subjects>;
+    oa:hasSelector <urn:doc:subjects#buzz-aldrin.p1.sel0>.
+<urn:doc:subjects#buzz-aldrin.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "A second section names a second subject. A redirect reaches the sections under\nthe one that set it, so nothing here comes from the section above.".
+<urn:doc:subjects#about-this-note> a doco:Section, oa:ResourceSelection;
+    oa:hasSource <urn:doc:subjects>;
+    rdfs:label "About this note";
+    marginalia:depth 2;
+    marginalia:anchor "about-this-note";
+    oa:hasSelector <urn:doc:subjects#about-this-note.sel0>.
+<urn:doc:subjects#about-this-note.sel0> a oa:FragmentSelector;
+    rdf:value "About this note".
+<urn:doc:subjects#two-astronauts> po:contains <urn:doc:subjects#about-this-note>.
+<urn:doc:subjects#about-this-note> po:isContainedBy <urn:doc:subjects#two-astronauts>;
+    token:status "draft";
+    po:contains <urn:doc:subjects#about-this-note.p1>.
+<urn:doc:subjects#about-this-note.p1> po:isContainedBy <urn:doc:subjects#about-this-note>;
+    a oa:ResourceSelection, doco:Paragraph;
+    oa:hasSource <urn:doc:subjects>;
+    oa:hasSelector <urn:doc:subjects#about-this-note.p1.sel0>.
+<urn:doc:subjects#about-this-note.p1.sel0> a oa:TextQuoteSelector;
+    oa:exact "This section sets no `@subject`, so `status` is a fact about the section, which\nis where every statement lands in a document that uses neither reserved key.".

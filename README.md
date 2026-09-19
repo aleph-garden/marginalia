@@ -34,6 +34,22 @@ broader :: [[space-missions|Space missions]]
 focus :: https://www.wikidata.org/entity/Q43653
 ```
 
+A statement key may start with `@`, which this format keeps for itself. Two are
+defined, and any other `@`-key is reported and contributes nothing:
+
+```markdown
+@subject :: https://www.wikidata.org/entity/Q1615
+@type    :: schema:Person
+```
+
+`@subject` says what the statements and glosses from that line to the end of the
+section are about, and the sections nested under it inherit that until one of
+them says otherwise. The section keeps its identity and its containment: it is
+still a slice of the document, the paragraph is still its part, and a plain link
+is still a reference the section makes. Only what the author stated moves.
+`@type` emits `rdf:type`, and follows `@subject` the way every other statement
+does.
+
 A **gloss** marks a span of running prose. It is a CommonMark link whose title
 slot carries the name, either inline or collected at the foot of the file:
 
@@ -62,19 +78,23 @@ The structural graph is built from terms that already exist:
 | document components | `doco:Section`, `doco:Paragraph`, `doco:BlockQuotation`, `doco:List` |
 | containment | `po:contains`, `po:isContainedBy` |
 | the document | `schema:DigitalDocument`, `schema:SoftwareSourceCode`, `schema:programmingLanguage`, `dct:references` |
+| what a section's statements are about | `marginalia:subject` |
 
 Two of those are the ones a consumer has to know to do the usual thing, which
 is to find sections, walk containment and read text: Web Annotation and
 DoCO with the Pattern Ontology it is built on. The rest is detail to look up
 when it comes up.
 
-Two terms are minted here. `marginalia:depth` carries the heading depth, which
+Three terms are minted here. `marginalia:depth` carries the heading depth, which
 has no equivalent anywhere, and `marginalia:anchor` carries the identifier a
 renderer gives a heading, computed with `github-slugger` so it matches what
 `rehype-slug` will put in the HTML. ITS 2.0 defines `itsrdf:id` for the same
 idea; one term is not worth a dependency on a localisation specification whose
 ontology file carries no definitions, so the correspondence is noted here
-rather than imported.
+rather than imported. `marginalia:subject` records the redirect an `@subject`
+line makes, so a consumer can see that the statements under a section were made
+about something the section names. `schema:about` is the near miss: it says what
+a work is about, which stays true of a section whose statements never moved.
 
 `schema.org` is the one vocabulary here that is not a standard: it is run by a
 consortium in a W3C Community Group, and CG reports are explicitly not W3C
@@ -259,6 +279,7 @@ has a golden of the same name, so one document can show several vocabularies.
 | `two-vocabularies` | one note read as SKOS and as schema.org, with nothing in it changed |
 | `meeting` | minutes of the kind the work item asked for, mapped by section |
 | `sections` | nesting, a skipped level, and why depth is not the tree |
+| `subjects` | `@subject` and `@type` in statement lines, and what a section keeps |
 | `fences` | RDF blocks as named graphs |
 
 Tests compare graphs for isomorphism rather than bytes, so a golden may be
@@ -341,7 +362,8 @@ object inside a sentence needs three markers per statement, which is how every
 earlier attempt ended up with sigils in the text, and the one hard requirement
 here is that prose reads as prose. A statement attaches to the section it sits
 in. For anything that needs its own subject, open a heading or write a fence:
-that case is RDF, and RDF has a syntax already.
+that case is RDF, and RDF has a syntax already. `@subject` names the subject
+once per section, so the prose itself still carries no subject marker.
 
 ## Profiles
 
@@ -375,6 +397,8 @@ Nothing here stops a run. A producer reports, a consumer keeps working.
 | `prefix-not-declared` | a key looks like a CURIE whose prefix no `@context` declares |
 | `context-not-read` | `@context` is not a mapping of prefix to namespace |
 | `id-not-absolute` | `@id` is relative, and resolving it needs a base this parser is not given |
+| `key-reserved` | a statement key starts with `@`, where only `@subject` and `@type` are defined |
+| `subject-not-a-name` | `@subject` resolves to a literal, and a subject has to be a name |
 
 
 ## Open questions
