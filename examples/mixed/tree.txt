@@ -27,8 +27,10 @@ urn:doc:mixed  (schema:DigitalDocument, schema:Event)
    │  │  └─ action-items.l1.i2  (oa:ResourceSelection, schema:ListItem)  Send the minutes round
    │  │       schema:position "2"
    │  └─ action-items.p2  (oa:ResourceSelection, doco:Paragraph)  The type on a section keeps the two apart. The task list is `po…
-   └─ open  (doco:Section, oa:ResourceSelection)  Open
-      │ open "whether a rule may follow an `@subject` redirect"
-      │ owner → urn:doc:people/cristian
-      │ due "2026-10-09"
-      └─ open.q1  (oa:ResourceSelection, doco:BlockQuotation)  > A rule that follows the redirect reads the thing the section …
+   └─ open  (doco:Section, oa:ResourceSelection, http://www.w3.org/2005/01/wf/flow#Tracker)  Open
+      ├─ open.l1  (oa:ResourceSelection, doco:List)  - whether a rule may follow an `@subject` redirect owner :: [[p…
+      │  └─ open.l1.i1  (oa:ResourceSelection, schema:ListItem)  whether a rule may follow an @subject redirect
+      │       schema:position "1"
+      │       owner → urn:doc:people/cristian
+      │       due "2026-10-09"
+      └─ open.q2  (oa:ResourceSelection, doco:BlockQuotation)  > A rule that follows the redirect reads the thing the section …

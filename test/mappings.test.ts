@@ -16,6 +16,22 @@ describe('shipped mappings', () => {
     expect(read('# Packing\n\n- [x] Passport\n- [ ] Tickets\n', 'todo.rq')).toEqual([])
   })
 
+  test('todo.rq reads owner and due on an item as agent and due date', () => {
+    const meaning = read(
+      '---\n"@context":\n  wf: http://www.w3.org/2005/01/wf/flow#\n"@type": wf:Tracker\n---\n# Work\n\n- Borrow the parser\n\n  owner :: [[people/toph]]\n  due :: 2026-10-02\n',
+      'todo.rq'
+    )
+    const triples = meaning.map((q) => `${q.predicate.value} ${q.object.value}`).sort()
+    expect(triples).toEqual([
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://www.w3.org/2005/01/wf/flow#Open',
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://www.w3.org/2005/01/wf/flow#Task',
+      'http://www.w3.org/2005/01/wf/flow#dateDue 2026-10-02',
+      'http://www.w3.org/2005/01/wf/flow#goalDescription Borrow the parser',
+      'http://www.w3.org/2005/01/wf/flow#tracker urn:doc:doc',
+      'https://schema.org/agent urn:doc:people/toph'
+    ])
+  })
+
   test('skos.rq reads a section of a scheme as a concept', () => {
     const meaning = read(
       '---\n"@context":\n  skos: http://www.w3.org/2004/02/skos/core#\n"@type": skos:ConceptScheme\n---\n# Apollo\n\nbroader :: [[space-missions]]\n',

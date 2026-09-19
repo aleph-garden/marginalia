@@ -1,6 +1,7 @@
 ---
 "@context":
   schema: https://schema.org/
+  wf: http://www.w3.org/2005/01/wf/flow#
 "@type": schema:Event
 schema:startDate: 2026-09-18T15:00:00Z
 ---
@@ -32,12 +33,15 @@ only syntax that is not CommonMark.
 
 ## Open
 
+@type :: wf:Tracker
+
 Whether wiki links belong in the core or in a profile stayed open, because the
 answer turns on whether a producer can be assumed to have an index.
 
-open :: wiki links, core or profile
-owner :: [[people/toph]]
-due :: 2026-10-02
+- wiki links, core or profile
+
+  owner :: [[people/toph]]
+  due :: 2026-10-02
 
 > A resolver has to exist somewhere. The question is whether the format may
 > assume it.

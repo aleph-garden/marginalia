@@ -180,8 +180,20 @@ and not for this parser.
 This repository holds a set of them in `mappings/`, one file per kind of
 document, each bound to the type it reads: `skos.rq` to `skos:ConceptScheme`,
 `meeting.rq` to `schema:Event`, `todo.rq` to `wf:Tracker` from the Flow
-ontology. A rule matches the type and reaches content by containment from
-whatever carries it, so a section may declare a type and be read on its own: an
+ontology. `meeting.rq` writes `schema:attendee`, `minutes:scribe`,
+`minutes:apologies` and one `minutes:Decision` per entry of a list under a
+section that declares no type of its own. `todo.rq` writes a `wf:Task` per
+entry, with `wf:Open` or `wf:Closed` from the box, `wf:goalDescription` from
+the label, `wf:dependent` from the nesting, `wf:tracker` back at the carrier,
+and an entry's own `owner ::` and `due ::` as `schema:agent` and `wf:dateDue`.
+A meeting's open items are a section typed `wf:Tracker`, so the task rule reads
+them and the minutes stay out. `minutes:` is
+`https://aleph.garden/ns/minutes#`, this project's namespace for the two
+minute-taking terms no published vocabulary has, in the same spirit as the
+terms minted under `marginalia:`.
+
+A rule matches the type and reaches content by containment from whatever
+carries it, so a section may declare a type and be read on its own: an
 `## Action items` section typed `wf:Tracker` holds the list its rule wants one
 `po:contains` away. `map doc.md mappings/*.rq` reads a document with everything
 it declares, and each rule sees the structural graph alone, so the order they
@@ -301,7 +313,7 @@ every example is read by.
 | `apollo` | the three carriers in one document |
 | `frontmatter` | `@context`, `@type`, `@id`, and a document that needs no mapping |
 | `two-vocabularies` | one note read as SKOS and as schema.org, with nothing in it changed |
-| `meeting` | minutes of the kind the work item asked for, mapped by section |
+| `meeting` | minutes of the kind the work item asked for, with the open items as a tracker |
 | `mixed` | one note read as minutes and as a task list, by two shipped rules |
 | `sections` | nesting, a skipped level, and why depth is not the tree |
 | `subjects` | `@subject` and `@type` in statement lines, and what a section keeps |

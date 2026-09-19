@@ -9,17 +9,22 @@
 @prefix token: <urn:token:>.
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
+<urn:doc:mixed#open.l1.i1> schema:agent <urn:doc:people/cristian>;
+    <http://www.w3.org/2005/01/wf/flow#dateDue> "2026-10-09";
+    <http://www.w3.org/2005/01/wf/flow#goalDescription> "whether a rule may follow an @subject redirect";
+    <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#open>;
+    a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>.
 <urn:doc:mixed#action-items.l1.i2> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Send the minutes round";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
-    a <http://www.w3.org/2005/01/wf/flow#Open>.
+    a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>.
 <urn:doc:mixed#action-items.l1.i1> <http://www.w3.org/2005/01/wf/flow#dependent> <urn:doc:mixed#action-items.l1.i1.l1.i2>;
     <http://www.w3.org/2005/01/wf/flow#goalDescription> "Write the task reading";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
-    a <http://www.w3.org/2005/01/wf/flow#Open>;
+    a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>;
     <http://www.w3.org/2005/01/wf/flow#dependent> <urn:doc:mixed#action-items.l1.i1.l1.i1>.
 <urn:doc:mixed#action-items.l1.i1.l1.i2> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Check what nesting means";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
-    a <http://www.w3.org/2005/01/wf/flow#Open>.
+    a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>.
 <urn:doc:mixed#action-items.l1.i1.l1.i1> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Read the Flow ontology";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:mixed#action-items>;
-    a <http://www.w3.org/2005/01/wf/flow#Closed>.
+    a <http://www.w3.org/2005/01/wf/flow#Closed>, <http://www.w3.org/2005/01/wf/flow#Task>.

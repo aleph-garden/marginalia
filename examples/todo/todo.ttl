@@ -11,12 +11,12 @@
 
 <urn:doc:todo#breakfast.l1.i1.l1.i2> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Toast bread";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:todo>;
-    a <http://www.w3.org/2005/01/wf/flow#Open>.
+    a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>.
 <urn:doc:todo#breakfast.l1.i1.l1.i1> <http://www.w3.org/2005/01/wf/flow#goalDescription> "Cook eggs";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:todo>;
-    a <http://www.w3.org/2005/01/wf/flow#Closed>.
+    a <http://www.w3.org/2005/01/wf/flow#Closed>, <http://www.w3.org/2005/01/wf/flow#Task>.
 <urn:doc:todo#breakfast.l1.i1> <http://www.w3.org/2005/01/wf/flow#dependent> <urn:doc:todo#breakfast.l1.i1.l1.i2>;
     <http://www.w3.org/2005/01/wf/flow#goalDescription> "Make Breakfast";
     <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:todo>;
-    a <http://www.w3.org/2005/01/wf/flow#Open>;
+    a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>;
     <http://www.w3.org/2005/01/wf/flow#dependent> <urn:doc:todo#breakfast.l1.i1.l1.i1>.

@@ -3,24 +3,34 @@ PREFIX schema: <https://schema.org/>
 PREFIX doco: <http://purl.org/spar/doco/>
 PREFIX po:   <http://www.essepuntato.it/2008/12/pattern#>
 PREFIX mg:   <https://aleph.garden/ns/marginalia#>
+PREFIX tok:  <urn:token:>
 PREFIX wf:   <http://www.w3.org/2005/01/wf/flow#>
 
 # A task list. Whatever carries wf:Tracker holds the tasks, and every list item
 # under it is one: the label is the goal, the box says whether the task is open
-# or closed, and an entry's nested list is the work that entry waits on.
+# or closed, and an entry's nested list is the work that entry waits on. What
+# the entry states about itself says who owns it and when it is due.
 CONSTRUCT {
-  ?task a ?state ;
+  ?task a wf:Task, ?state ;
         wf:tracker ?tracker ;
         wf:goalDescription ?goal ;
+        wf:dateDue ?due ;
+        schema:agent ?owner ;
         wf:dependent ?dependent .
 }
 WHERE {
   ?tracker a wf:Tracker ; (po:contains+) ?task .
   ?task a schema:ListItem ; rdfs:label ?goal .
-  # wf:Task is the disjoint union of wf:Open and wf:Closed, so the state is the
-  # class. An entry with no box is open, which is what an unticked line says.
+  # Flow has wf:Task as the disjoint union of wf:Open and wf:Closed, so the
+  # state is the class, and the union is written out for a consumer that runs
+  # no reasoner. An entry with no box is open, which is what an unticked line
+  # says.
   OPTIONAL { ?task mg:checked ?checked }
   BIND(IF(COALESCE(?checked, false), wf:Closed, wf:Open) AS ?state)
+  # A bare due or owner under an entry means what a tracker says it means:
+  # wf:dateDue takes dates, and schema:agent takes whoever the work is on.
+  OPTIONAL { ?task tok:due ?due }
+  OPTIONAL { ?task tok:owner ?owner }
   OPTIONAL {
     ?task po:contains [ a doco:List ; po:contains ?dependent ] .
     ?dependent a schema:ListItem .

@@ -27,7 +27,7 @@
     oa:hasSource <urn:doc:mixed>;
     oa:hasSelector <urn:doc:mixed#planning-weekly.p1.sel0>.
 <urn:doc:mixed#planning-weekly.p1.sel0> a oa:TextQuoteSelector;
-    oa:exact "Two shipped readings of one note. The frontmatter types the document\n`schema:Event`, so `mappings/meeting.rq` reads minutes out of it. The action\nitems below type their own section `wf:Tracker`, so `mappings/todo.rq` reads a\ntask list out of that section and nothing else. Both rules see the same\nstructural graph, and `map examples/mixed/README.md mappings/*.rq` runs them together.".
+    oa:exact "Two shipped readings of one note. The frontmatter types the document\n`schema:Event`, so `mappings/meeting.rq` reads minutes out of it. The action\nitems and the open items each type their own section `wf:Tracker`, so\n`mappings/todo.rq` reads a task list out of those sections and nothing else.\nBoth rules see the same structural graph, and\n`map examples/mixed/README.md mappings/*.rq` runs them together.".
 <urn:doc:mixed#attending> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:mixed>;
     rdfs:label "Attending";
@@ -162,13 +162,29 @@
     rdf:value "Open".
 <urn:doc:mixed#planning-weekly> po:contains <urn:doc:mixed#open>.
 <urn:doc:mixed#open> po:isContainedBy <urn:doc:mixed#planning-weekly>;
-    token:open "whether a rule may follow an `@subject` redirect";
+    a <http://www.w3.org/2005/01/wf/flow#Tracker>;
+    po:contains <urn:doc:mixed#open.l1>.
+<urn:doc:mixed#open.l1> po:isContainedBy <urn:doc:mixed#open>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:mixed>;
+    oa:hasSelector <urn:doc:mixed#open.l1.sel0>.
+<urn:doc:mixed#open.l1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- whether a rule may follow an `@subject` redirect\n\n  owner :: [[people/cristian]]\n  due :: 2026-10-09".
+<urn:doc:mixed#open.l1> po:contains <urn:doc:mixed#open.l1.i1>.
+<urn:doc:mixed#open.l1.i1> po:isContainedBy <urn:doc:mixed#open.l1>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:mixed>;
+    oa:hasSelector <urn:doc:mixed#open.l1.i1.sel0>.
+<urn:doc:mixed#open.l1.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- whether a rule may follow an `@subject` redirect\n\n  owner :: [[people/cristian]]\n  due :: 2026-10-09".
+<urn:doc:mixed#open.l1.i1> schema:position 1;
+    rdfs:label "whether a rule may follow an @subject redirect";
     token:owner <urn:doc:people/cristian>;
-    token:due "2026-10-09";
-    po:contains <urn:doc:mixed#open.q1>.
-<urn:doc:mixed#open.q1> po:isContainedBy <urn:doc:mixed#open>;
+    token:due "2026-10-09".
+<urn:doc:mixed#open> po:contains <urn:doc:mixed#open.q2>.
+<urn:doc:mixed#open.q2> po:isContainedBy <urn:doc:mixed#open>;
     a oa:ResourceSelection, doco:BlockQuotation;
     oa:hasSource <urn:doc:mixed>;
-    oa:hasSelector <urn:doc:mixed#open.q1.sel0>.
-<urn:doc:mixed#open.q1.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:mixed#open.q2.sel0>.
+<urn:doc:mixed#open.q2.sel0> a oa:TextQuoteSelector;
     oa:exact "> A rule that follows the redirect reads the thing the section names. A rule\n> that stays put reads the section.".

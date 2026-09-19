@@ -17,12 +17,14 @@ urn:doc:meeting  (schema:DigitalDocument, schema:Event)
    │  │  └─ decisions.l2.i2  (oa:ResourceSelection, schema:ListItem)  one added production, and only one
    │  │       schema:position "2"
    │  └─ decisions.p3  (oa:ResourceSelection, doco:Paragraph)  The second is the harder promise, and it holds so far: statemen…
-   ├─ open  (doco:Section, oa:ResourceSelection)  Open
-   │  │ open "wiki links, core or profile"
-   │  │ owner → urn:doc:people/toph
-   │  │ due "2026-10-02"
+   ├─ open  (doco:Section, oa:ResourceSelection, http://www.w3.org/2005/01/wf/flow#Tracker)  Open
    │  ├─ open.p1  (oa:ResourceSelection, doco:Paragraph)  Whether wiki links belong in the core or in a profile stayed op…
-   │  └─ open.q2  (oa:ResourceSelection, doco:BlockQuotation)  > A resolver has to exist somewhere. The question is whether th…
+   │  ├─ open.l2  (oa:ResourceSelection, doco:List)  - wiki links, core or profile owner :: [[people/toph]] due :: 2…
+   │  │  └─ open.l2.i1  (oa:ResourceSelection, schema:ListItem)  wiki links, core or profile
+   │  │       schema:position "1"
+   │  │       owner → urn:doc:people/toph
+   │  │       due "2026-10-02"
+   │  └─ open.q3  (oa:ResourceSelection, doco:BlockQuotation)  > A resolver has to exist somewhere. The question is whether th…
    └─ next  (doco:Section, oa:ResourceSelection)  Next
       │ discussedIn → https://github.com/w3c-cg/solid/issues/69
       └─ next.p1  (oa:ResourceSelection, doco:Paragraph)  A working thing to try, rather than a document to agree with. S…

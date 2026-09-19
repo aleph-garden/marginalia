@@ -9,9 +9,10 @@ schema:startDate: 2026-09-25T10:00:00Z
 
 Two shipped readings of one note. The frontmatter types the document
 `schema:Event`, so `mappings/meeting.rq` reads minutes out of it. The action
-items below type their own section `wf:Tracker`, so `mappings/todo.rq` reads a
-task list out of that section and nothing else. Both rules see the same
-structural graph, and `map examples/mixed/README.md mappings/*.rq` runs them together.
+items and the open items each type their own section `wf:Tracker`, so
+`mappings/todo.rq` reads a task list out of those sections and nothing else.
+Both rules see the same structural graph, and
+`map examples/mixed/README.md mappings/*.rq` runs them together.
 
 ## Attending
 
@@ -41,9 +42,12 @@ items and no task comes out of the decisions.
 
 ## Open
 
-open :: whether a rule may follow an `@subject` redirect
-owner :: [[people/cristian]]
-due :: 2026-10-09
+@type :: wf:Tracker
+
+- whether a rule may follow an `@subject` redirect
+
+  owner :: [[people/cristian]]
+  due :: 2026-10-09
 
 > A rule that follows the redirect reads the thing the section names. A rule
 > that stays put reads the section.

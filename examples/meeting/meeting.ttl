@@ -9,18 +9,11 @@
 @prefix token: <urn:token:>.
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
-<urn:doc:meeting#open.open> schema:description "A resolver has to exist somewhere. The question is whether the format may assume it.";
-    schema:scheduledTime "2026-10-02";
-    schema:agent <urn:doc:people/toph>;
-    schema:text "wiki links, core or profile";
-    a <https://example.org/meeting#OpenQuestion>.
-<urn:doc:meeting#decisions.l2.i2> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
-    schema:text "one added production, and only one";
-    a <https://example.org/meeting#Decision>.
-<urn:doc:meeting> <https://example.org/meeting#scribe> "Toph";
-    <https://example.org/meeting#apologies> <urn:doc:people/ruben>;
+<urn:doc:meeting#decisions.l2.i2> schema:text "one added production, and only one";
+    a <https://aleph.garden/ns/minutes#Decision>.
+<urn:doc:meeting> <https://aleph.garden/ns/minutes#scribe> "Toph";
+    <https://aleph.garden/ns/minutes#apologies> <urn:doc:people/ruben>;
     schema:attendee <urn:doc:people/jesse>.
-<urn:doc:meeting#decisions.l2.i1> <https://example.org/meeting#takenIn> <urn:doc:meeting#decisions>;
-    schema:text "borrow the parser";
-    a <https://example.org/meeting#Decision>.
+<urn:doc:meeting#decisions.l2.i1> schema:text "borrow the parser";
+    a <https://aleph.garden/ns/minutes#Decision>.
 <urn:doc:meeting> schema:attendee <urn:doc:people/cristian>, <urn:doc:people/toph>.

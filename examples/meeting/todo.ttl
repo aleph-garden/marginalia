@@ -9,10 +9,8 @@
 @prefix token: <urn:token:>.
 @prefix marginalia: <https://aleph.garden/ns/marginalia#>.
 
-<urn:doc:mixed#decisions.l1.i2> schema:text "key a rule on the type, never on a heading";
-    a <https://aleph.garden/ns/minutes#Decision>.
-<urn:doc:mixed> <https://aleph.garden/ns/minutes#scribe> "Toph";
-    schema:attendee <urn:doc:people/cristian>.
-<urn:doc:mixed#decisions.l1.i1> schema:text "ship one rule per kind of document";
-    a <https://aleph.garden/ns/minutes#Decision>.
-<urn:doc:mixed> schema:attendee <urn:doc:people/toph>.
+<urn:doc:meeting#open.l2.i1> schema:agent <urn:doc:people/toph>;
+    <http://www.w3.org/2005/01/wf/flow#dateDue> "2026-10-02";
+    <http://www.w3.org/2005/01/wf/flow#goalDescription> "wiki links, core or profile";
+    <http://www.w3.org/2005/01/wf/flow#tracker> <urn:doc:meeting#open>;
+    a <http://www.w3.org/2005/01/wf/flow#Open>, <http://www.w3.org/2005/01/wf/flow#Task>.

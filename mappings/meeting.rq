@@ -1,22 +1,20 @@
-PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX schema: <https://schema.org/>
-PREFIX doco:   <http://purl.org/spar/doco/>
-PREFIX po:     <http://www.essepuntato.it/2008/12/pattern#>
-PREFIX oa:     <http://www.w3.org/ns/oa#>
-PREFIX tok:    <urn:token:>
-PREFIX ex:     <https://example.org/meeting#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema:  <https://schema.org/>
+PREFIX doco:    <http://purl.org/spar/doco/>
+PREFIX po:      <http://www.essepuntato.it/2008/12/pattern#>
+PREFIX oa:      <http://www.w3.org/ns/oa#>
+PREFIX tok:     <urn:token:>
+PREFIX minutes: <https://aleph.garden/ns/minutes#>
 
 # Minutes. Whatever carries schema:Event is the meeting, and the sections under
-# it say who was there, what was decided and what is still open. A section that
-# declares a type of its own is read by the rule for that type, so the minutes
-# leave its list alone.
+# it say who was there and what was decided. A section that declares a type of
+# its own is read by the rule for that type, so a section of open items typed
+# wf:Tracker goes to todo.rq and the minutes leave its list alone.
 CONSTRUCT {
   ?meeting schema:attendee ?attendee ;
-           ex:apologies ?apologies ;
-           ex:scribe ?scribe .
-  ?decision a ex:Decision ; schema:text ?decisionText ; ex:takenIn ?inSection .
-  ?item a ex:OpenQuestion ; schema:text ?openText ; schema:agent ?owner ;
-        schema:scheduledTime ?due ; schema:description ?note .
+           minutes:apologies ?apologies ;
+           minutes:scribe ?scribe .
+  ?decision a minutes:Decision ; schema:text ?decisionText .
 }
 WHERE {
   ?meeting a schema:Event .
@@ -25,7 +23,8 @@ WHERE {
   OPTIONAL { ?meeting (po:contains*)/tok:scribe ?scribe }
   # Each decision is an entry of the list under a heading, and an item is
   # already an identified slice, so the rule reads its label and needs no
-  # identifier of its own.
+  # identifier of its own. The section that holds it is in the structural
+  # graph, which is where a consumer asking where a decision was taken looks.
   OPTIONAL {
     ?meeting (po:contains*) ?inSection .
     ?inSection a doco:Section ; po:contains ?list .
@@ -34,20 +33,6 @@ WHERE {
     FILTER NOT EXISTS {
       ?inSection a ?declared .
       FILTER(?declared != doco:Section && ?declared != oa:ResourceSelection)
-    }
-  }
-  OPTIONAL {
-    ?meeting (po:contains*) ?openSection .
-    ?openSection a doco:Section ; tok:open ?openText .
-    BIND(IRI(CONCAT(STR(?openSection), ".open")) AS ?item)
-    OPTIONAL { ?openSection tok:owner ?owner }
-    OPTIONAL { ?openSection tok:due ?due }
-    OPTIONAL {
-      ?openSection po:contains ?quote .
-      ?quote a doco:BlockQuotation ; oa:hasSelector [ oa:exact ?quoted ] .
-      # oa:exact is the source slice, so the quote markers are inside it and
-      # taking them off is the mapping's job rather than the parser's.
-      BIND(REPLACE(REPLACE(?quoted, "^> ", "", "m"), "\n", " ") AS ?note)
     }
   }
 }

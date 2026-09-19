@@ -107,6 +107,7 @@
     rdf:value "Open".
 <urn:doc:meeting#format-work-item-weekly> po:contains <urn:doc:meeting#open>.
 <urn:doc:meeting#open> po:isContainedBy <urn:doc:meeting#format-work-item-weekly>;
+    a <http://www.w3.org/2005/01/wf/flow#Tracker>;
     po:contains <urn:doc:meeting#open.p1>.
 <urn:doc:meeting#open.p1> po:isContainedBy <urn:doc:meeting#open>;
     a oa:ResourceSelection, doco:Paragraph;
@@ -114,15 +115,30 @@
     oa:hasSelector <urn:doc:meeting#open.p1.sel0>.
 <urn:doc:meeting#open.p1.sel0> a oa:TextQuoteSelector;
     oa:exact "Whether wiki links belong in the core or in a profile stayed open, because the\nanswer turns on whether a producer can be assumed to have an index.".
-<urn:doc:meeting#open> token:open "wiki links, core or profile";
+<urn:doc:meeting#open> po:contains <urn:doc:meeting#open.l2>.
+<urn:doc:meeting#open.l2> po:isContainedBy <urn:doc:meeting#open>;
+    a oa:ResourceSelection, doco:List;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#open.l2.sel0>.
+<urn:doc:meeting#open.l2.sel0> a oa:TextQuoteSelector;
+    oa:exact "- wiki links, core or profile\n\n  owner :: [[people/toph]]\n  due :: 2026-10-02".
+<urn:doc:meeting#open.l2> po:contains <urn:doc:meeting#open.l2.i1>.
+<urn:doc:meeting#open.l2.i1> po:isContainedBy <urn:doc:meeting#open.l2>;
+    a oa:ResourceSelection, schema:ListItem;
+    oa:hasSource <urn:doc:meeting>;
+    oa:hasSelector <urn:doc:meeting#open.l2.i1.sel0>.
+<urn:doc:meeting#open.l2.i1.sel0> a oa:TextQuoteSelector;
+    oa:exact "- wiki links, core or profile\n\n  owner :: [[people/toph]]\n  due :: 2026-10-02".
+<urn:doc:meeting#open.l2.i1> schema:position 1;
+    rdfs:label "wiki links, core or profile";
     token:owner <urn:doc:people/toph>;
-    token:due "2026-10-02";
-    po:contains <urn:doc:meeting#open.q2>.
-<urn:doc:meeting#open.q2> po:isContainedBy <urn:doc:meeting#open>;
+    token:due "2026-10-02".
+<urn:doc:meeting#open> po:contains <urn:doc:meeting#open.q3>.
+<urn:doc:meeting#open.q3> po:isContainedBy <urn:doc:meeting#open>;
     a oa:ResourceSelection, doco:BlockQuotation;
     oa:hasSource <urn:doc:meeting>;
-    oa:hasSelector <urn:doc:meeting#open.q2.sel0>.
-<urn:doc:meeting#open.q2.sel0> a oa:TextQuoteSelector;
+    oa:hasSelector <urn:doc:meeting#open.q3.sel0>.
+<urn:doc:meeting#open.q3.sel0> a oa:TextQuoteSelector;
     oa:exact "> A resolver has to exist somewhere. The question is whether the format may\n> assume it.".
 <urn:doc:meeting#next> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:meeting>;
