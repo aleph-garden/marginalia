@@ -47,7 +47,7 @@
     oa:hasSource <urn:doc:subjects>;
     oa:hasSelector <urn:doc:subjects#neil-armstrong.p1.sel0>.
 <urn:doc:subjects#neil-armstrong.p1.sel0> a oa:TextQuoteSelector;
-    oa:exact "Scope starts at the line, which is why `@subject` is written first: the two\nstatements above it in the same block land on the Wikidata entity, and so does\nthe gloss in this sentence, which says he commanded\n[Apollo 11](<> \"commanded\"). Compare `tree.ttl`, where the slices sit on\n`#neil-armstrong` and the facts sit on `wd:Q1615`.".
+    oa:exact "Scope starts at the line, which is why `@subject` is written first: the two\nstatements below it in the same block land on the Wikidata entity, and so does\nthe gloss in this sentence, which says he commanded\n[Apollo 11](<> \"commanded\"). Compare `tree.ttl`, where the slices sit on\n`#neil-armstrong` and the facts sit on `wd:Q1615`.".
 <https://www.wikidata.org/entity/Q1615> token:commanded "Apollo 11".
 <urn:doc:subjects#gemini-8> a doco:Section, oa:ResourceSelection;
     oa:hasSource <urn:doc:subjects>;

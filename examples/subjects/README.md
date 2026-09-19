@@ -17,7 +17,7 @@ link such as [the Apollo note](apollo.md) is a reference the section makes.
 born :: 1930-08-05
 
 Scope starts at the line, which is why `@subject` is written first: the two
-statements above it in the same block land on the Wikidata entity, and so does
+statements below it in the same block land on the Wikidata entity, and so does
 the gloss in this sentence, which says he commanded
 [Apollo 11](<> "commanded"). Compare `tree.ttl`, where the slices sit on
 `#neil-armstrong` and the facts sit on `wd:Q1615`.
