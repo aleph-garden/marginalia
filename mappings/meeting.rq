@@ -2,14 +2,14 @@ PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema:  <https://schema.org/>
 PREFIX doco:    <http://purl.org/spar/doco/>
 PREFIX po:      <http://www.essepuntato.it/2008/12/pattern#>
-PREFIX oa:      <http://www.w3.org/ns/oa#>
 PREFIX tok:     <urn:token:>
 PREFIX minutes: <https://aleph.garden/ns/minutes#>
 
 # Minutes. Whatever carries schema:Event is the meeting, and the sections under
-# it say who was there and what was decided. A section that declares a type of
-# its own is read by the rule for that type, so a section of open items typed
-# wf:Tracker goes to todo.rq and the minutes leave its list alone.
+# it say who was there and what was decided. The decisions are the entries of a
+# list under whatever carries minutes:Decisions, so an agenda or any other list
+# in the same document stays with the rule that reads it: a section of open
+# items typed wf:Tracker goes to todo.rq.
 CONSTRUCT {
   ?meeting schema:attendee ?attendee ;
            minutes:apologies ?apologies ;
@@ -21,18 +21,14 @@ WHERE {
   OPTIONAL { ?meeting (po:contains*)/tok:attendee ?attendee }
   OPTIONAL { ?meeting (po:contains*)/tok:apologies ?apologies }
   OPTIONAL { ?meeting (po:contains*)/tok:scribe ?scribe }
-  # Each decision is an entry of the list under a heading, and an item is
-  # already an identified slice, so the rule reads its label and needs no
-  # identifier of its own. The section that holds it is in the structural
-  # graph, which is where a consumer asking where a decision was taken looks.
+  # An item is already an identified slice, so the rule reads its label and
+  # needs no identifier of its own. The section that holds it is in the
+  # structural graph, which is where a consumer asking where a decision was
+  # taken looks.
   OPTIONAL {
-    ?meeting (po:contains*) ?inSection .
-    ?inSection a doco:Section ; po:contains ?list .
+    ?meeting (po:contains*) ?decisions .
+    ?decisions a minutes:Decisions ; po:contains ?list .
     ?list a doco:List ; po:contains ?decision .
     ?decision a schema:ListItem ; rdfs:label ?decisionText .
-    FILTER NOT EXISTS {
-      ?inSection a ?declared .
-      FILTER(?declared != doco:Section && ?declared != oa:ResourceSelection)
-    }
   }
 }

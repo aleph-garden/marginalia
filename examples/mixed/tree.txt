@@ -7,7 +7,7 @@ urn:doc:mixed  (schema:DigitalDocument, schema:Event)
    │  │ attendee → urn:doc:people/cristian
    │  │ scribe "Toph"
    │  └─ attending.p1  (oa:ResourceSelection, doco:Paragraph)  Notes were taken by [Toph](<> "scribe").
-   ├─ decisions  (doco:Section, oa:ResourceSelection)  Decisions
+   ├─ decisions  (doco:Section, oa:ResourceSelection, https://aleph.garden/ns/minutes#Decisions)  Decisions
    │  └─ decisions.l1  (oa:ResourceSelection, doco:List)  - ship one rule per kind of document - key a rule on the type, …
    │     ├─ decisions.l1.i1  (oa:ResourceSelection, schema:ListItem)  ship one rule per kind of document
    │     │    schema:position "1"

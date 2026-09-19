@@ -182,13 +182,13 @@ document, each bound to the type it reads: `skos.rq` to `skos:ConceptScheme`,
 `meeting.rq` to `schema:Event`, `todo.rq` to `wf:Tracker` from the Flow
 ontology. `meeting.rq` writes `schema:attendee`, `minutes:scribe`,
 `minutes:apologies` and one `minutes:Decision` per entry of a list under a
-section that declares no type of its own. `todo.rq` writes a `wf:Task` per
-entry, with `wf:Open` or `wf:Closed` from the box, `wf:goalDescription` from
+section typed `minutes:Decisions`. `todo.rq` writes a `wf:Task` per entry,
+with `wf:Open` or `wf:Closed` from the box, `wf:goalDescription` from
 the label, `wf:dependent` from the nesting, `wf:tracker` back at the carrier,
 and an entry's own `owner ::` and `due ::` as `schema:agent` and `wf:dateDue`.
 A meeting's open items are a section typed `wf:Tracker`, so the task rule reads
 them and the minutes stay out. `minutes:` is
-`https://aleph.garden/ns/minutes#`, this project's namespace for the two
+`https://aleph.garden/ns/minutes#`, this project's namespace for the
 minute-taking terms no published vocabulary has, in the same spirit as the
 terms minted under `marginalia:`.
 

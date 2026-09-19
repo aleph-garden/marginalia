@@ -12,6 +12,17 @@ const read = (markdown: string, rule: string) =>
 /** The goldens beside the examples read these rules whole. What holds for a
  *  document no example covers belongs here. */
 describe('shipped mappings', () => {
+  test('meeting.rq reads decisions from the list under the section typed minutes:Decisions', () => {
+    const meaning = read(
+      '---\n"@context":\n  schema: https://schema.org/\n  minutes: https://aleph.garden/ns/minutes#\n"@type": schema:Event\n---\n# Weekly\n\n## Agenda\n\n- the format, again\n\n## Decisions\n\n@type :: minutes:Decisions\n\n- borrow the parser\n',
+      'meeting.rq'
+    )
+    const decisions = meaning
+      .filter((q) => q.predicate.value === 'https://schema.org/text')
+      .map((q) => q.object.value)
+    expect(decisions).toEqual(['borrow the parser'])
+  })
+
   test('todo.rq reads a document that declares no tracker as nothing', () => {
     expect(read('# Packing\n\n- [x] Passport\n- [ ] Tickets\n', 'todo.rq')).toEqual([])
   })

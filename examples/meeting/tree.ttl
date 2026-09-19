@@ -58,6 +58,7 @@
     rdf:value "Decisions".
 <urn:doc:meeting#format-work-item-weekly> po:contains <urn:doc:meeting#decisions>.
 <urn:doc:meeting#decisions> po:isContainedBy <urn:doc:meeting#format-work-item-weekly>;
+    a <https://aleph.garden/ns/minutes#Decisions>;
     po:contains <urn:doc:meeting#decisions.p1>.
 <urn:doc:meeting#decisions.p1> po:isContainedBy <urn:doc:meeting#decisions>;
     a oa:ResourceSelection, doco:Paragraph;

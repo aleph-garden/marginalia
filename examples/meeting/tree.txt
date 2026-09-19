@@ -9,7 +9,7 @@ urn:doc:meeting  (schema:DigitalDocument, schema:Event)
    │  │ attendee → urn:doc:people/jesse
    │  │ apologies → urn:doc:people/ruben
    │  └─ attending.p1  (oa:ResourceSelection, doco:Paragraph)  Notes were taken by [Toph](<> "scribe"), who also chaired.
-   ├─ decisions  (doco:Section, oa:ResourceSelection)  Decisions
+   ├─ decisions  (doco:Section, oa:ResourceSelection, https://aleph.garden/ns/minutes#Decisions)  Decisions
    │  ├─ decisions.p1  (oa:ResourceSelection, doco:Paragraph)  The parser stays borrowed rather than written, since the cases …
    │  ├─ decisions.l2  (oa:ResourceSelection, doco:List)  - borrow the parser - one added production, and only one
    │  │  ├─ decisions.l2.i1  (oa:ResourceSelection, schema:ListItem)  borrow the parser

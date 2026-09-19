@@ -2,6 +2,7 @@
 "@context":
   schema: https://schema.org/
   wf: http://www.w3.org/2005/01/wf/flow#
+  minutes: https://aleph.garden/ns/minutes#
 "@type": schema:Event
 schema:startDate: 2026-09-18T15:00:00Z
 ---
@@ -21,6 +22,8 @@ attendee :: [[people/jesse]]
 apologies :: [[people/ruben]]
 
 ## Decisions
+
+@type :: minutes:Decisions
 
 The parser stays borrowed rather than written, since the cases a hand-written
 scanner loses are exactly the ones a document hits by accident. Nobody objected.

@@ -153,7 +153,7 @@ reading a type the document declares:
 | File | Reads | Produces |
 |---|---|---|
 | `skos.rq` | `skos:ConceptScheme` on the document | one `skos:Concept` per top-level section, `broader`, `related`, `altLabel`, scope note from a quotation |
-| `meeting.rq` | `schema:Event` on the document or a section | `schema:attendee`, `minutes:scribe`, `minutes:apologies`, one `minutes:Decision` per item of a list under an untyped section; open items are a `wf:Tracker` section read by `todo.rq` |
+| `meeting.rq` | `schema:Event` on the document or a section | `schema:attendee`, `minutes:scribe`, `minutes:apologies`, one `minutes:Decision` per item of a list under a section typed `minutes:Decisions`; open items are a `wf:Tracker` section read by `todo.rq` |
 | `todo.rq` | `wf:Tracker` on the document or a section | `wf:Task` per item, `wf:Open` or `wf:Closed` from the box, `wf:goalDescription` from the label, `wf:dependent` from nesting, `wf:tracker` back, `due ::` as `wf:dateDue`, `owner ::` as `schema:agent` |
 
 `wf:` is `http://www.w3.org/2005/01/wf/flow#`, the Flow ontology. Its
