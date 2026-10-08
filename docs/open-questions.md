@@ -71,3 +71,33 @@ with slices of the source: anything that highlights a section in a renderer is
 pointing at offsets the other parser computed differently.
 
 Sharing one parse is the fix. Where that belongs is a question for `view`.
+
+## A scheme for wiki links
+
+A wiki target is a name, and today the naming resolves it in one of two ways:
+a target that already carries a scheme passes through as an IRI, and any other
+target becomes a document under the naming's base, `doc(name)`, with a heading
+as its fragment. The second rule assumes one collection, the one the base
+names, and it is the right assumption for a vault.
+
+It stops being enough when the same spelling means different things in
+different collections. `[[decision/store-is-the-truth]]` in a spalier project
+names a record the spalier harness resolves; `[[Neil Armstrong]]` in an
+Obsidian vault names a note the vault resolves; `[[Apollo 11]]` in a wiki
+export names a page. The name is the same shape in all three, and the thing
+that differs, which resolver owns it, is nowhere in the document.
+
+The proposal is to make that explicit: a collection declares the scheme its
+wiki links belong to, as RDF, in the frontmatter of a document or in the
+producer's profile, and `[[name]]` then reads as `[name](<scheme>:name)`. The
+structural graph keeps emitting one IRI per link, with the declared scheme
+instead of the base, and a producer registers a resolver per scheme that turns
+such an IRI into whatever dereferences it: a file in a vault, a record in a
+project graph, a page on a wiki. Today's behaviour is the case where the
+scheme is "a document under the base", and stays the default.
+
+Open: where the declaration lives, a frontmatter key beside `@id` or a profile
+option beside `wikiLinks`; whether the structural graph should also keep the
+raw name, so a mapping can re-resolve a link under a different scheme; and
+whether a resolver belongs to this package or to `view`, which already selects
+by resource.
